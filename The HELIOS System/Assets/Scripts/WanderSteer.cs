@@ -7,6 +7,7 @@ public class WanderSteer : MonoBehaviour
     public float speed;
     public float angle;
     public float rotationSpeed;
+    public float rotationOffset; //This is so that I can determine what part of the animal should be facing the target
 
     private Rigidbody2D body;
 
@@ -49,7 +50,7 @@ public class WanderSteer : MonoBehaviour
             Debug.Log("Desired: " + desired);
 
 
-            float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation,
                 q, Time.deltaTime * rotationSpeed);
