@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class HungerScript : MonoBehaviour
 {
-    public int hunger;
+    public float hunger;
+    public float hungerDeclineRate;
+    public float feedThreshold;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,8 +18,14 @@ public class HungerScript : MonoBehaviour
 
     }
 
-    public void decrementHunger(int amount)
+    public bool changeHunger(float amount)
     {
-        hunger = hunger - amount;
+        hunger = hunger + amount;
+
+        if (hunger <= feedThreshold)
+        {
+            return true;
+        }
+        else { return false; }
     }
 }

@@ -132,8 +132,9 @@ GameObject:
   - component: {fileID: 120258713}
   - component: {fileID: 120258712}
   - component: {fileID: 120258716}
+  - component: {fileID: 120258717}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Prey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,6 +270,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120258711}
   m_CullTransparentMesh: 1
+--- !u!114 &120258717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120258711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a5800abd4d580409cc84356edc88e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hunger: 10
+  hungerDeclineRate: 0.5
+  feedThreshold: 1
 --- !u!1 &385762654
 GameObject:
   m_ObjectHideFlags: 0
@@ -300,6 +316,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyUI: {fileID: 767467621}
   energy: 10
+  organisms:
+  - {fileID: 1099032647}
+  - {fileID: 120258711}
 --- !u!4 &385762656
 Transform:
   m_ObjectHideFlags: 0
@@ -326,7 +345,7 @@ GameObject:
   - component: {fileID: 421490175}
   - component: {fileID: 421490176}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -873,8 +892,9 @@ GameObject:
   - component: {fileID: 1099032650}
   - component: {fileID: 1099032649}
   - component: {fileID: 1099032648}
+  - component: {fileID: 1099032652}
   m_Layer: 0
-  m_Name: Triangle
+  m_Name: Predator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -998,6 +1018,21 @@ Transform:
   - {fileID: 1716189197}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1099032652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1099032647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a5800abd4d580409cc84356edc88e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hunger: 10
+  hungerDeclineRate: 2
+  feedThreshold: 5
 --- !u!1 &1272163814
 GameObject:
   m_ObjectHideFlags: 0
@@ -1088,7 +1123,7 @@ GameObject:
   - component: {fileID: 1657974409}
   - component: {fileID: 1657974410}
   m_Layer: 0
-  m_Name: Circle (1)
+  m_Name: Right Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1175,7 +1210,7 @@ GameObject:
   - component: {fileID: 1716189197}
   - component: {fileID: 1716189198}
   m_Layer: 0
-  m_Name: Circle (1)
+  m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1262,7 +1297,7 @@ GameObject:
   - component: {fileID: 1737823187}
   - component: {fileID: 1737823188}
   m_Layer: 0
-  m_Name: Circle
+  m_Name: Left Eye
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

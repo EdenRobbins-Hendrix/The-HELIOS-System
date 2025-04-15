@@ -39,8 +39,41 @@ public class GameManager : MonoBehaviour
         foreach (GameObject organism in organisms)
         {
             HungerScript s = organism.GetComponent<HungerScript>();
-            s.decrementHunger(1);
+            float rate = s.hungerDeclineRate;
+            bool isFeeding = s.changeHunger(-rate);
+            if (isFeeding)
+            {
+                GameObject target = chooseTarget(organism);
+                //assign target
+                MovementSteer m = organism.GetComponent<MovementSteer>();
+                m.target = target;
+
+                //set hunging bools
+                m.isWandering = false;
+                m.isHunting = true;
+            }
         }
+    }
+
+    public GameObject chooseTarget(GameObject predator)
+    {
+        GameObject target = null;
+
+        //choose best organism based on criteria. (i assume the closest one) (I made a method for this in case it gets more complicated later)
+        foreach (GameObject potentialPrey in organisms)
+        {
+            if (potentialPrey.name.Contains("Prey"))
+            {
+                target = potentialPrey;
+            }
+            else
+            {
+                Debug.Log(predator.name + " has no organisms to eat!");
+                target = predator; //hopefully this means that the organism will die? or maybe it just won't move
+            }
+        }
+
+        return target;
     }
 
     public void changeEnergy(int change)
