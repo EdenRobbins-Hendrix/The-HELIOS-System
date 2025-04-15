@@ -30,12 +30,12 @@ public class MovementSteer : MonoBehaviour
     {
         if (isWandering)
         {
-            Debug.Log("Wandering");
+            // Debug.Log("Wandering");
             moveToSpot(wanderSpot);
         }
         else if (isHunting)
         {
-            Debug.Log("Hunting");
+            // Debug.Log("Hunting");
             moveToSpot(target.transform.position);
         }
     }
@@ -45,7 +45,7 @@ public class MovementSteer : MonoBehaviour
         int radius = 5;
         Vector2 circle = Random.insideUnitCircle * radius;
         wanderSpot = new Vector2(circle.x, circle.y);
-        Debug.Log("Target spot: " + target);
+        // Debug.Log("Target spot: " + target);
     }
     void moveToSpot(Vector3 target)
     {
@@ -60,7 +60,7 @@ public class MovementSteer : MonoBehaviour
         {
             //turn to target
             Vector2 desired = target - transform.position;
-            Debug.Log("Desired: " + desired);
+            // Debug.Log("Desired: " + desired);
             float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation,
@@ -71,4 +71,17 @@ public class MovementSteer : MonoBehaviour
                   speed - body.linearVelocity);
         }
     }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log(name + " collided with " + collision.gameObject.name);
+        GameObject collisionObject = collision.gameObject;
+        if (collisionObject.name.Contains("Prey") && isHunting)
+        {
+            GameManager.Instance.feed(gameObject, collisionObject, 5.0f);
+        }
+    }
+
+
 }

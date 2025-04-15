@@ -40,19 +40,45 @@ public class GameManager : MonoBehaviour
         {
             HungerScript s = organism.GetComponent<HungerScript>();
             float rate = s.hungerDeclineRate;
-            bool isFeeding = s.changeHunger(-rate);
-            if (isFeeding)
-            {
-                GameObject target = chooseTarget(organism);
-                //assign target
-                MovementSteer m = organism.GetComponent<MovementSteer>();
-                m.target = target;
-
-                //set hunging bools
-                m.isWandering = false;
-                m.isHunting = true;
-            }
+            s.changeHunger(-rate);
+            setOrganismBehavior(organism);
         }
+    }
+
+    void setOrganismBehavior(GameObject organism)
+    {
+        HungerScript h = organism.GetComponent<HungerScript>();
+        MovementSteer m = organism.GetComponent<MovementSteer>();
+        if (h.hunger > h.feedThreshold)
+        {
+            m.isHunting = false;
+            m.isWandering = true;
+        }
+        else
+        {
+            m.isHunting = true;
+            m.isWandering = false;
+
+            //organism is now hunting
+            GameObject target = chooseTarget(organism);
+            //assign target
+            m.target = target;
+        }
+    }
+
+
+    public void feed(GameObject consumer, GameObject consumed, float energyAmount)
+    {
+        //increase hunger in consumer
+        HungerScript s = consumer.GetComponent<HungerScript>();
+        s.changeHunger(energyAmount);
+
+        //reset behavior to either hunt or wander
+        setOrganismBehavior(consumer);
+
+        //destroy consumed
+        organisms.Remove(consumed);
+        Destroy(consumed);
     }
 
     public GameObject chooseTarget(GameObject predator)
@@ -69,7 +95,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 Debug.Log(predator.name + " has no organisms to eat!");
-                target = predator; //hopefully this means that the organism will die? or maybe it just won't move
+                target = predator; //If there is no valid prey, then the predator will just remain still
             }
         }
 

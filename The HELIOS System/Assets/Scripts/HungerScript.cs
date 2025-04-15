@@ -18,14 +18,8 @@ public class HungerScript : MonoBehaviour
 
     }
 
-    public bool changeHunger(float amount)
+    public void changeHunger(float amount)
     {
         hunger = hunger + amount;
-
-        if (hunger <= feedThreshold)
-        {
-            return true;
-        }
-        else { return false; }
     }
 }
