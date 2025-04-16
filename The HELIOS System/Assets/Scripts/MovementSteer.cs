@@ -77,7 +77,7 @@ public class MovementSteer : MonoBehaviour
     {
         Debug.Log(name + " collided with " + collision.gameObject.name);
         GameObject collisionObject = collision.gameObject;
-        if (isHunting && collisionObject.name.Contains("Prey"))
+        if (isHunting)
         {
             GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
         }
