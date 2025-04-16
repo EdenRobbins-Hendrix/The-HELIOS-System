@@ -60,17 +60,32 @@ public class GameManager : MonoBehaviour
             m.isWandering = false;
 
             //organism is now hunting
-            GameObject target = chooseTarget(organism);
+            GameObject target = chooseTarget(organism, h);
             //assign target
             m.target = target;
         }
     }
 
+    //this method exists basically so that the game manager is the only script looking at other scripts
+    public void attemptFeed(GameObject consumer, GameObject consumed, float energyAmount)
+    {
+        HungerScript s = consumer.GetComponent<HungerScript>();
+        if (s.potentialFoodTargets.Contains(consumed))
+        {
+            Debug.Log("Valid food target");
+            feed(consumer, consumed, energyAmount);
 
+        }
+        else
+        {
+            Debug.Log(consumer + " attempting to eat invalid organism!");
+        }
+    }
     public void feed(GameObject consumer, GameObject consumed, float energyAmount)
     {
         //increase hunger in consumer
         HungerScript s = consumer.GetComponent<HungerScript>();
+        s.potentialFoodTargets.Remove(consumed);
         s.changeHunger(energyAmount);
 
         //reset behavior to either hunt or wander
@@ -81,15 +96,19 @@ public class GameManager : MonoBehaviour
         Destroy(consumed);
     }
 
-    public GameObject chooseTarget(GameObject predator)
+    public GameObject chooseTarget(GameObject predator, HungerScript hScript)
     {
+
         GameObject target = null;
+        float smallestDistance = float.PositiveInfinity;
 
         //choose best organism based on criteria. (i assume the closest one) (I made a method for this in case it gets more complicated later)
-        foreach (GameObject potentialPrey in organisms)
+        foreach (GameObject potentialPrey in hScript.potentialFoodTargets)
         {
-            if (potentialPrey.name.Contains("Prey"))
+            float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
+            if (distance < smallestDistance)
             {
+                smallestDistance = distance;
                 target = potentialPrey;
             }
             else

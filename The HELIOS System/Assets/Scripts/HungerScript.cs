@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class HungerScript : MonoBehaviour
@@ -5,6 +6,7 @@ public class HungerScript : MonoBehaviour
     public float hunger;
     public float hungerDeclineRate;
     public float feedThreshold;
+    public List<GameObject> potentialFoodTargets;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,4 +24,6 @@ public class HungerScript : MonoBehaviour
     {
         hunger = hunger + amount;
     }
+
+
 }
