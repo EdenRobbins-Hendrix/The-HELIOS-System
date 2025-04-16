@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -70,22 +72,20 @@ public class GameManager : MonoBehaviour
     public void attemptFeed(GameObject consumer, GameObject consumed, float energyAmount)
     {
         HungerScript s = consumer.GetComponent<HungerScript>();
-        if (s.potentialFoodTargets.Contains(consumed))
+        foreach (String p in s.potentialFoodTargetsNames)
         {
-            Debug.Log("Valid food target");
-            feed(consumer, consumed, energyAmount);
-
+            if (consumed.name.Contains(p))
+            {
+                Debug.Log("Valid food target");
+                feed(consumer, consumed, energyAmount);
+            }
         }
-        else
-        {
-            Debug.Log(consumer + " attempting to eat invalid organism!");
-        }
+        ;
     }
     public void feed(GameObject consumer, GameObject consumed, float energyAmount)
     {
         //increase hunger in consumer
         HungerScript s = consumer.GetComponent<HungerScript>();
-        s.potentialFoodTargets.Remove(consumed);
         s.changeHunger(energyAmount);
 
         //reset behavior to either hunt or wander
@@ -103,19 +103,33 @@ public class GameManager : MonoBehaviour
         float smallestDistance = float.PositiveInfinity;
 
         //choose best organism based on criteria. (i assume the closest one) (I made a method for this in case it gets more complicated later)
-        foreach (GameObject potentialPrey in hScript.potentialFoodTargets)
+        foreach (GameObject potentialPrey in organisms)
         {
-            float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
-            if (distance < smallestDistance)
+            HungerScript s = predator.GetComponent<HungerScript>();
+            foreach (String p in s.potentialFoodTargetsNames)
             {
-                smallestDistance = distance;
-                target = potentialPrey;
+                if (potentialPrey.name.Contains(p))
+                {
+                    Debug.Log(potentialPrey.name + " is a valid food target");
+
+
+
+
+                    float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
+                    if (distance < smallestDistance)
+                    {
+                        smallestDistance = distance;
+                        target = potentialPrey;
+                    }
+                }
+                else
+                {
+                    Debug.Log(predator.name + " has no organisms to eat!");
+                    target = predator; //If there is no valid prey, then the predator will just remain still
+                }
+
             }
-            else
-            {
-                Debug.Log(predator.name + " has no organisms to eat!");
-                target = predator; //If there is no valid prey, then the predator will just remain still
-            }
+            ;
         }
 
         return target;
