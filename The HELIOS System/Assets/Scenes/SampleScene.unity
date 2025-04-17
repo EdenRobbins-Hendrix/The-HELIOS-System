@@ -161,8 +161,11 @@ MonoBehaviour:
   - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
   plants: []
   plantPrefab: {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
+  nutPrefab: {fileID: 459212317604697448, guid: 34de0e34078d72e4d84d3dca4b54a0b1, type: 3}
   plantSpreadDistance: 2
+  nutSpreadDistance: 1.5
   maxPlantsInScene: 50
+  maxNutsInScene: 30
 --- !u!4 &385762656
 Transform:
   m_ObjectHideFlags: 0
@@ -317,7 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyCost: 10
   growthBoostAmount: 1
-  spawnTreeCost: 15
+  spawnNutCost: 15
   boostEffectPrefab: {fileID: 1230515257}
   spawnEffectPrefab: {fileID: 0}
   clickRadius: 0.5

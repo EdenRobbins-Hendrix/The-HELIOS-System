@@ -55,16 +55,16 @@ public class PlantScript : MonoBehaviour
         transform.localScale = originalScale * scaleRatio;
     }
     
-    public bool SpawnNewTree()
+    public bool SpawnNut()
     {
-        // Only fully grown trees can spawn new trees
+        // Only fully grown trees can spawn nuts
         if (!isFullyGrown)
             return false;
             
-        // Tell the GameManager to spawn a new tree
+        // Tell the GameManager to spawn a nut
         if (gameManager != null)
         {
-            return gameManager.SpawnTreeNear(gameObject);
+            return gameManager.SpawnNutNear(gameObject);
         }
         
         return false;

@@ -7,7 +7,7 @@ public class PlantEnergizer : MonoBehaviour
     [Header("Energy Settings")]
     public int energyCost = 5;
     public float growthBoostAmount = 1.0f;
-    public int spawnTreeCost = 15;
+    public int spawnNutCost = 15; // Renamed from spawnTreeCost
     
     [Header("Visual Feedback")]
     public GameObject boostEffectPrefab;
@@ -48,7 +48,7 @@ public class PlantEnergizer : MonoBehaviour
                     // Handle interaction differently based on growth state
                     if (plantScript.isFullyGrown)
                     {
-                        // Fully grown tree can spawn a new tree
+                        // Fully grown tree can spawn a nut
                         HandleFullyGrownTree(plantScript, hitCollider.transform.position);
                     }
                     else
@@ -89,10 +89,10 @@ public class PlantEnergizer : MonoBehaviour
     
     void HandleFullyGrownTree(PlantScript plantScript, Vector3 position)
     {
-        // Try to spend energy to spawn a new tree
-        if (energyManager.SpendEnergy(spawnTreeCost))
+        // Try to spend energy to spawn a nut
+        if (energyManager.SpendEnergy(spawnNutCost))
         {
-            bool success = plantScript.SpawnNewTree();
+            bool success = plantScript.SpawnNut();
             
             if (success)
             {
@@ -109,18 +109,32 @@ public class PlantEnergizer : MonoBehaviour
                     Destroy(effect, 2.0f);
                 }
                 
-                Debug.Log("Spawned a new tree!");
+                Debug.Log("Spawned a new nut!");
             }
             else
             {
                 // Refund energy if spawning failed
-                energyManager.GainEnergy(spawnTreeCost);
-                Debug.Log("Failed to spawn a new tree!");
+                energyManager.GainEnergy(spawnNutCost);
+                Debug.Log("Failed to spawn a new nut!");
             }
         }
         else
         {
-            Debug.Log("Not enough energy to spawn a new tree!");
+            Debug.Log("Not enough energy to spawn a new nut!");
+        }
+    }
+    
+    // Visualize the click radius in Scene view (visible in Editor only)
+    void OnDrawGizmos()
+    {
+        if (Camera.main != null && Input.GetMouseButton(0))
+        {
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = 10;
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(mouseWorldPos, clickRadius);
         }
     }
 }

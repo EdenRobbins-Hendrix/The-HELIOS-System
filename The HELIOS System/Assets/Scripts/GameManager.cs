@@ -32,8 +32,14 @@ public class GameManager : MonoBehaviour
     [Header("Plant Management")]
     public List<GameObject> plants = new List<GameObject>();
     public GameObject plantPrefab;
+    public GameObject nutPrefab; // New field for nut prefab
     public float plantSpreadDistance = 2.0f;
+    public float nutSpreadDistance = 1.5f; // Closer than tree spread
     public int maxPlantsInScene = 50;
+    public int maxNutsInScene = 30; // Limit for nuts
+
+    // List to track nuts
+    private List<GameObject> nuts = new List<GameObject>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -58,13 +64,10 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject organism in organisms)
         {
-            if (organism.GetComponent<HungerScript>() != null)
-            {
-                HungerScript s = organism.GetComponent<HungerScript>();
-                float rate = s.hungerDeclineRate;
-                s.changeHunger(-rate);
-                setOrganismBehavior(organism);
-            }
+            HungerScript s = organism.GetComponent<HungerScript>();
+            float rate = s.hungerDeclineRate;
+            s.changeHunger(-rate);
+            setOrganismBehavior(organism);
         }
     }
 
@@ -117,6 +120,28 @@ public class GameManager : MonoBehaviour
             }
         }
         
+        // Check if consumed is a nut
+        NutScript nutScript = consumed.GetComponent<NutScript>();
+        if (nutScript != null)
+        {
+            // Check if this animal eats nuts
+            foreach (string p in s.potentialFoodTargetsNames)
+            {
+                if (consumed.name.Contains(p))
+                {
+                    Debug.Log("Valid nut food target");
+                    
+                    // Call the nut's consumption method
+                    nutScript.OnConsumed(consumer);
+                    
+                    // Reset behavior to either hunt or wander
+                    setOrganismBehavior(consumer);
+                    
+                    return;
+                }
+            }
+        }
+        
         // Original code for animal consumption
         foreach (string p in s.potentialFoodTargetsNames)
         {
@@ -152,14 +177,19 @@ public class GameManager : MonoBehaviour
 
         List<GameObject> allPotentialTargets = new List<GameObject>(organisms);
         
-        // Add plants to potential targets if the predator is a herbivore
+        // Add plants and nuts to potential targets if the predator eats them
         foreach (string targetName in hScript.potentialFoodTargetsNames)
         {
             if (targetName.Contains("Plant") || targetName.Contains("Tree"))
             {
                 // Add plants to the search list
                 allPotentialTargets.AddRange(plants);
-                break;
+            }
+            
+            if (targetName.Contains("Nut") || targetName.Contains("Acorn"))
+            {
+                // Add nuts to the search list
+                allPotentialTargets.AddRange(nuts);
             }
         }
 
@@ -168,22 +198,26 @@ public class GameManager : MonoBehaviour
         {
             if (potentialPrey == predator) continue; // Skip self
             
-            HungerScript s = predator.GetComponent<HungerScript>();
             bool isValidTarget = false;
             
-            foreach (string p in s.potentialFoodTargetsNames)
+            foreach (string p in hScript.potentialFoodTargetsNames)
             {
                 if (potentialPrey.name.Contains(p))
                 {
-                    Debug.Log(potentialPrey.name + " is a valid food target");
-                    float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
-                    if (distance < smallestDistance)
-                    {
-                        smallestDistance = distance;
-                        target = potentialPrey;
-                    }
+                    Debug.Log(potentialPrey.name + " is a valid food target for " + predator.name);
+                    isValidTarget = true;
+                    break;
                 }
-
+            }
+            
+            if (isValidTarget)
+            {
+                float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
+                if (distance < smallestDistance)
+                {
+                    smallestDistance = distance;
+                    target = potentialPrey;
+                }
             }
         }
         
@@ -232,7 +266,7 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-    #region Plant Management
+    #region Plant and Nut Management
 
     // This updated method doesn't rely on IsReadyToMultiply
     void CheckPlantGrowth()
@@ -245,42 +279,42 @@ public class GameManager : MonoBehaviour
             PlantScript plantScript = plant.GetComponent<PlantScript>();
             if (plantScript != null)
             {
-                // Optional: in the future maybe we can add a tiny amount of passive growth over time
+                // Optional: Add a tiny amount of passive growth over time
                 // plantScript.BoostGrowth(0.02f);
             }
         }
     }
     
-    // Method for spawning a new tree near a parent tree
-    public bool SpawnTreeNear(GameObject parentTree)
+    // Method for spawning a nut near a tree
+    public bool SpawnNutNear(GameObject parentTree)
     {
-        // Don't spawn new trees if we're at the limit
-        if (plants.Count >= maxPlantsInScene)
+        // Don't spawn new nuts if we're at the limit
+        if (nuts.Count >= maxNutsInScene)
             return false;
             
         // Calculate random position near the parent tree
-        float spawnDistance = plantSpreadDistance;
+        float spawnDistance = nutSpreadDistance;
         Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
         Vector3 newPosition = parentTree.transform.position + 
             new Vector3(randomDirection.x, randomDirection.y, 0) * spawnDistance;
             
-        // Create new tree
-        GameObject newTree = Instantiate(plantPrefab, newPosition, Quaternion.identity);
+        // Create new nut
+        GameObject newNut = Instantiate(nutPrefab, newPosition, Quaternion.identity);
         
-        // Initialize the new tree
-        PlantScript newPlantScript = newTree.GetComponent<PlantScript>();
-        if (newPlantScript != null)
-        {
-            // Start with a small tree
-            newPlantScript.growthLevel = 1.0f;
-            newPlantScript.UpdateAppearance(); // Make sure this method is public
-        }
+        // Add to our list of nuts
+        nuts.Add(newNut);
         
-        // Add to our list of plants
-        plants.Add(newTree);
-        
-        Debug.Log("New tree spawned near parent tree!");
+        Debug.Log("New nut spawned near tree!");
         return true;
+    }
+    
+    // Method to remove a nut when it's consumed
+    public void RemoveNut(GameObject nut)
+    {
+        if (nuts.Contains(nut))
+        {
+            nuts.Remove(nut);
+        }
     }
 
     #endregion
