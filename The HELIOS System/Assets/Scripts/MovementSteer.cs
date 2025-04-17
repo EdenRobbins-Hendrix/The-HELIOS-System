@@ -35,8 +35,18 @@ public class MovementSteer : MonoBehaviour
         }
         else if (isHunting)
         {
-            // Debug.Log("Hunting");
-            moveToSpot(target.transform.position);
+            if (target == null)
+            {
+                GameManager.Instance.setOrganismBehavior(gameObject);
+                Vector2 stop = new Vector2(0, 0);
+                body.linearVelocity = stop; //this stops the animal cold
+
+            }
+            else
+            {
+                // Debug.Log("Hunting");
+                moveToSpot(target.transform.position);
+            }
         }
     }
     void pickSpot()
@@ -49,7 +59,8 @@ public class MovementSteer : MonoBehaviour
     }
     void moveToSpot(Vector3 target)
     {
-        if (Vector3.Distance(target, transform.position) < 1.0)
+
+        if (Vector3.Distance(target, transform.position) < 0.01)
         {
             //Do nothing
             Debug.Log("Within acceptable distance!");
@@ -70,6 +81,7 @@ public class MovementSteer : MonoBehaviour
             body.AddForce(desired.normalized *
                   speed - body.linearVelocity);
         }
+
     }
 
 

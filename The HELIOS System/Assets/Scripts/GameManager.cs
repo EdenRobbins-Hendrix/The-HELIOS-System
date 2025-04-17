@@ -58,14 +58,17 @@ public class GameManager : MonoBehaviour
     {
         foreach (GameObject organism in organisms)
         {
-            HungerScript s = organism.GetComponent<HungerScript>();
-            float rate = s.hungerDeclineRate;
-            s.changeHunger(-rate);
-            setOrganismBehavior(organism);
+            if (organism.GetComponent<HungerScript>() != null)
+            {
+                HungerScript s = organism.GetComponent<HungerScript>();
+                float rate = s.hungerDeclineRate;
+                s.changeHunger(-rate);
+                setOrganismBehavior(organism);
+            }
         }
     }
 
-    void setOrganismBehavior(GameObject organism)
+    public void setOrganismBehavior(GameObject organism)
     {
         HungerScript h = organism.GetComponent<HungerScript>();
         MovementSteer m = organism.GetComponent<MovementSteer>();
@@ -172,20 +175,15 @@ public class GameManager : MonoBehaviour
             {
                 if (potentialPrey.name.Contains(p))
                 {
-                    Debug.Log(potentialPrey.name + " is a valid food target for " + predator.name);
-                    isValidTarget = true;
-                    break;
+                    Debug.Log(potentialPrey.name + " is a valid food target");
+                    float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
+                    if (distance < smallestDistance)
+                    {
+                        smallestDistance = distance;
+                        target = potentialPrey;
+                    }
                 }
-            }
-            
-            if (isValidTarget)
-            {
-                float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
-                if (distance < smallestDistance)
-                {
-                    smallestDistance = distance;
-                    target = potentialPrey;
-                }
+
             }
         }
         
