@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -44,7 +42,7 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
         InvokeRepeating("increasePopulationGlobally", 10.0f, 10.0f);
         
-        // Plant management
+        // Plant management - optional if you want passive growth
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
     }
 
@@ -238,49 +236,53 @@ public class GameManager : MonoBehaviour
 
     #region Plant Management
 
+    // This updated method doesn't rely on IsReadyToMultiply
     void CheckPlantGrowth()
     {
-        // Don't spawn new plants if we're at the limit
-        if (plants.Count >= maxPlantsInScene)
-            return;
-            
-        List<GameObject> plantsToSpread = new List<GameObject>();
+        // This is just a placeholder method that doesn't do automatic spreading
+        // since we're now handling tree reproduction through player clicks
         
-        // Find all mature plants that can spread
         foreach (GameObject plant in plants)
         {
             PlantScript plantScript = plant.GetComponent<PlantScript>();
-            if (plantScript != null && plantScript.IsReadyToMultiply())
+            if (plantScript != null)
             {
-                plantsToSpread.Add(plant);
+                // Optional: in the future maybe we can add a tiny amount of passive growth over time
+                // plantScript.BoostGrowth(0.02f);
             }
+        }
+    }
+    
+    // Method for spawning a new tree near a parent tree
+    public bool SpawnTreeNear(GameObject parentTree)
+    {
+        // Don't spawn new trees if we're at the limit
+        if (plants.Count >= maxPlantsInScene)
+            return false;
+            
+        // Calculate random position near the parent tree
+        float spawnDistance = plantSpreadDistance;
+        Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
+        Vector3 newPosition = parentTree.transform.position + 
+            new Vector3(randomDirection.x, randomDirection.y, 0) * spawnDistance;
+            
+        // Create new tree
+        GameObject newTree = Instantiate(plantPrefab, newPosition, Quaternion.identity);
+        
+        // Initialize the new tree
+        PlantScript newPlantScript = newTree.GetComponent<PlantScript>();
+        if (newPlantScript != null)
+        {
+            // Start with a small tree
+            newPlantScript.growthLevel = 1.0f;
+            newPlantScript.UpdateAppearance(); // Make sure this method is public
         }
         
-        // Spread new plants from mature ones
-        foreach (GameObject maturePlant in plantsToSpread)
-        {
-            // Don't exceed the maximum
-            if (plants.Count >= maxPlantsInScene)
-                break;
-                
-            // Calculate random position near the parent plant
-            Vector2 randomDirection = Random.insideUnitCircle.normalized;
-            Vector3 newPosition = maturePlant.transform.position + 
-                new Vector3(randomDirection.x, randomDirection.y, 0) * plantSpreadDistance;
-                
-            // Create new plant
-            GameObject newPlant = Instantiate(plantPrefab, newPosition, Quaternion.identity);
-            plants.Add(newPlant);
-            
-            // Reset the parent plant's growth level
-            PlantScript parentPlant = maturePlant.GetComponent<PlantScript>();
-            if (parentPlant != null)
-            {
-                parentPlant.BoostGrowth(-1.0f); // Reduce growth after spreading
-            }
-            
-            Debug.Log("New plant spawned from mature plant!");
-        }
+        // Add to our list of plants
+        plants.Add(newTree);
+        
+        Debug.Log("New tree spawned near parent tree!");
+        return true;
     }
 
     #endregion

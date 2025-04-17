@@ -160,7 +160,7 @@ MonoBehaviour:
   - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
   plants: []
-  plantPrefab: {fileID: 0}
+  plantPrefab: {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   plantSpreadDistance: 2
   maxPlantsInScene: 50
 --- !u!4 &385762656
@@ -317,9 +317,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   energyCost: 10
   growthBoostAmount: 1
+  spawnTreeCost: 15
   boostEffectPrefab: {fileID: 1230515257}
+  spawnEffectPrefab: {fileID: 0}
   clickRadius: 0.5
-  boostSound: {fileID: 0}
 --- !u!114 &466313923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6120,8 +6121,7 @@ MonoBehaviour:
   growthRate: 0.1
   minScale: 0.5
   maxScale: 1.5
-  matureColor: {r: 0, g: 0.7176471, b: 0, a: 1}
-  youngColor: {r: 0.1510968, g: 1, b: 0.015686274, a: 1}
+  isFullyGrown: 0
 --- !u!70 &2108049472
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -6176,8 +6176,7 @@ MonoBehaviour:
   growthRate: 0.1
   minScale: 0.7
   maxScale: 1.3
-  matureColor: {r: 0, g: 0.8, b: 0, a: 1}
-  youngColor: {r: 0.5, g: 0.8, b: 0.2, a: 1}
+  isFullyGrown: 0
 --- !u!1001 &1220246620558010608
 PrefabInstance:
   m_ObjectHideFlags: 0

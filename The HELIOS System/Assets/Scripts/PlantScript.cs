@@ -11,61 +11,77 @@ public class PlantScript : MonoBehaviour
     
     [Header("Visual Settings")]
     public float minScale = 0.7f;
-    public float maxScale = 1.3f;
-    public Color matureColor = new Color(0.0f, 0.8f, 0.0f); // Dark green
-    public Color youngColor = new Color(0.5f, 0.8f, 0.2f);  // Light green
+    public float maxScale = 1.5f;
     
-    private SpriteRenderer spriteRenderer;
+    [Header("Reproduction")]
+    public bool isFullyGrown = false;
+    
     private Vector3 originalScale;
+    private SpriteRenderer spriteRenderer;
+    private GameManager gameManager;
     
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer == null)
-        {
-            Debug.LogError("No SpriteRenderer found on plant object!");
-        }
-        
         originalScale = transform.localScale;
+        gameManager = GameManager.Instance;
+        
+        // Initial appearance update
         UpdateAppearance();
     }
     
     public void BoostGrowth(float amount)
     {
         // Increment growth level but cap at maximum
+        float previousGrowth = growthLevel;
         growthLevel = Mathf.Min(growthLevel + amount, maxGrowthLevel);
+        
+        // Check if the tree has just reached full growth
+        if (previousGrowth < maxGrowthLevel && growthLevel >= maxGrowthLevel)
+        {
+            isFullyGrown = true;
+            Debug.Log("Tree is now fully grown!");
+        }
         
         // Update visual appearance
         UpdateAppearance();
-        
-        // Debug info
-        Debug.Log($"Plant {gameObject.name} boosted! Growth level: {growthLevel}/{maxGrowthLevel}");
     }
     
-    void UpdateAppearance()
+    public void UpdateAppearance()
     {
         // Calculate scale based on growth level
-        float scaleRatio = Mathf.Lerp(minScale, maxScale, growthLevel / maxGrowthLevel);
+        float growthRatio = growthLevel / maxGrowthLevel;
+        float scaleRatio = Mathf.Lerp(minScale, maxScale, growthRatio);
         transform.localScale = originalScale * scaleRatio;
-        
-        // Update color based on growth level
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = Color.Lerp(youngColor, matureColor, growthLevel / maxGrowthLevel);
-        }
     }
     
-    // Called by GameManager to determine if plant is ready to multiply
-    public bool IsReadyToMultiply()
+    public bool SpawnNewTree()
     {
-        return growthLevel >= maxGrowthLevel * 0.8f; // 80% grown is ready to multiply
+        // Only fully grown trees can spawn new trees
+        if (!isFullyGrown)
+            return false;
+            
+        // Tell the GameManager to spawn a new tree
+        if (gameManager != null)
+        {
+            return gameManager.SpawnTreeNear(gameObject);
+        }
+        
+        return false;
     }
     
-    // Called when plant is consumed by an animal
+    // Called when a tree is consumed by an animal
     public void OnConsumed()
     {
-        // Reduce growth level when partially eaten
+        // Reduce growth level when eaten
         growthLevel = Mathf.Max(growthLevel - 2.0f, 0.5f);
+        
+        // If it was fully grown, it's not anymore
+        if (growthLevel < maxGrowthLevel)
+        {
+            isFullyGrown = false;
+        }
+        
         UpdateAppearance();
     }
 }

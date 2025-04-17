@@ -62,4 +62,11 @@ public class EnergyManager : MonoBehaviour
         // Not enough energy
         return false;
     }
+    public void GainEnergy(int amount)
+    {
+        if (gameManager != null)
+        {
+            gameManager.changeEnergy(amount);
+        }
+    }
 }
