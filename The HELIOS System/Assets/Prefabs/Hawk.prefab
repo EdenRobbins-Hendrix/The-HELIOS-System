@@ -149,7 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7a5800abd4d580409cc84356edc88e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hunger: 10
+  hunger: 12
   hungerDeclineRate: 2
   feedThreshold: 5
   potentialFoodTargetsNames:

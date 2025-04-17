@@ -156,6 +156,9 @@ MonoBehaviour:
   - {fileID: 939534931}
   - {fileID: 465795974}
   - {fileID: 522006350}
+  speciesPrefabs:
+  - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
+  - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
 --- !u!4 &385762656
 Transform:
   m_ObjectHideFlags: 0

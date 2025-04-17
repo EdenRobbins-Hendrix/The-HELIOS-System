@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
+        InvokeRepeating("increasePopulationGlobally", 10.0f, 10.0f);
     }
 
     // Update is called once per frame
@@ -133,6 +135,47 @@ public class GameManager : MonoBehaviour
         }
 
         return target;
+    }
+
+    public List<GameObject> speciesPrefabs;
+
+    // I need an additional method for this so that I can call a repeating function 
+    // in my start method. 
+    void increasePopulationGlobally()
+    {
+        foreach (GameObject species in speciesPrefabs)
+        {
+            increasePopulationofSpecies(species);
+        }
+    }
+
+    void increasePopulationofSpecies(GameObject species)
+    {
+        // Get count of organisms of species type
+        int count = 0;
+        foreach (GameObject organism in organisms)
+        {
+            if (organism.name.Contains(species.name))
+            {
+                count = count + 1;
+            }
+        }
+
+        // spawn correct number of species
+        int numOfSpawns = Mathf.FloorToInt(count / 2);
+        for (int i = 0; i < numOfSpawns; i++)
+        {
+            //spawn the organism
+            GameObject newOrganism = Instantiate(species);
+            organisms.Add(newOrganism);
+
+            print("Organism Spawned!!");
+        }
+
+
+
+
+
     }
 
     public void changeEnergy(int change)
