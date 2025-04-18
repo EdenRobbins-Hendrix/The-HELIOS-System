@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6445324561887273487}
   - component: {fileID: 8685864417967028378}
   - component: {fileID: 7691407232409627938}
+  - component: {fileID: -470930877662093095}
   m_Layer: 0
   m_Name: Hawk
   m_TagString: Untagged
@@ -135,6 +136,8 @@ MonoBehaviour:
   rotationOffset: -30
   isWandering: 0
   isHunting: 0
+  isAvoidingPredator: 0
+  minDistFromPredator: 0
   target: {fileID: 0}
   wanderSpot: {x: 0, y: 0, z: 0}
 --- !u!114 &8685864417967028378
@@ -204,3 +207,39 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!58 &-470930877662093095
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146147913660210003}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.45399997
