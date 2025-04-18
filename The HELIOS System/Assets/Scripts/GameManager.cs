@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour
         if (plantScript != null)
         {
             // Check if this animal eats plants
-            foreach (string p in s.potentialFoodTargetsNames)
+            foreach (string p in s.prey)
             {
                 if (consumed.name.Contains(p))
                 {
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
         if (nutScript != null)
         {
             // Check if this animal eats nuts
-            foreach (string p in s.potentialFoodTargetsNames)
+            foreach (string p in s.prey)
             {
                 if (consumed.name.Contains(p))
                 {
@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
         }
         
         // Original code for animal consumption
-        foreach (string p in s.potentialFoodTargetsNames)
+        foreach (string p in s.prey)
         {
             if (consumed.name.Contains(p))
             {
@@ -165,9 +165,19 @@ public class GameManager : MonoBehaviour
         //reset behavior to either hunt or wander
         setOrganismBehavior(consumer);
 
+        
+        //generates replacement to maintain population level
+        GameObject replacement = Instantiate(consumed);
+        replacement.SetActive(false);
+        Camera cam = GameObject.FindAnyObjectByType<Camera>();
+        replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
+
         //destroy consumed
         organisms.Remove(consumed);
         Destroy(consumed);
+        replacement.SetActive(true);
+        organisms.Add(replacement);
+        
     }
 
     public GameObject chooseTarget(GameObject predator, HungerScript hScript)
@@ -178,7 +188,7 @@ public class GameManager : MonoBehaviour
         List<GameObject> allPotentialTargets = new List<GameObject>(organisms);
         
         // Add plants and nuts to potential targets if the predator eats them
-        foreach (string targetName in hScript.potentialFoodTargetsNames)
+        foreach (string targetName in hScript.prey)
         {
             if (targetName.Contains("Plant") || targetName.Contains("Tree"))
             {
@@ -200,7 +210,7 @@ public class GameManager : MonoBehaviour
             
             bool isValidTarget = false;
             
-            foreach (string p in hScript.potentialFoodTargetsNames)
+            foreach (string p in hScript.prey)
             {
                 if (potentialPrey.name.Contains(p))
                 {
