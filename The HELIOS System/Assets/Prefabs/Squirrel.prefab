@@ -170,6 +170,7 @@ MonoBehaviour:
   hunger: 10
   hungerDeclineRate: 1
   feedThreshold: 5
+  starvingThreshold: 2
   potentialFoodTargetsNames:
   - Nut
 --- !u!61 &5275570333162340150

@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
         // Animal management
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
         InvokeRepeating("increasePopulationGlobally", 10.0f, 10.0f);
-        
+
         // Plant management - optional if you want passive growth
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
     }
@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
     public void attemptFeed(GameObject consumer, GameObject consumed, float energyAmount)
     {
         HungerScript s = consumer.GetComponent<HungerScript>();
-        
+
         // Check if consumed is a plant
         PlantScript plantScript = consumed.GetComponent<PlantScript>();
         if (plantScript != null)
@@ -107,19 +107,19 @@ public class GameManager : MonoBehaviour
                 if (consumed.name.Contains(p))
                 {
                     Debug.Log("Valid plant food target");
-                    
+
                     // Plants aren't completely consumed - they're just reduced in size
                     s.changeHunger(energyAmount);
                     plantScript.OnConsumed();
-                    
+
                     // Reset behavior to either hunt or wander
                     setOrganismBehavior(consumer);
-                    
+
                     return;
                 }
             }
         }
-        
+
         // Check if consumed is a nut
         NutScript nutScript = consumed.GetComponent<NutScript>();
         if (nutScript != null)
@@ -130,18 +130,18 @@ public class GameManager : MonoBehaviour
                 if (consumed.name.Contains(p))
                 {
                     Debug.Log("Valid nut food target");
-                    
+
                     // Call the nut's consumption method
                     nutScript.OnConsumed(consumer);
-                    
+
                     // Reset behavior to either hunt or wander
                     setOrganismBehavior(consumer);
-                    
+
                     return;
                 }
             }
         }
-        
+
         // Original code for animal consumption
         foreach (string p in s.potentialFoodTargetsNames)
         {
@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
-        
+
         Debug.Log(consumer.name + " attempting to eat invalid organism: " + consumed.name);
     }
 
@@ -166,8 +166,7 @@ public class GameManager : MonoBehaviour
         setOrganismBehavior(consumer);
 
         //destroy consumed
-        organisms.Remove(consumed);
-        Destroy(consumed);
+        killOrganism(consumed);
     }
 
     public GameObject chooseTarget(GameObject predator, HungerScript hScript)
@@ -176,7 +175,7 @@ public class GameManager : MonoBehaviour
         float smallestDistance = float.PositiveInfinity;
 
         List<GameObject> allPotentialTargets = new List<GameObject>(organisms);
-        
+
         // Add plants and nuts to potential targets if the predator eats them
         foreach (string targetName in hScript.potentialFoodTargetsNames)
         {
@@ -185,7 +184,7 @@ public class GameManager : MonoBehaviour
                 // Add plants to the search list
                 allPotentialTargets.AddRange(plants);
             }
-            
+
             if (targetName.Contains("Nut") || targetName.Contains("Acorn"))
             {
                 // Add nuts to the search list
@@ -197,9 +196,9 @@ public class GameManager : MonoBehaviour
         foreach (GameObject potentialPrey in allPotentialTargets)
         {
             if (potentialPrey == predator) continue; // Skip self
-            
+
             bool isValidTarget = false;
-            
+
             foreach (string p in hScript.potentialFoodTargetsNames)
             {
                 if (potentialPrey.name.Contains(p))
@@ -209,7 +208,7 @@ public class GameManager : MonoBehaviour
                     break;
                 }
             }
-            
+
             if (isValidTarget)
             {
                 float distance = Vector3.Distance(predator.transform.position, potentialPrey.transform.position);
@@ -220,7 +219,7 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        
+
         if (target == null)
         {
             Debug.Log(predator.name + " has no organisms to eat!");
@@ -244,13 +243,23 @@ public class GameManager : MonoBehaviour
     {
         // Get count of organisms of species type
         int count = 0;
+        float averageHunger = 0;
         foreach (GameObject organism in organisms)
         {
-            if (organism.name.Contains(species.name))
+            if (organism.name.Contains(species.name)) // ensure the organism is of the organism type
             {
-                count = count + 1;
+
+                HungerScript h = organism.GetComponent<HungerScript>();
+                if (h.hunger > h.starvingThreshold) // ensure the organism is not starving
+                {
+                    count = count + 1;
+                    averageHunger = averageHunger + h.hunger;
+                }
             }
         }
+
+        //  calculate average hunger of population (if parents are starving then offspring should be starving)
+        averageHunger = averageHunger / count;
 
         // spawn correct number of species
         int numOfSpawns = Mathf.FloorToInt(count / 2);
@@ -259,9 +268,16 @@ public class GameManager : MonoBehaviour
             //spawn the organism
             GameObject newOrganism = Instantiate(species);
             organisms.Add(newOrganism);
+            newOrganism.GetComponent<HungerScript>().hunger = Mathf.FloorToInt(averageHunger); //set new organism hunger to average hunger of parents
 
             print("Organism Spawned!!");
         }
+    }
+
+    public void killOrganism(GameObject organim)
+    {
+        organisms.Remove(organim);
+        Destroy(organim);
     }
 
     #endregion
@@ -273,7 +289,7 @@ public class GameManager : MonoBehaviour
     {
         // This is just a placeholder method that doesn't do automatic spreading
         // since we're now handling tree reproduction through player clicks
-        
+
         foreach (GameObject plant in plants)
         {
             PlantScript plantScript = plant.GetComponent<PlantScript>();
@@ -284,30 +300,30 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-    
+
     // Method for spawning a nut near a tree
     public bool SpawnNutNear(GameObject parentTree)
     {
         // Don't spawn new nuts if we're at the limit
         if (nuts.Count >= maxNutsInScene)
             return false;
-            
+
         // Calculate random position near the parent tree
         float spawnDistance = nutSpreadDistance;
         Vector2 randomDirection = UnityEngine.Random.insideUnitCircle.normalized;
-        Vector3 newPosition = parentTree.transform.position + 
+        Vector3 newPosition = parentTree.transform.position +
             new Vector3(randomDirection.x, randomDirection.y, 0) * spawnDistance;
-            
+
         // Create new nut
         GameObject newNut = Instantiate(nutPrefab, newPosition, Quaternion.identity);
-        
+
         // Add to our list of nuts
         nuts.Add(newNut);
-        
+
         Debug.Log("New nut spawned near tree!");
         return true;
     }
-    
+
     // Method to remove a nut when it's consumed
     public void RemoveNut(GameObject nut)
     {

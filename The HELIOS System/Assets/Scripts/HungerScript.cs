@@ -8,6 +8,7 @@ public class HungerScript : MonoBehaviour
     public float hunger;
     public float hungerDeclineRate;
     public float feedThreshold;
+    public float starvingThreshold; // This is when the parents will stop producing offspring
     // public List<PrefabAssetType> potentialFoodTargets;
     public List<String> potentialFoodTargetsNames;
 
@@ -25,6 +26,10 @@ public class HungerScript : MonoBehaviour
     public void changeHunger(float amount)
     {
         hunger = hunger + amount;
+        if (hunger <= 0)
+        {
+            GameManager.Instance.killOrganism(gameObject);
+        }
     }
 
 

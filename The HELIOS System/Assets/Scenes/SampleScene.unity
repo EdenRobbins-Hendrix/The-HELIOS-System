@@ -723,7 +723,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5502391067117476057, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
       propertyPath: minDistFromPredator
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5771868681046652166, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
       propertyPath: m_Pivot.x
