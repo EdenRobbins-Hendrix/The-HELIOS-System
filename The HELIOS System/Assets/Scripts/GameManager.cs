@@ -60,6 +60,11 @@ public class GameManager : MonoBehaviour
 
     #region Animal Management
 
+    //This code ensures that there are the same amount of organisms present on the screen/in memory as dictated by the population manager
+    public void populationUpdate() {
+
+    }
+    
     void decrementHungerInAllOrganisms()
     {
         foreach (GameObject organism in organisms)
