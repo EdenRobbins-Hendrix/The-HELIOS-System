@@ -287,8 +287,16 @@ public class GameManager : MonoBehaviour
 
     public void killOrganism(GameObject organim)
     {
+        GameObject replacement = Instantiate(organim);
+        replacement.SetActive(false);
+        Camera cam = GameObject.FindAnyObjectByType<Camera>();
+        replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
+
+        //destroy consumed
         organisms.Remove(organim);
         Destroy(organim);
+        replacement.SetActive(true);
+        organisms.Add(replacement);
     }
 
     #endregion
