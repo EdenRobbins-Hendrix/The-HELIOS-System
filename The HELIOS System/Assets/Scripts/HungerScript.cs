@@ -44,7 +44,7 @@ public class HungerScript : MonoBehaviour
         hunger = hunger + amount;
         if (hunger <= 0)
         {
-            GameManager.Instance.killOrganism(gameObject);
+            GameManager.Instance.killOrganism(gameObject, gameObject.name.Split('(')[0]);
         }
     }
 

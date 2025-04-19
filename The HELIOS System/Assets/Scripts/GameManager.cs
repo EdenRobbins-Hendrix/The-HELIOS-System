@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     public int energy;
 
     [Header("Animal Management")]
-    public List<GameObject> organisms;
+    //Allows for segregation based upon organism type
+    public Dictionary<String, List<GameObject>> organisms;
     public List<GameObject> speciesPrefabs;
 
     [Header("Plant Management")]
@@ -46,7 +47,6 @@ public class GameManager : MonoBehaviour
     {
         // Animal management
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
-        InvokeRepeating("increasePopulationGlobally", 10.0f, 10.0f);
 
         // Plant management - optional if you want passive growth
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
@@ -60,19 +60,17 @@ public class GameManager : MonoBehaviour
 
     #region Animal Management
 
-    //This code ensures that there are the same amount of organisms present on the screen/in memory as dictated by the population manager
-    public void populationUpdate() {
-
-    }
     
     void decrementHungerInAllOrganisms()
     {
-        foreach (GameObject organism in organisms)
-        {
-            HungerScript s = organism.GetComponent<HungerScript>();
-            float rate = s.hungerDeclineRate;
-            s.changeHunger(-rate);
-            setOrganismBehavior(organism);
+        foreach(List<GameObject> organismType in organisms.Values) {
+            foreach (GameObject organism in organismType)
+            {
+                HungerScript s = organism.GetComponent<HungerScript>();
+                float rate = s.hungerDeclineRate;
+                s.changeHunger(-rate);
+                setOrganismBehavior(organism);
+            }
         }
     }
 
@@ -171,17 +169,7 @@ public class GameManager : MonoBehaviour
         setOrganismBehavior(consumer);
 
         
-        //generates replacement to maintain population level
-        GameObject replacement = Instantiate(consumed);
-        replacement.SetActive(false);
-        Camera cam = GameObject.FindAnyObjectByType<Camera>();
-        replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
-
-        //destroy consumed
-        organisms.Remove(consumed);
-        Destroy(consumed);
-        replacement.SetActive(true);
-        organisms.Add(replacement);
+        killOrganism(consumed, consumed.name.Split('(')[0]);
         
     }
 
@@ -190,11 +178,19 @@ public class GameManager : MonoBehaviour
         GameObject target = null;
         float smallestDistance = float.PositiveInfinity;
 
-        List<GameObject> allPotentialTargets = new List<GameObject>(organisms);
+
+        List<GameObject> allPotentialTargets = new List<GameObject>();
+        foreach (List<GameObject> creatures in organisms.Values) {
+            foreach (GameObject creature in creatures) {
+                allPotentialTargets.Add(creature);
+            }
+        }
 
         // Add plants and nuts to potential targets if the predator eats them
         foreach (string targetName in hScript.prey)
         {
+            //Important!!! In the fields in HungerScript for each prefab, ensure that the names match with what is given in the population manager!
+            //This ensures the correct things have the correct labels in their name
             if (targetName.Contains("Plant") || targetName.Contains("Tree"))
             {
                 // Add plants to the search list
@@ -245,63 +241,64 @@ public class GameManager : MonoBehaviour
         return target;
     }
 
-    // I need an additional method for this so that I can call a repeating function 
-    // in my start method. 
-    void increasePopulationGlobally()
+    // The new form of this is called from the Population Manager, it takes in the assigned population dictionary for the level
+    // and ensures all values are matched in the organisms list and in the game world
+    public void updatePopulations(Dictionary<String, int> reference)
     {
-        foreach (GameObject species in speciesPrefabs)
-        {
-            increasePopulationofSpecies(species);
-        }
+        
     }
 
-    void increasePopulationofSpecies(GameObject species)
-    {
-        // Get count of organisms of species type
-        int count = 0;
-        float averageHunger = 0;
-        foreach (GameObject organism in organisms)
-        {
-            if (organism.name.Contains(species.name)) // ensure the organism is of the organism type
-            {
-
-                HungerScript h = organism.GetComponent<HungerScript>();
-                if (h.hunger > h.starvingThreshold) // ensure the organism is not starving
-                {
-                    count = count + 1;
-                    averageHunger = averageHunger + h.hunger;
-                }
-            }
-        }
+//    void increasePopulationofSpecies(GameObject species)
+//    {
+//        // Get count of organisms of species type
+//        int count = 0;
+//        float averageHunger = 0;
+//        foreach (GameObject organism in organisms)
+//        {
+//            if (organism.name.Contains(species.name)) // ensure the organism is of the organism type
+//            {
+//
+//                HungerScript h = organism.GetComponent<HungerScript>();
+//                if (h.hunger > h.starvingThreshold) // ensure the organism is not starving
+//                {
+//                    count = count + 1;
+//                    averageHunger = averageHunger + h.hunger;
+//                }
+//            }
+//        }
 
         //  calculate average hunger of population (if parents are starving then offspring should be starving)
-        averageHunger = averageHunger / count;
+//        averageHunger = averageHunger / count;
 
         // spawn correct number of species
-        int numOfSpawns = Mathf.FloorToInt(count / 2);
-        for (int i = 0; i < numOfSpawns; i++)
-        {
-            //spawn the organism
-            GameObject newOrganism = Instantiate(species);
-            organisms.Add(newOrganism);
-            newOrganism.GetComponent<HungerScript>().hunger = Mathf.FloorToInt(averageHunger); //set new organism hunger to average hunger of parents
+//        int numOfSpawns = Mathf.FloorToInt(count / 2);
+//        for (int i = 0; i < numOfSpawns; i++)
+//        {
+//            //spawn the organism
+//            GameObject newOrganism = Instantiate(species);
+//            organisms.Add(newOrganism);
+//            newOrganism.GetComponent<HungerScript>().hunger = Mathf.FloorToInt(averageHunger); //set new organism hunger to average hunger of parents
+//
+//            print("Organism Spawned!!");
+//        }
+//    }
 
-            print("Organism Spawned!!");
-        }
-    }
-
-    public void killOrganism(GameObject organim)
-    {
-        GameObject replacement = Instantiate(organim);
+    public void killOrganism(GameObject creature, String name)
+    {   organisms.TryGetValue(name, out List<GameObject> creatures);
+        GameObject old = creatures[creatures.Count - 1];
+        GameObject replacement = Instantiate(old);
         replacement.SetActive(false);
         Camera cam = GameObject.FindAnyObjectByType<Camera>();
         replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
-
-        //destroy consumed
-        organisms.Remove(organim);
-        Destroy(organim);
+        creatures.Remove(creature);
+        Destroy(creature);
         replacement.SetActive(true);
-        organisms.Add(replacement);
+        creatures.Add(replacement);
+
+        //organisms.Remove(organim);
+        //Destroy(organim);
+        //replacement.SetActive(true);
+        //organisms.Add(replacement);
     }
 
     #endregion

@@ -12,18 +12,18 @@ public GameObject[] consumerPrefabs;
         startingPopulations();
     }
     void startingPopulations() {
-	populations.Add("Oak", 5);
-	populations.Add("Hazelnut", 5);
-	populations.Add("PoisonIvy", 10);
-	populations.Add("Dandelion", 10);
-	populations.Add("Beautyberry", 10);
+	populations.Add("OakTree", 5);
+	//populations.Add("HazelTree", 5);
+	//populations.Add("PoisonIvy", 10);
+	//populations.Add("Dandelion", 10);
+	//populations.Add("Beautyberry", 10);
 	populations.Add("Hawk", 1);
-	populations.Add("BlackBear", 1);
-	populations.Add("Graywolf", 5);
+	//populations.Add("BlackBear", 1);
+	//populations.Add("Graywolf", 5);
 	populations.Add("Squirrel", 22);
-	populations.Add("Cottontail", 24);
-	populations.Add("Robin", 28);
-	populations.Add("Deer", 20);
+	//populations.Add("Cottontail", 24);
+	//populations.Add("Robin", 28);
+	//populations.Add("Deer", 20);
 	InvokeRepeating("updatePopulations", 1, 1);
 }
 
@@ -92,6 +92,7 @@ void updatePopulations() {
 		}
     }
 	populations = temp;
+	GameManager.Instance.updatePopulations(populations);
     }
 }
 
