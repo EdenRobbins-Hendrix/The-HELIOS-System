@@ -56,7 +56,7 @@ public class PlantEnergizer : MonoBehaviour
                         // Growing tree gets a growth boost
                         HandleGrowingTree(plantScript, hitCollider.transform.position);
                     }
-                    
+                    GameManager.Instance.IncrementInUseEnergy(plantScript.gameObject);
                     // Only interact with one tree per click
                     break;
                 }

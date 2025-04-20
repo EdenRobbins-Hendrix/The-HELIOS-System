@@ -30,6 +30,7 @@ public GameObject[] consumerPrefabs;
 
 
 int calculatePopulation(String organism) {
+		Dictionary<String, int> energyLevels = GameManager.Instance.energyLevels;
         Debug.Log("Calculating");
 		int pop = 0;
 		foreach (GameObject thing in consumerPrefabs) {
@@ -50,7 +51,15 @@ int calculatePopulation(String organism) {
 					int countE = 0; //How many unique predators
 					foreach (String p in prey) {
 					if (populations.TryGetValue(p, out int n)) {
-                            Debug.Log(p + " " + n);
+                            if (p.Contains("Plant") || p.Contains("Tree")) {
+								foreach (String plant in energyLevels.Keys) {
+									if (plant.Equals(p)){
+										energyLevels.TryGetValue(plant, out int energy);
+										n *= energy;
+									}
+								}
+							}
+							Debug.Log(p + " " + n);
 							food += n;
 							countF++;					
 						}

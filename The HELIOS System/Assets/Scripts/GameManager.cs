@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Plant Management")]
     public List<GameObject> plants = new List<GameObject>();
+    public Dictionary<String, int> energyLevels;
     public GameObject plantPrefab;
     public GameObject nutPrefab; // New field for nut prefab
     public float plantSpreadDistance = 2.0f;
@@ -186,6 +187,8 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        bool eatsPlants = false;
+        bool eatsNuts = false;
         // Add plants and nuts to potential targets if the predator eats them
         foreach (string targetName in hScript.prey)
         {
@@ -194,14 +197,20 @@ public class GameManager : MonoBehaviour
             if (targetName.Contains("Plant") || targetName.Contains("Tree"))
             {
                 // Add plants to the search list
-                allPotentialTargets.AddRange(plants);
+                eatsPlants = true;
             }
 
             if (targetName.Contains("Nut") || targetName.Contains("Acorn"))
             {
                 // Add nuts to the search list
-                allPotentialTargets.AddRange(nuts);
+                eatsNuts = true;
             }
+        }
+        if (eatsPlants) {
+            allPotentialTargets.AddRange(plants);
+        }
+        if (eatsNuts) {
+            allPotentialTargets.AddRange(nuts);
         }
 
         //choose best organism based on criteria (the closest one)
@@ -351,6 +360,27 @@ public class GameManager : MonoBehaviour
         if (nuts.Contains(nut))
         {
             nuts.Remove(nut);
+        }
+    }
+
+    public void IncrementInUseEnergy(GameObject plant) {
+        String name = plant.name.Split('(')[0];
+        if (energyLevels.ContainsKey(name)) {
+            energyLevels.TryGetValue(name, out energy);
+            energy++;
+        }
+        else {
+            energyLevels.Add(name, 1);
+        }
+    }
+
+    public void DecrementInUseEnergy(GameObject plant) {
+        String name = plant.name.Split('(')[0];
+        if (energyLevels.TryGetValue(name, out energy) && energy > 1) {
+            energy--;
+        }
+        else if (!energyLevels.TryGetValue(name, out energy)) {
+            energyLevels.Add(name, 0);
         }
     }
 
