@@ -254,7 +254,25 @@ public class GameManager : MonoBehaviour
     // and ensures all values are matched in the organisms list and in the game world
     public void updatePopulations(Dictionary<String, int> reference)
     {
-        
+     foreach (String organism in reference.Keys) {
+        if (organisms.TryGetValue(organism, out List<GameObject> objects)) {
+            int goalPop = reference[organism];
+            if (objects.Count < goalPop) {
+                for (int i = goalPop - objects.Count; i < goalPop; i++) {
+                    GameObject newOrg = Instantiate(objects[0]);
+                    objects.Add(newOrg);
+                }
+            }
+            else if (objects.Count < goalPop) {
+                for (int i = objects.Count - goalPop; i > goalPop; i--) {
+                    GameObject oldOrg = objects[-1];
+                    objects.Remove(oldOrg);
+                    Destroy(oldOrg);
+                }
+            }
+            
+        }
+     }   
     }
 
 //    void increasePopulationofSpecies(GameObject species)
