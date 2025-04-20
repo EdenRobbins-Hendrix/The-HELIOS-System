@@ -10157,10 +10157,6 @@ PrefabInstance:
       propertyPath: name
       value: Squirrel
       objectReference: {fileID: 0}
-    - target: {fileID: 3547784460393988805, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
-      propertyPath: basePop
-      value: 22
-      objectReference: {fileID: 0}
     - target: {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
       propertyPath: m_Name
       value: Squirrel
@@ -10387,10 +10383,6 @@ PrefabInstance:
     - target: {fileID: 8685864417967028378, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
       propertyPath: name
       value: Hawk
-      objectReference: {fileID: 0}
-    - target: {fileID: 8685864417967028378, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
-      propertyPath: basePop
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8685864417967028378, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
       propertyPath: 'predators.Array.data[0]'
@@ -12493,7 +12485,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
       propertyPath: m_Name
-      value: Oak
+      value: OakTree
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

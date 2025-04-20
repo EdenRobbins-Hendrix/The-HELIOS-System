@@ -171,12 +171,13 @@ MonoBehaviour:
   hunger: 10
   hungerDeclineRate: 1
   feedThreshold: 5
+  starvingThreshold: 0
   prey:
-  - Oak
+  - OakTree
   apex: 0
   predators:
   - Hawk
-  basePop: 0
+  basePop: 22
 --- !u!61 &5275570333162340150
 BoxCollider2D:
   m_ObjectHideFlags: 0
