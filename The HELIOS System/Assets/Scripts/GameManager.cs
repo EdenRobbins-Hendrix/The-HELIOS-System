@@ -29,6 +29,16 @@ public class GameManager : MonoBehaviour
     //Allows for segregation based upon organism type
     public List<GameObject> speciesPrefabs;
 
+    [Serializable] //Serializable dictionary adaptation taken from PraetorBlue at https://discussions.unity.com/t/cant-see-dictionaries-in-inspector/801746
+    public class OrganismNameObjectPair {
+        public String Name;
+        public List<GameObject> Instance;
+    }
+
+    public List<OrganismNameObjectPair> OrganismsSerialized = new List<OrganismNameObjectPair>();
+    Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();
+
+
     [Header("Plant Management")]
     public List<GameObject> plants = new List<GameObject>();
     public Dictionary<String, int> energyLevels;
@@ -42,20 +52,12 @@ public class GameManager : MonoBehaviour
     // List to track nuts
     private List<GameObject> nuts = new List<GameObject>();
 
-    [Serializable] //Serializable dictionary adaptation taken from PraetorBlue at https://discussions.unity.com/t/cant-see-dictionaries-in-inspector/801746
-    public class OrganismNameObjectPair {
-        public String key;
-        public List<GameObject> val;
-    }
-
-    public List<OrganismNameObjectPair> OrganismsSerialized = new List<OrganismNameObjectPair>();
-    Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();
-
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         foreach (var kvp in OrganismsSerialized) {
-            organisms[kvp.key] = kvp.val;
+            organisms[kvp.Name] = kvp.Instance;
         }
         // Animal management
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
@@ -72,6 +74,18 @@ public class GameManager : MonoBehaviour
 
     #region Animal Management
 
+    //Every population manager should call this method in their start()
+    public void InitializeEnergyLevels(List<String> plantTypes) {
+        if (!energyLevels.IsUnityNull()){
+            energyLevels.Clear();
+        }
+        else {
+            energyLevels = new Dictionary<String, int>();
+        }
+        foreach (String plant in plantTypes) {
+            energyLevels.Add(plant, 1);
+        }
+    }
     
     void decrementHungerInAllOrganisms()
     {

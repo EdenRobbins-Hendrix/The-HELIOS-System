@@ -7,28 +7,29 @@ public class PopulationManager : MonoBehaviour
 public Dictionary<String, int> populations = new Dictionary<String, int>();
 public GameObject[] consumerPrefabs;
 
+[Serializable]
+public class Organisms {
+        public String Name;
+        public int InitialPopulation;
+		public bool IsPlant;
+    }
+
+    public List<Organisms> OrganismsSerialized = new List<Organisms>();
+
+
     void Start()
     {
-        startingPopulations();
+		List<String> plants = new List<String>();
+		foreach (Organisms organism in OrganismsSerialized) {
+			populations.Add(organism.Name, organism.InitialPopulation);
+			if (organism.IsPlant) {
+				plants.Add(organism.Name);
+			}
+		}
+		GameManager.Instance.InitializeEnergyLevels(plants);
+		InvokeRepeating("updatePopulations", 10, 10);
     }
-    void startingPopulations() {
-	populations.Add("OakTree", 5);
-	//populations.Add("HazelTree", 5);
-	//populations.Add("PoisonIvy", 10);
-	//populations.Add("Dandelion", 10);
-	//populations.Add("Beautyberry", 10);
-	populations.Add("Hawk", 1);
-	//populations.Add("BlackBear", 1);
-	//populations.Add("Graywolf", 5);
-	populations.Add("Squirrel", 22);
-	//populations.Add("Cottontail", 24);
-	//populations.Add("Robin", 28);
-	//populations.Add("Deer", 20);
-	InvokeRepeating("updatePopulations", 1, 1);
-}
-
-
-
+    
 int calculatePopulation(String organism) {
 		Dictionary<String, int> energyLevels = GameManager.Instance.energyLevels;
         Debug.Log("Calculating");
@@ -79,6 +80,9 @@ int calculatePopulation(String organism) {
 					pop = (int) MathF.Ceiling(((food/countF)-y)*x);
 					if (pop < 1) {
 						pop = 1;
+					}
+					else if (pop > 50) {
+						pop = 50;
 					}
 					return pop;}
 				}

@@ -1496,6 +1496,17 @@ MonoBehaviour:
   speciesPrefabs:
   - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
+  OrganismsSerialized:
+  - Name: Squirrel
+    Instance:
+    - {fileID: 1820819227}
+    - {fileID: 2005357829}
+  - Name: Hawk
+    Instance:
+    - {fileID: 2108049468}
+  - Name: Hawk
+    Instance:
+    - {fileID: 1584037210}
   plants: []
   plantPrefab: {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   nutPrefab: {fileID: 459212317604697448, guid: 34de0e34078d72e4d84d3dca4b54a0b1, type: 3}
@@ -11409,6 +11420,64 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539949010}
   m_CullTransparentMesh: 1
+--- !u!1 &1577180263
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1577180265}
+  - component: {fileID: 1577180264}
+  m_Layer: 0
+  m_Name: PopulationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1577180264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577180263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3f7b466a29b7a4dbc1d8d9131f9620, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consumerPrefabs:
+  - {fileID: 2108049468}
+  - {fileID: 1820819227}
+  - {fileID: 1584037210}
+  OrganismsSerialized:
+  - Name: OakTree
+    InitialPopulation: 5
+    IsPlant: 1
+  - Name: Squirrel
+    InitialPopulation: 22
+    IsPlant: 0
+  - Name: Hawk
+    InitialPopulation: 1
+    IsPlant: 0
+--- !u!4 &1577180265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1577180263}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1581573218
 GameObject:
   m_ObjectHideFlags: 0
@@ -12051,6 +12120,11 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &2005357829 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
+  m_PrefabInstance: {fileID: 864342951}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2025641401
 GameObject:
   m_ObjectHideFlags: 0
@@ -12516,3 +12590,4 @@ SceneRoots:
   - {fileID: 1321785849}
   - {fileID: 1355386755}
   - {fileID: 864342951}
+  - {fileID: 1577180265}
