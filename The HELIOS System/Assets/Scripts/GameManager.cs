@@ -43,18 +43,18 @@ public class GameManager : MonoBehaviour
     private List<GameObject> nuts = new List<GameObject>();
 
     [Serializable] //Serializable dictionary adaptation taken from PraetorBlue at https://discussions.unity.com/t/cant-see-dictionaries-in-inspector/801746
-    public class KeyValuePair {
+    public class OrganismNameObjectPair {
         public String key;
         public List<GameObject> val;
     }
 
-    public List<KeyValuePair> MyList = new List<KeyValuePair>();
+    public List<OrganismNameObjectPair> OrganismsSerialized = new List<OrganismNameObjectPair>();
     Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        foreach (var kvp in MyList) {
+        foreach (var kvp in OrganismsSerialized) {
             organisms[kvp.key] = kvp.val;
         }
         // Animal management
