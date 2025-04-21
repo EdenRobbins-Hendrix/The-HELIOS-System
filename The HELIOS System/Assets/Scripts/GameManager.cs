@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Animal Management")]
     //Allows for segregation based upon organism type
-    public Dictionary<String, List<GameObject>> organisms;
     public List<GameObject> speciesPrefabs;
 
     [Header("Plant Management")]
@@ -43,9 +42,21 @@ public class GameManager : MonoBehaviour
     // List to track nuts
     private List<GameObject> nuts = new List<GameObject>();
 
+    [Serializable] //Serializable dictionary adaptation taken from PraetorBlue at https://discussions.unity.com/t/cant-see-dictionaries-in-inspector/801746
+    public class KeyValuePair {
+        public String key;
+        public List<GameObject> val;
+    }
+
+    public List<KeyValuePair> MyList = new List<KeyValuePair>();
+    Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        foreach (var kvp in MyList) {
+            organisms[kvp.key] = kvp.val;
+        }
         // Animal management
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
 
