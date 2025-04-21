@@ -77,7 +77,7 @@ int calculatePopulation(String organism) {
                         countE = 1;
                     }
 					y = eater/countE;
-					pop = (int) MathF.Ceiling(((food/countF)-y)*x);
+					pop = (int) MathF.Ceiling(((food/countF)-y)+x);
 					if (pop < 1) {
 						pop = 1;
 					}
