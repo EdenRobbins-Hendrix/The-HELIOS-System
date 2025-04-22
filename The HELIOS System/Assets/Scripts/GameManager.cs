@@ -336,8 +336,8 @@ public class GameManager : MonoBehaviour
 //    }
 
     public void killOrganism(GameObject creature, String name)
-    {   organisms.TryGetValue(name, out List<GameObject> creatures);
-        GameObject old = creatures[creatures.Count - 1];
+    {   if (organisms.TryGetValue(name, out List<GameObject> creatures)) {
+        GameObject old = creatures[1];
         GameObject replacement = Instantiate(old);
         replacement.SetActive(false);
         Camera cam = GameObject.FindAnyObjectByType<Camera>();
@@ -346,7 +346,7 @@ public class GameManager : MonoBehaviour
         Destroy(creature);
         replacement.SetActive(true);
         creatures.Add(replacement);
-
+    }
         //organisms.Remove(organim);
         //Destroy(organim);
         //replacement.SetActive(true);

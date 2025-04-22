@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 using UnityEditor;
+using Unity.VisualScripting;
 public class PopulationManager : MonoBehaviour
 {
 public Dictionary<String, int> populations = new Dictionary<String, int>();
@@ -95,13 +96,15 @@ void updatePopulations() {
     Debug.Log("Analyzing...");
 	Dictionary<String, int> temp = new Dictionary<String, int>();
 	foreach (KeyValuePair<String, int> entry in populations) {
-		int pop = calculatePopulation(entry.Key);
-		if (pop > 0) {
-			temp.Add(entry.Key, pop);
-            Debug.Log(entry.Key + " " + pop);
-        }
-		else {
-			temp.Add(entry.Key, entry.Value);
+		if (!entry.Key.IsUnityNull()){
+			int pop = calculatePopulation(entry.Key);
+			if (pop > 0) {
+				temp.Add(entry.Key, pop);
+            	Debug.Log(entry.Key + " " + pop);
+        	}
+			else {
+				temp.Add(entry.Key, entry.Value);
+			}
 		}
     }
 	populations = temp;
