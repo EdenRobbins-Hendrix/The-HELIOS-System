@@ -92,10 +92,11 @@ public class GameManager : MonoBehaviour
         foreach(List<GameObject> organismType in organisms.Values) {
             foreach (GameObject organism in organismType)
             {
-                HungerScript s = organism.GetComponent<HungerScript>();
-                float rate = s.hungerDeclineRate;
-                s.changeHunger(-rate);
-                setOrganismBehavior(organism);
+                if (!(organism == null) && organism.TryGetComponent(out HungerScript s)){
+                    float rate = s.hungerDeclineRate;
+                    s.changeHunger(-rate);
+                    setOrganismBehavior(organism);
+                }
             }
         }
     }
@@ -247,7 +248,7 @@ public class GameManager : MonoBehaviour
             
             foreach (string p in hScript.prey)
             {
-                if (potentialPrey.name.Contains(p))
+                if (!(p==null) && (potentialPrey != null) && potentialPrey.name.Contains(p))
                 {
                     Debug.Log(potentialPrey.name + " is a valid food target for " + predator.name);
                     isValidTarget = true;
@@ -295,8 +296,9 @@ public class GameManager : MonoBehaviour
                     Destroy(oldOrg);
                 }
             }
-            
+            objects.TrimExcess();    
         }
+        
      }   
     }
 
@@ -337,15 +339,17 @@ public class GameManager : MonoBehaviour
 
     public void killOrganism(GameObject creature, String name)
     {   if (organisms.TryGetValue(name, out List<GameObject> creatures)) {
-        GameObject old = creatures[1];
-        GameObject replacement = Instantiate(old);
-        replacement.SetActive(false);
-        Camera cam = GameObject.FindAnyObjectByType<Camera>();
-        replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
-        creatures.Remove(creature);
-        Destroy(creature);
-        replacement.SetActive(true);
-        creatures.Add(replacement);
+            if (creatures.Count > 1 && creatures[1] != null) {
+                GameObject old = creatures[1];
+                GameObject replacement = Instantiate(old);
+                replacement.SetActive(false);
+                Camera cam = GameObject.FindAnyObjectByType<Camera>();
+                replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
+                creatures.Remove(creature);
+                Destroy(creature);
+                replacement.SetActive(true);
+                creatures.Add(replacement);
+            }
     }
         //organisms.Remove(organim);
         //Destroy(organim);

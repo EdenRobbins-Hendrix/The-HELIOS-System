@@ -11341,9 +11341,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consumerPrefabs:
-  - {fileID: 2108049468}
+  - {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   - {fileID: 1820819227}
-  - {fileID: 1584037210}
+  - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   OrganismsSerialized:
   - Name: OakTree
     InitialPopulation: 5
