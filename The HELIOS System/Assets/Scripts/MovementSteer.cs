@@ -16,6 +16,7 @@ public class MovementSteer : MonoBehaviour
     public bool isHunting;
     public bool isAvoidingPredator;
     public float minDistFromPredator;
+    public bool shouldStop;
     [SerializeField]
     private bool isSpriteFlipped;
     private SpriteRenderer spriteRenderer;
@@ -38,6 +39,7 @@ public class MovementSteer : MonoBehaviour
         detectionCircle.radius = minDistFromPredator;
         isSpriteFlipped = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
+        shouldStop = false;
 
         /* 
             So there is a fascinating problem: 
@@ -185,99 +187,120 @@ public class MovementSteer : MonoBehaviour
     void moveToSpot(Vector3 target)
     {
 
-        if (Vector3.Distance(target, transform.position) < 0.01)
+        if (Vector3.Distance(target, transform.position) < 1)
         {
             //Do nothing
-            // Debug.Log("Within acceptable distance!");
+            Debug.Log("Within acceptable distance!");
             Vector2 stop = new Vector2(0, 0);
-            body.linearVelocity = stop; //this stops the animal cold
+            // body.linearVelocity = stop; //this stops the animal cold
+            shouldStop = true;
+
         }
         else
         {
-
-
-            // get desired location
-            Vector2 desired = (target - transform.position);
-
-            // flip sprite accordingly
-            spriteRenderer.flipX = desired.x > 0;
-            isSpriteFlipped = spriteRenderer.flipX;
-
-
-            // get angle for rotation correct
-            float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg;
-            if (isSpriteFlipped) // going right? 
-            {
-                if (desired.y > 0)
-                {    //going up? 
-
-                }
-                else
-                { //going down? 
-
-                }
-
-
-            }
-            else // going left? 
-            {
-                // angle = angle + 180;
-
-                if (desired.y > 0)
-                { //going up? 
-                    angle = angle - 150;
-
-                }
-                else
-                { //going down? 
-                    angle = angle + 150;
-                }
-
-            }
-            // Debug.Log("Angle: " + angle);
-
-            // Actually do the rotation
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                    q, Time.deltaTime * rotationSpeed);
-
-            // Move towards desired spot. This can be replaced with rigid body thing if need be
-            transform.position = Vector2.MoveTowards(transform.position, desired, speed * Time.deltaTime);
-
-            //     body.AddForce(desired.normalized *
-            //           speed - body.linearVelocity);
-
-
-
-            //     float turningOffset = 0.0f;
-            //     bool rotationBoolean = false;
-
-            //     // flip the sprite if appropriate
-            //     if (desired.x < 0)
-            //     {
-            //         Debug.Log("less than");
-            //         isSpriteFlipped = false;
-            //         spriteRenderer.flipX = false;
-            //     }
-            //     else
-            //     {
-            //         isSpriteFlipped = true;
-            //         spriteRenderer.flipX = true;
-            //     }
-
-
-
-            //     // Debug.Log("Desired: " + desired);
-            //     float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
-            // Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            // transform.rotation = Quaternion.Slerp(transform.rotation,
-            //     q, Time.deltaTime * rotationSpeed);
-
-
-            //     //move to point
-            //     body.AddForce(desired.normalized *
-            //           speed - body.linearVelocity);
+            shouldStop = false;
         }
+
+
+
+
+        // get desired location
+        Vector2 desired = target;
+
+        // flip sprite accordingly
+        spriteRenderer.flipX = desired.x > 0;
+        isSpriteFlipped = spriteRenderer.flipX;
+
+
+        // get angle for rotation correct
+        float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg;
+        if (isSpriteFlipped) // going right? 
+        {
+            if (desired.y > 0)
+            {    //going up? 
+
+            }
+            else
+            { //going down? 
+
+            }
+
+
+        }
+        else // going left? 
+        {
+            // angle = angle + 180;
+
+            if (desired.y > 0)
+            { //going up? 
+                angle = angle - 150;
+
+            }
+            else
+            { //going down? 
+                angle = angle + 150;
+            }
+
+        }
+        // Debug.Log("Angle: " + angle);
+
+        // Actually do the rotation
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation,
+                q, Time.deltaTime * rotationSpeed);
+
+
+
+
+
+        // Move towards desired spot. This can be replaced with rigid body thing if need be
+
+        if (!shouldStop) // if the sprite has yet reached its desired position
+        {
+
+            transform.position = Vector2.MoveTowards(transform.position, desired, speed * Time.deltaTime);
+            //         body.AddForce(desired.normalized *
+            //   speed - body.linearVelocity);
+
+
+        }
+        else
+        {
+            transform.position = transform.position;
+        }
+
+
+
+
+        //     float turningOffset = 0.0f;
+        //     bool rotationBoolean = false;
+
+        //     // flip the sprite if appropriate
+        //     if (desired.x < 0)
+        //     {
+        //         Debug.Log("less than");
+        //         isSpriteFlipped = false;
+        //         spriteRenderer.flipX = false;
+        //     }
+        //     else
+        //     {
+        //         isSpriteFlipped = true;
+        //         spriteRenderer.flipX = true;
+        //     }
+
+
+
+        //     // Debug.Log("Desired: " + desired);
+        //     float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
+        // Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        // transform.rotation = Quaternion.Slerp(transform.rotation,
+        //     q, Time.deltaTime * rotationSpeed);
+
+
+        //     //move to point
+        //     body.AddForce(desired.normalized *
+        //           speed - body.linearVelocity);
+
 
     }
 
