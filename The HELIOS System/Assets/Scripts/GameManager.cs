@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour
     public List<GameObject> speciesPrefabs;
 
     [Serializable] //Serializable dictionary adaptation taken from PraetorBlue at https://discussions.unity.com/t/cant-see-dictionaries-in-inspector/801746
-    public class OrganismNameObjectPair {
+    public class OrganismNameObjectPair
+    {
         public String Name;
         public List<GameObject> Instance;
     }
@@ -52,11 +53,12 @@ public class GameManager : MonoBehaviour
     // List to track nuts
     private List<GameObject> nuts = new List<GameObject>();
 
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        foreach (var kvp in OrganismsSerialized) {
+        foreach (var kvp in OrganismsSerialized)
+        {
             organisms[kvp.Name] = kvp.Instance;
         }
         // Animal management
@@ -75,24 +77,30 @@ public class GameManager : MonoBehaviour
     #region Animal Management
 
     //Every population manager should call this method in their start()
-    public void InitializeEnergyLevels(List<String> plantTypes) {
-        if (!energyLevels.IsUnityNull()){
+    public void InitializeEnergyLevels(List<String> plantTypes)
+    {
+        if (!energyLevels.IsUnityNull())
+        {
             energyLevels.Clear();
         }
-        else {
+        else
+        {
             energyLevels = new Dictionary<String, int>();
         }
-        foreach (String plant in plantTypes) {
+        foreach (String plant in plantTypes)
+        {
             energyLevels.Add(plant, 1);
         }
     }
-    
+
     void decrementHungerInAllOrganisms()
     {
-        foreach(List<GameObject> organismType in organisms.Values) {
+        foreach (List<GameObject> organismType in organisms.Values)
+        {
             foreach (GameObject organism in organismType)
             {
-                if (!(organism == null) && organism.TryGetComponent(out HungerScript s)){
+                if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
+                {
                     float rate = s.hungerDeclineRate;
                     s.changeHunger(-rate);
                     setOrganismBehavior(organism);
@@ -195,9 +203,9 @@ public class GameManager : MonoBehaviour
         //reset behavior to either hunt or wander
         setOrganismBehavior(consumer);
 
-        
+
         killOrganism(consumed, consumed.name.Split('(')[0]);
-        
+
     }
 
     public GameObject chooseTarget(GameObject predator, HungerScript hScript)
@@ -207,8 +215,10 @@ public class GameManager : MonoBehaviour
 
 
         List<GameObject> allPotentialTargets = new List<GameObject>();
-        foreach (List<GameObject> creatures in organisms.Values) {
-            foreach (GameObject creature in creatures) {
+        foreach (List<GameObject> creatures in organisms.Values)
+        {
+            foreach (GameObject creature in creatures)
+            {
                 allPotentialTargets.Add(creature);
             }
         }
@@ -232,10 +242,12 @@ public class GameManager : MonoBehaviour
                 eatsNuts = true;
             }
         }
-        if (eatsPlants) {
+        if (eatsPlants)
+        {
             allPotentialTargets.AddRange(plants);
         }
-        if (eatsNuts) {
+        if (eatsNuts)
+        {
             allPotentialTargets.AddRange(nuts);
         }
 
@@ -245,10 +257,10 @@ public class GameManager : MonoBehaviour
             if (potentialPrey == predator) continue; // Skip self
 
             bool isValidTarget = false;
-            
+
             foreach (string p in hScript.prey)
             {
-                if (!(p==null) && (potentialPrey != null) && potentialPrey.name.Contains(p))
+                if (!(p == null) && (potentialPrey != null) && potentialPrey.name.Contains(p))
                 {
                     Debug.Log(potentialPrey.name + " is a valid food target for " + predator.name);
                     isValidTarget = true;
@@ -280,66 +292,89 @@ public class GameManager : MonoBehaviour
     // and ensures all values are matched in the organisms list and in the game world
     public void updatePopulations(Dictionary<String, int> reference)
     {
-     foreach (String organism in reference.Keys) {
-        if (organisms.TryGetValue(organism, out List<GameObject> objects)) {
-            int goalPop = reference[organism];
-            if (objects.Count < goalPop) {
-                for (int i = goalPop - objects.Count; i < goalPop; i++) {
-                    GameObject newOrg = Instantiate(objects[0]);
-                    objects.Add(newOrg);
+        foreach (String organism in reference.Keys)
+        {
+            if (organisms.TryGetValue(organism, out List<GameObject> objects))
+            {
+                int goalPop = reference[organism];
+                if (objects.Count < goalPop)
+                {
+                    for (int i = goalPop - objects.Count; i < goalPop; i++)
+                    {
+                        // Get precies prefab from the list
+                        foreach (GameObject organismPrefab in speciesPrefabs)
+                        {
+                            if (organismPrefab.name == organism)
+                            {
+                                // TODO: decide on a location to spawn the organism. Right now they all spawn on top of each other and then spread out
+                                // TBH, I kind of like it
+                                GameObject newOrg = Instantiate(organismPrefab);
+                                objects.Add(newOrg);
+
+                            }
+                            else
+                            {
+                                Debug.Log("SERIOUS CRITICAL ERROR: Cannot find a species prefab for " + organism + " when attempting to increase population!!!");
+                            }
+                        }
+                    }
                 }
-            }
-            else if (objects.Count < goalPop) {
-                for (int i = objects.Count - goalPop; i > goalPop; i--) {
-                    GameObject oldOrg = objects[-1];
-                    objects.Remove(oldOrg);
-                    Destroy(oldOrg);
+                else if (objects.Count < goalPop)
+                {
+                    for (int i = objects.Count - goalPop; i > goalPop; i--)
+                    {
+                        GameObject oldOrg = objects[-1];
+                        objects.Remove(oldOrg);
+                        Destroy(oldOrg);
+                    }
                 }
+                objects.TrimExcess();
             }
-            objects.TrimExcess();    
+
         }
-        
-     }   
     }
 
-//    void increasePopulationofSpecies(GameObject species)
-//    {
-//        // Get count of organisms of species type
-//        int count = 0;
-//        float averageHunger = 0;
-//        foreach (GameObject organism in organisms)
-//        {
-//            if (organism.name.Contains(species.name)) // ensure the organism is of the organism type
-//            {
-//
-//                HungerScript h = organism.GetComponent<HungerScript>();
-//                if (h.hunger > h.starvingThreshold) // ensure the organism is not starving
-//                {
-//                    count = count + 1;
-//                    averageHunger = averageHunger + h.hunger;
-//                }
-//            }
-//        }
+    //    void increasePopulationofSpecies(GameObject species)
+    //    {
+    //        // Get count of organisms of species type
+    //        int count = 0;
+    //        float averageHunger = 0;
+    //        foreach (GameObject organism in organisms)
+    //        {
+    //            if (organism.name.Contains(species.name)) // ensure the organism is of the organism type
+    //            {
+    //
+    //                HungerScript h = organism.GetComponent<HungerScript>();
+    //                if (h.hunger > h.starvingThreshold) // ensure the organism is not starving
+    //                {
+    //                    count = count + 1;
+    //                    averageHunger = averageHunger + h.hunger;
+    //                }
+    //            }
+    //        }
 
-        //  calculate average hunger of population (if parents are starving then offspring should be starving)
-//        averageHunger = averageHunger / count;
+    //  calculate average hunger of population (if parents are starving then offspring should be starving)
+    //        averageHunger = averageHunger / count;
 
-        // spawn correct number of species
-//        int numOfSpawns = Mathf.FloorToInt(count / 2);
-//        for (int i = 0; i < numOfSpawns; i++)
-//        {
-//            //spawn the organism
-//            GameObject newOrganism = Instantiate(species);
-//            organisms.Add(newOrganism);
-//            newOrganism.GetComponent<HungerScript>().hunger = Mathf.FloorToInt(averageHunger); //set new organism hunger to average hunger of parents
-//
-//            print("Organism Spawned!!");
-//        }
-//    }
+    // spawn correct number of species
+    //        int numOfSpawns = Mathf.FloorToInt(count / 2);
+    //        for (int i = 0; i < numOfSpawns; i++)
+    //        {
+    //            //spawn the organism
+    //            GameObject newOrganism = Instantiate(species);
+    //            organisms.Add(newOrganism);
+    //            newOrganism.GetComponent<HungerScript>().hunger = Mathf.FloorToInt(averageHunger); //set new organism hunger to average hunger of parents
+    //
+    //            print("Organism Spawned!!");
+    //        }
+    //    }
 
     public void killOrganism(GameObject creature, String name)
-    {   if (organisms.TryGetValue(name, out List<GameObject> creatures)) {
-            if (creatures.Count > 1 && creatures[1] != null) {
+    {
+        if (organisms.TryGetValue(name, out List<GameObject> creatures))
+        {
+            if (creatures.Count > 1 && creatures[1] != null)
+            {
                 GameObject old = creatures[1];
                 GameObject replacement = Instantiate(old);
                 replacement.SetActive(false);
@@ -350,7 +385,7 @@ public class GameManager : MonoBehaviour
                 replacement.SetActive(true);
                 creatures.Add(replacement);
             }
-    }
+        }
         //organisms.Remove(organim);
         //Destroy(organim);
         //replacement.SetActive(true);
@@ -410,23 +445,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void IncrementInUseEnergy(GameObject plant) {
+    public void IncrementInUseEnergy(GameObject plant)
+    {
         String name = plant.name.Split('(')[0];
-        if (energyLevels.ContainsKey(name)) {
+        if (energyLevels.ContainsKey(name))
+        {
             energyLevels.TryGetValue(name, out energy);
             energy++;
         }
-        else {
+        else
+        {
             energyLevels.Add(name, 1);
         }
     }
 
-    public void DecrementInUseEnergy(GameObject plant) {
+    public void DecrementInUseEnergy(GameObject plant)
+    {
         String name = plant.name.Split('(')[0];
-        if (energyLevels.TryGetValue(name, out energy) && energy > 1) {
+        if (energyLevels.TryGetValue(name, out energy) && energy > 1)
+        {
             energy--;
         }
-        else if (!energyLevels.TryGetValue(name, out energy)) {
+        else if (!energyLevels.TryGetValue(name, out energy))
+        {
             energyLevels.Add(name, 0);
         }
     }

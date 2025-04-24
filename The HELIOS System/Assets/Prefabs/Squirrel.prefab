@@ -105,7 +105,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4095200503854676089}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -143,6 +143,7 @@ MonoBehaviour:
   isHunting: 0
   isAvoidingPredator: 0
   minDistFromPredator: 5
+  isSpriteFlipped: 0
   target: {fileID: 0}
   wanderSpot: {x: 0, y: 0, z: 0}
   potentialPredatorNames:

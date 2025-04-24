@@ -36,9 +36,20 @@ public class MovementSteer : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         detectionCircle = GetComponent<CircleCollider2D>();
         detectionCircle.radius = minDistFromPredator;
-        InvokeRepeating("pickSpot", 0.5f, 5.0f);
         isSpriteFlipped = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        /* 
+            So there is a fascinating problem: 
+            I set the squirrel object to kinematic, so that way we could just ignore all those collisions and they wouldn't just mob up
+            However, they all picked the same spot, eventually becoming the "mega squirrel". 
+            The Internet says that this is because the pick spot is called at the same interval for every prefab, so that takes away the 
+            "randomness" and they sync up. 
+        */
+        float startDelay = 0.5f + UnityEngine.Random.value;
+        float repeatRate = 4.5f + UnityEngine.Random.Range(0f, 1f);
+        InvokeRepeating("pickSpot", startDelay, repeatRate);
+
 
     }
 
