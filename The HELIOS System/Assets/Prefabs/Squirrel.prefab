@@ -178,7 +178,7 @@ MonoBehaviour:
   apex: 0
   predators:
   - Hawk
-  basePop: 22
+  basePop: 1
 --- !u!61 &5275570333162340150
 BoxCollider2D:
   m_ObjectHideFlags: 0

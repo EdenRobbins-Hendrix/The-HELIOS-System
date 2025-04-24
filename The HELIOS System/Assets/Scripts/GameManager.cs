@@ -319,7 +319,7 @@ public class GameManager : MonoBehaviour
                         }
                     }
                 }
-                else if (objects.Count < goalPop)
+                else if (objects.Count > goalPop)
                 {
                     for (int i = objects.Count - goalPop; i > goalPop; i--)
                     {
