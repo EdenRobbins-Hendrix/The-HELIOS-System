@@ -175,18 +175,18 @@ public class MovementSteer : MonoBehaviour
         {
 
 
-            //turn to target
+            // get desired location
             Vector2 desired = (target - transform.position);
+
+            // flip sprite accordingly
             spriteRenderer.flipX = desired.x > 0;
             isSpriteFlipped = spriteRenderer.flipX;
 
 
-            // --- Rotation for up/down "looking" ---
+            // get angle for rotation correct
             float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg;
             if (isSpriteFlipped) // going right? 
             {
-                // angle = -angle;
-                // angle = angle - 180;
                 if (desired.y > 0)
                 {    //going up? 
 
@@ -213,16 +213,19 @@ public class MovementSteer : MonoBehaviour
                 }
 
             }
-            Debug.Log("Angle: " + angle);
+            // Debug.Log("Angle: " + angle);
 
-            // transform.rotation = Quaternion.Euler(0, 0, angle);
+            // Actually do the rotation
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation,
                     q, Time.deltaTime * rotationSpeed);
 
-
-            // --- Move toward the point ---
+            // Move towards desired spot. This can be replaced with rigid body thing if need be
             transform.position = Vector2.MoveTowards(transform.position, desired, speed * Time.deltaTime);
+
+            //     body.AddForce(desired.normalized *
+            //           speed - body.linearVelocity);
+
 
 
             //     float turningOffset = 0.0f;
