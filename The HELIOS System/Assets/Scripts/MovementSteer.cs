@@ -65,6 +65,16 @@ public class MovementSteer : MonoBehaviour
 
                 }
             }
+        if (isHunting)
+        {
+            Debug.Log(name + " collided with " + collision.gameObject.name);
+            GameObject collisionObject = collision.gameObject;
+            if (isHunting)
+            {
+                GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
+            }
+
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -85,7 +95,7 @@ public class MovementSteer : MonoBehaviour
         GameObject closestPredator = null;
         if (predatorsInRange.Count > 0)
         {
-            Debug.Log("Predators are in range");
+            // Debug.Log("Predators are in range");
             float smallestDistance = float.PositiveInfinity;
             GameObject smallest = predatorsInRange.First();
             foreach (GameObject pred in predatorsInRange)
@@ -109,7 +119,7 @@ public class MovementSteer : MonoBehaviour
         // if there is a predator, turn of wandering and hunting and instead avoid predator
         if (closestPredator != null)
         {
-            Debug.Log("Avoiding Predator is set to true");
+            // Debug.Log("Avoiding Predator is set to true");
             isWandering = false;
             isHunting = false;
             isAvoidingPredator = true;
@@ -117,7 +127,7 @@ public class MovementSteer : MonoBehaviour
         else
         {
             isAvoidingPredator = false;
-            Debug.Log(GameManager.Instance);
+            // Debug.Log(GameManager.Instance);
             GameManager.Instance.setOrganismBehavior(gameObject);
         }
 
@@ -143,11 +153,11 @@ public class MovementSteer : MonoBehaviour
         }
         else if (isAvoidingPredator)
         {
-            Debug.Log("Avoiding predator behavior reached");
+            // Debug.Log("Avoiding predator behavior reached");
 
             // // Debug.Log(name + "target is true?");
             Vector2 desired = transform.position - closestPredator.transform.position;
-            Debug.Log("Desired Location: " + desired);
+            // Debug.Log("Desired Location: " + desired);
             // Debug.Log(name + ": " + desired);
             // Debug.Log(name + "normalized: " + desired.normalized);
             // // Debug.Log(name + "Desired: " + desired);
@@ -158,7 +168,7 @@ public class MovementSteer : MonoBehaviour
 
             if (desired.magnitude < minDistFromPredator)
             {
-                Debug.Log("Reached Desired.magnitude thing");
+                // Debug.Log("Reached Desired.magnitude thing");
                 moveToSpot(desired);
             }
 
@@ -167,7 +177,7 @@ public class MovementSteer : MonoBehaviour
     void pickSpot()
     {
 
-        int radius = 20;
+        int radius = 10;
         Vector2 circle = UnityEngine.Random.insideUnitCircle * radius;
         wanderSpot = new Vector2(circle.x, circle.y);
         // Debug.Log("Target spot: " + target);
@@ -272,15 +282,18 @@ public class MovementSteer : MonoBehaviour
     }
 
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(name + " collided with " + collision.gameObject.name);
-        GameObject collisionObject = collision.gameObject;
-        if (isHunting)
-        {
-            GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
-        }
-    }
+    // This doesn't really work now that the game objects are kinematic
+
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     Debug.Log(name + " collided with " + collision.gameObject.name);
+    //     GameObject collisionObject = collision.gameObject;
+    //     if (isHunting)
+    //     {
+    //         GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
+    //     }
+    // }
+
 
 
 }
