@@ -101,6 +101,7 @@ public class MovementSteer : MonoBehaviour
         else
         {
             isAvoidingPredator = false;
+            Debug.Log(GameManager.Instance);
             GameManager.Instance.setOrganismBehavior(gameObject);
         }
 
