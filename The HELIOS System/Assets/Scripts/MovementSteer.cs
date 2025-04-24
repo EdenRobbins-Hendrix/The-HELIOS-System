@@ -16,6 +16,9 @@ public class MovementSteer : MonoBehaviour
     public bool isHunting;
     public bool isAvoidingPredator;
     public float minDistFromPredator;
+    [SerializeField]
+    private bool isSpriteFlipped;
+    private SpriteRenderer spriteRenderer;
     public GameObject target;
     public Vector3 wanderSpot;
 
@@ -34,6 +37,8 @@ public class MovementSteer : MonoBehaviour
         detectionCircle = GetComponent<CircleCollider2D>();
         detectionCircle.radius = minDistFromPredator;
         InvokeRepeating("pickSpot", 0.5f, 5.0f);
+        isSpriteFlipped = false;
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
     }
 
@@ -151,7 +156,7 @@ public class MovementSteer : MonoBehaviour
     void pickSpot()
     {
 
-        int radius = 5;
+        int radius = 20;
         Vector2 circle = UnityEngine.Random.insideUnitCircle * radius;
         wanderSpot = new Vector2(circle.x, circle.y);
         // Debug.Log("Target spot: " + target);
@@ -162,23 +167,92 @@ public class MovementSteer : MonoBehaviour
         if (Vector3.Distance(target, transform.position) < 0.01)
         {
             //Do nothing
-            Debug.Log("Within acceptable distance!");
+            // Debug.Log("Within acceptable distance!");
             Vector2 stop = new Vector2(0, 0);
             body.linearVelocity = stop; //this stops the animal cold
         }
         else
         {
+
+
             //turn to target
-            Vector2 desired = target - transform.position;
-            // Debug.Log("Desired: " + desired);
-            float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
+            Vector2 desired = (target - transform.position);
+            spriteRenderer.flipX = desired.x > 0;
+            isSpriteFlipped = spriteRenderer.flipX;
+
+
+            // --- Rotation for up/down "looking" ---
+            float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg;
+            if (isSpriteFlipped) // going right? 
+            {
+                // angle = -angle;
+                // angle = angle - 180;
+                if (desired.y > 0)
+                {    //going up? 
+
+                }
+                else
+                { //going down? 
+
+                }
+
+
+            }
+            else // going left? 
+            {
+                // angle = angle + 180;
+
+                if (desired.y > 0)
+                { //going up? 
+                    angle = angle - 150;
+
+                }
+                else
+                { //going down? 
+                    angle = angle + 150;
+                }
+
+            }
+            Debug.Log("Angle: " + angle);
+
+            // transform.rotation = Quaternion.Euler(0, 0, angle);
             Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
             transform.rotation = Quaternion.Slerp(transform.rotation,
-                q, Time.deltaTime * rotationSpeed);
+                    q, Time.deltaTime * rotationSpeed);
 
-            //move to point
-            body.AddForce(desired.normalized *
-                  speed - body.linearVelocity);
+
+            // --- Move toward the point ---
+            transform.position = Vector2.MoveTowards(transform.position, desired, speed * Time.deltaTime);
+
+
+            //     float turningOffset = 0.0f;
+            //     bool rotationBoolean = false;
+
+            //     // flip the sprite if appropriate
+            //     if (desired.x < 0)
+            //     {
+            //         Debug.Log("less than");
+            //         isSpriteFlipped = false;
+            //         spriteRenderer.flipX = false;
+            //     }
+            //     else
+            //     {
+            //         isSpriteFlipped = true;
+            //         spriteRenderer.flipX = true;
+            //     }
+
+
+
+            //     // Debug.Log("Desired: " + desired);
+            //     float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
+            // Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+            // transform.rotation = Quaternion.Slerp(transform.rotation,
+            //     q, Time.deltaTime * rotationSpeed);
+
+
+            //     //move to point
+            //     body.AddForce(desired.normalized *
+            //           speed - body.linearVelocity);
         }
 
     }
