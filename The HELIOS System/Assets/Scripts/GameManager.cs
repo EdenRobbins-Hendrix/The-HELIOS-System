@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+    [Header("Level Management System")]
+    public List<OrganismNameGoalPair> organismsGoalsSerialized = new List<OrganismNameGoalPair>();
+
     [Header("Energy System")]
     public TextMeshProUGUI energyUI;
     public int energy;
@@ -37,6 +40,7 @@ public class GameManager : MonoBehaviour
         public List<GameObject> Instance;
     }
 
+    [Serializable]
     public class OrganismNameGoalPair
     {
         public String name;
@@ -57,6 +61,9 @@ public class GameManager : MonoBehaviour
     public int maxPlantsInScene = 50;
     public int maxNutsInScene = 30; // Limit for nuts
 
+
+
+
     // List to track nuts
     private List<GameObject> nuts = new List<GameObject>();
 
@@ -68,12 +75,17 @@ public class GameManager : MonoBehaviour
         {
             organisms[kvp.Name] = kvp.Instance;
         }
+        foreach (var kvp in organismsGoalsSerialized)
+        {
+            goalPopulations[kvp.name] = kvp.goal;
+        }
         // Animal management
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
 
         // Plant management - optional if you want passive growth
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
 
+        // Level Management --checks to see if win condition has been met for correct amount of time
         StartCoroutine("checkPopulationsForWin");
     }
 
@@ -495,7 +507,6 @@ public class GameManager : MonoBehaviour
 
     #region Level Management
 
-    public List<OrganismNameGoalPair> organismNameGoalPairs = new List<OrganismNameGoalPair>();
     Dictionary<String, int> goalPopulations = new Dictionary<string, int>();
 
 

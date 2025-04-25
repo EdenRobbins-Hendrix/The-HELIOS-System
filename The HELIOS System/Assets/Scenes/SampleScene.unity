@@ -1491,6 +1491,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f043e3268329c254ba943cc6db9fb402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  organismsGoalsSerialized:
+  - name: Squirrel
+    goal: 2
+  - name: Hawk
+    goal: 1
+  - name: OakTree
+    goal: 1
   energyUI: {fileID: 767467621}
   energy: 10
   speciesPrefabs:
@@ -1500,8 +1507,7 @@ MonoBehaviour:
   - Name: Squirrel
     Instance:
     - {fileID: 1820819227}
-    - {fileID: 0}
-  - Name: Hawk
+  - Name: OakTree
     Instance:
     - {fileID: 2108049468}
   - Name: Hawk
@@ -12405,7 +12411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6297834520797718933, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.0971
+      value: -4.57
       objectReference: {fileID: 0}
     - target: {fileID: 6297834520797718933, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
       propertyPath: m_LocalPosition.y
