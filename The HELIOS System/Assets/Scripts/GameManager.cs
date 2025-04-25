@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
 
         // Plant management - optional if you want passive growth
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
+
+        StartCoroutine("checkPopulationsForWin");
     }
 
     // Update is called once per frame
