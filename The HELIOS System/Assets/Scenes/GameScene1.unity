@@ -543,7 +543,10 @@ MonoBehaviour:
   firstInteraction: 1
   repeatStartPosition: 0
   npcName: AI Man
-  dialogueAsset: {fileID: 11400000, guid: 12dc1eff2f178b143b550e8ec009e648, type: 2}
+  dialogueAssets:
+  - {fileID: 11400000, guid: 12dc1eff2f178b143b550e8ec009e648, type: 2}
+  - {fileID: 11400000, guid: a3ea3fe1edd67c34f976ef8f20d1b961, type: 2}
+  dialogueAssetsCurrentPosition: 0
 --- !u!1 &518381174
 GameObject:
   m_ObjectHideFlags: 0

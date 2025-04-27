@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCDialogueScript : MonoBehaviour
@@ -6,7 +7,9 @@ public class NPCDialogueScript : MonoBehaviour
     [SerializeField] int repeatStartPosition;
 
     public string npcName;
-    public DialogueAsset dialogueAsset;
+    public List<DialogueAsset> dialogueAssets = new List<DialogueAsset>();
+    [SerializeField]
+    public int dialogueAssetsCurrentPosition;
 
     [HideInInspector]
     public int startPosition
@@ -25,7 +28,18 @@ public class NPCDialogueScript : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        dialogueAssetsCurrentPosition = 0;
+    }
 
+    public void incrementCurrentPosition()
+    {
+        if (dialogueAssetsCurrentPosition < dialogueAssets.Count - 1)
+        {
+            dialogueAssetsCurrentPosition = dialogueAssetsCurrentPosition + 1;
+        }
+    }
 
 
 }

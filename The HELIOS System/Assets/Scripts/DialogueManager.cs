@@ -5,6 +5,22 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public static DialogueManager Instance { get; private set; }
+
     [SerializeField] TextMeshProUGUI dialogueText;
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] GameObject dialoguePanel;
@@ -27,7 +43,7 @@ public class DialogueManager : MonoBehaviour
         {
             inDialog = true;
             NPCDialogueScript dialogueScript = NPC.GetComponent<NPCDialogueScript>();
-            StartDialogue(dialogueScript.dialogueAsset.dialogue, 0, dialogueScript.npcName);
+            StartDialogue(dialogueScript.dialogueAssets[dialogueScript.dialogueAssetsCurrentPosition].dialogue, dialogueScript.startPosition, dialogueScript.npcName);
         }
     }
 
@@ -61,6 +77,7 @@ public class DialogueManager : MonoBehaviour
         OnDialogueEnded?.Invoke();
         dialoguePanel.SetActive(false);
         inDialog = false;
+        NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition();
     }
 
     public void SkipLine()
