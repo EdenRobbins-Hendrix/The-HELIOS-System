@@ -23,7 +23,16 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [Header("Level Management System")]
+
     public List<OrganismNameGoalPair> organismsGoalsSerialized = new List<OrganismNameGoalPair>();
+
+    [Serializable]
+    public class OrganismNameGoalPair
+    {
+        public String name;
+        public int goal;
+    }
+
 
     [Header("Energy System")]
     public TextMeshProUGUI energyUI;
@@ -40,12 +49,6 @@ public class GameManager : MonoBehaviour
         public List<GameObject> Instance;
     }
 
-    [Serializable]
-    public class OrganismNameGoalPair
-    {
-        public String name;
-        public int goal;
-    }
 
     public List<OrganismNameObjectPair> OrganismsSerialized = new List<OrganismNameObjectPair>();
     Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();

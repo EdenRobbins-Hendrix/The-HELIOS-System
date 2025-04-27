@@ -1493,7 +1493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   organismsGoalsSerialized:
   - name: Squirrel
-    goal: 2
+    goal: 5
   - name: Hawk
     goal: 1
   - name: OakTree
