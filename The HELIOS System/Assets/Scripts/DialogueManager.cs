@@ -77,7 +77,6 @@ public class DialogueManager : MonoBehaviour
         OnDialogueEnded?.Invoke();
         dialoguePanel.SetActive(false);
         inDialog = false;
-        NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition(); // this is temporary. more of a test really
     }
 
     public void SkipLine()
@@ -124,6 +123,12 @@ public class DialogueManager : MonoBehaviour
                 yield return null;
             }
         }
+    }
+
+    public void incrementDialogueStage()
+    {
+        NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition();
+
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

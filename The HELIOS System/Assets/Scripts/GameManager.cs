@@ -87,7 +87,43 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // check for player interaction with dialog
+        //Temporary thing: press t to spawn a tree
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GameObject tree = null;
+            foreach (GameObject prefab in speciesPrefabs)
+            {
+                if (prefab.name.Split('(')[0] == "OakTree")
+                {
+                    tree = prefab;
+                }
+            }
+            if (tree == null)
+            {
+                Debug.Log("no prefab found. really important");
+            }
+            else
+            {
+                spawnOrganism(tree);
+            }
+        }
+
+    }
+
+    public void spawnOrganism(GameObject organism)
+    {
+        String name = organism.name.Split('(')[0];
+        if (!organisms.ContainsKey(name))
+        { //if organisms has no key for the organism
+            organisms[name] = new List<GameObject>();
+        }
+
+        // add organism 
+        organisms[organism.name.Split('(')[0]].Add(organism);
+
+        // spawn organism
+        Instantiate(organism, new Vector3(0, 0, 0), Quaternion.identity);
+
     }
 
 

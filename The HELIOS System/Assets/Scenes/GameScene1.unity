@@ -196,10 +196,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f043e3268329c254ba943cc6db9fb402, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  organismsGoalsSerialized: []
   energyUI: {fileID: 0}
   energy: 0
-  speciesPrefabs: []
+  speciesPrefabs:
+  - {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   OrganismsSerialized: []
   plants: []
   plantPrefab: {fileID: 0}
@@ -927,6 +927,52 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1761780117}
   m_CullTransparentMesh: 1
+--- !u!1 &1897747802
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1897747804}
+  - component: {fileID: 1897747803}
+  m_Layer: 0
+  m_Name: StageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1897747803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897747802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e89d87e6f704a4caebd03e67dbc509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStage: 0
+  organismsGoalsSerialized: []
+--- !u!4 &1897747804
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897747802}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.5707922, y: -0.28753078, z: -0.06826258}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1923292997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1040,3 +1086,4 @@ SceneRoots:
   - {fileID: 518381177}
   - {fileID: 122572382}
   - {fileID: 17396881}
+  - {fileID: 1897747804}

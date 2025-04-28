@@ -12,9 +12,23 @@ using UnityEngine;
     I want to really guide the player through the ecosystem, slowly building their knowledge
 
     By seperating this from the game manager, I am also hoping that this will reduce complexity. 
+
+    I have thought about this significantly, and I feel like the only solution to having a narrative that really incorporates the gameplay
+    and will build up slowly is by having a unique stage manager for each level that will carefully manage the stage the player is in. 
+    This allows the narrative and the gameplay to play off of each other. 
+    EX: 
+        AI explains about plants and their role with the sun, tells player to plant a plant
+        Player plants a plant
+        AI can then explain how plants are the foundation of an ecosystem and introduce an herbivore to eat the plant. 
+        Player can observe the new interaction
 */
+
+
+
 public class StageManager : MonoBehaviour
 {
+
+    public int currentStage;
 
     [Serializable]
     public class OrganismNameGoalPair
@@ -22,13 +36,13 @@ public class StageManager : MonoBehaviour
         public String name;
         public int goal;
     }
-    public GameObject NPC;
 
     public List<OrganismNameGoalPair> organismsGoalsSerialized = new List<OrganismNameGoalPair>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        currentStage = 0;
         foreach (var kvp in organismsGoalsSerialized)
         {
             goalPopulations[kvp.name] = kvp.goal;
@@ -40,7 +54,29 @@ public class StageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        StartCoroutine("checkPopulationsForWin");
+        if (currentStage == 0)
+        {
+            // wait until a plant is spawned
+
+            // if a plant is spawned, then advance the stage
+            if (GameManager.Instance.organisms.ContainsKey("OakTree") && GameManager.Instance.organisms["OakTree"].Count > 0)
+            {
+                Debug.Log("Advancing Stage");
+                advanceStage();
+            }
+        }
+        else if (currentStage == 1)
+        {
+            Debug.Log("We are in stage 2");
+            // wait until npc dialog has finished
+
+            // spawn an herbivore
+
+            // advanceStage();
+        }
+
+        // I will have to work out appropriate levels to check for when the previous stage is working
+        // StartCoroutine("checkPopulationsForWin");
 
 
     }
@@ -117,7 +153,17 @@ public class StageManager : MonoBehaviour
 
     private void advanceStage()
     {
-        NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition();
+        // increment the current stage
+        currentStage = currentStage + 1;
+
+        // advance npc dialog to next set of dialog
+        DialogueManager.Instance.incrementDialogueStage();
+
+        // Go ahead and start the dialog
+        DialogueManager.Instance.Interact();
+
+        // advance goals
+
     }
 
 }
