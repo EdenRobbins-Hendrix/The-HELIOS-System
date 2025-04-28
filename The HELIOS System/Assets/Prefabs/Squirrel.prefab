@@ -105,7 +105,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4095200503854676089}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -142,7 +142,8 @@ MonoBehaviour:
   isWandering: 0
   isHunting: 0
   isAvoidingPredator: 0
-  minDistFromPredator: 5
+  minDistFromPredator: 0.001
+  isSpriteFlipped: 0
   target: {fileID: 0}
   wanderSpot: {x: 0, y: 0, z: 0}
   potentialPredatorNames:
@@ -171,12 +172,13 @@ MonoBehaviour:
   hunger: 10
   hungerDeclineRate: 1
   feedThreshold: 5
+  starvingThreshold: 0
   prey:
-  - Oak
+  - OakTree
   apex: 0
   predators:
   - Hawk
-  basePop: 0
+  basePop: 1
 --- !u!61 &5275570333162340150
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -207,7 +209,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
@@ -221,7 +223,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.75, y: 0.75}
   m_EdgeRadius: 0
 --- !u!58 &8047635017179862507
 CircleCollider2D:

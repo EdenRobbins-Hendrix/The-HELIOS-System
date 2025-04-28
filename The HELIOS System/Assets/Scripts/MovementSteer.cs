@@ -16,6 +16,10 @@ public class MovementSteer : MonoBehaviour
     public bool isHunting;
     public bool isAvoidingPredator;
     public float minDistFromPredator;
+    public bool shouldStop;
+    [SerializeField]
+    private bool isSpriteFlipped;
+    private SpriteRenderer spriteRenderer;
     public GameObject target;
     public Vector3 wanderSpot;
 
@@ -33,7 +37,21 @@ public class MovementSteer : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
         detectionCircle = GetComponent<CircleCollider2D>();
         detectionCircle.radius = minDistFromPredator;
-        InvokeRepeating("pickSpot", 0.5f, 5.0f);
+        isSpriteFlipped = false;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        shouldStop = false;
+
+        /* 
+            So there is a fascinating problem: 
+            I set the squirrel object to kinematic, so that way we could just ignore all those collisions and they wouldn't just mob up
+            However, they all picked the same spot, eventually becoming the "mega squirrel". 
+            The Internet says that this is because the pick spot is called at the same interval for every prefab, so that takes away the 
+            "randomness" and they sync up. 
+        */
+        float startDelay = 0.5f + UnityEngine.Random.value;
+        float repeatRate = 4.5f + UnityEngine.Random.Range(0f, 1f);
+        InvokeRepeating("pickSpot", startDelay, repeatRate);
+
 
     }
 
@@ -49,6 +67,16 @@ public class MovementSteer : MonoBehaviour
 
                 }
             }
+        if (isHunting)
+        {
+            Debug.Log(name + " collided with " + collision.gameObject.name);
+            GameObject collisionObject = collision.gameObject;
+            if (isHunting)
+            {
+                GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
+            }
+
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -69,7 +97,7 @@ public class MovementSteer : MonoBehaviour
         GameObject closestPredator = null;
         if (predatorsInRange.Count > 0)
         {
-            Debug.Log("Predators are in range");
+            // Debug.Log("Predators are in range");
             float smallestDistance = float.PositiveInfinity;
             GameObject smallest = predatorsInRange.First();
             foreach (GameObject pred in predatorsInRange)
@@ -93,7 +121,7 @@ public class MovementSteer : MonoBehaviour
         // if there is a predator, turn of wandering and hunting and instead avoid predator
         if (closestPredator != null)
         {
-            Debug.Log("Avoiding Predator is set to true");
+            // Debug.Log("Avoiding Predator is set to true");
             isWandering = false;
             isHunting = false;
             isAvoidingPredator = true;
@@ -101,6 +129,7 @@ public class MovementSteer : MonoBehaviour
         else
         {
             isAvoidingPredator = false;
+            // Debug.Log(GameManager.Instance);
             GameManager.Instance.setOrganismBehavior(gameObject);
         }
 
@@ -126,11 +155,11 @@ public class MovementSteer : MonoBehaviour
         }
         else if (isAvoidingPredator)
         {
-            Debug.Log("Avoiding predator behavior reached");
+            // Debug.Log("Avoiding predator behavior reached");
 
             // // Debug.Log(name + "target is true?");
             Vector2 desired = transform.position - closestPredator.transform.position;
-            Debug.Log("Desired Location: " + desired);
+            // Debug.Log("Desired Location: " + desired);
             // Debug.Log(name + ": " + desired);
             // Debug.Log(name + "normalized: " + desired.normalized);
             // // Debug.Log(name + "Desired: " + desired);
@@ -141,7 +170,7 @@ public class MovementSteer : MonoBehaviour
 
             if (desired.magnitude < minDistFromPredator)
             {
-                Debug.Log("Reached Desired.magnitude thing");
+                // Debug.Log("Reached Desired.magnitude thing");
                 moveToSpot(desired);
             }
 
@@ -150,7 +179,7 @@ public class MovementSteer : MonoBehaviour
     void pickSpot()
     {
 
-        int radius = 5;
+        int radius = 10;
         Vector2 circle = UnityEngine.Random.insideUnitCircle * radius;
         wanderSpot = new Vector2(circle.x, circle.y);
         // Debug.Log("Target spot: " + target);
@@ -158,40 +187,136 @@ public class MovementSteer : MonoBehaviour
     void moveToSpot(Vector3 target)
     {
 
-        if (Vector3.Distance(target, transform.position) < 0.01)
+        if (Vector3.Distance(target, transform.position) < 1)
         {
             //Do nothing
             Debug.Log("Within acceptable distance!");
             Vector2 stop = new Vector2(0, 0);
-            body.linearVelocity = stop; //this stops the animal cold
+            // body.linearVelocity = stop; //this stops the animal cold
+            shouldStop = true;
+
         }
         else
         {
-            //turn to target
-            Vector2 desired = target - transform.position;
-            // Debug.Log("Desired: " + desired);
-            float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
-            Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = Quaternion.Slerp(transform.rotation,
+            shouldStop = false;
+        }
+
+
+
+
+        // get desired location
+        Vector2 desired = target;
+
+        // flip sprite accordingly
+        spriteRenderer.flipX = desired.x > 0;
+        isSpriteFlipped = spriteRenderer.flipX;
+
+
+        // get angle for rotation correct
+        float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg;
+        if (isSpriteFlipped) // going right? 
+        {
+            if (desired.y > 0)
+            {    //going up? 
+
+            }
+            else
+            { //going down? 
+
+            }
+
+
+        }
+        else // going left? 
+        {
+            // angle = angle + 180;
+
+            if (desired.y > 0)
+            { //going up? 
+                angle = angle - 150;
+
+            }
+            else
+            { //going down? 
+                angle = angle + 150;
+            }
+
+        }
+        // Debug.Log("Angle: " + angle);
+
+        // Actually do the rotation
+        Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation,
                 q, Time.deltaTime * rotationSpeed);
 
-            //move to point
-            body.AddForce(desired.normalized *
-                  speed - body.linearVelocity);
-        }
-
-    }
 
 
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Debug.Log(name + " collided with " + collision.gameObject.name);
-        GameObject collisionObject = collision.gameObject;
-        if (isHunting)
+
+
+        // Move towards desired spot. This can be replaced with rigid body thing if need be
+
+        if (!shouldStop) // if the sprite has yet reached its desired position
         {
-            GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
+
+            transform.position = Vector2.MoveTowards(transform.position, desired, speed * Time.deltaTime);
+            //         body.AddForce(desired.normalized *
+            //   speed - body.linearVelocity);
+
+
         }
+        else
+        {
+            transform.position = transform.position;
+        }
+
+
+
+
+        //     float turningOffset = 0.0f;
+        //     bool rotationBoolean = false;
+
+        //     // flip the sprite if appropriate
+        //     if (desired.x < 0)
+        //     {
+        //         Debug.Log("less than");
+        //         isSpriteFlipped = false;
+        //         spriteRenderer.flipX = false;
+        //     }
+        //     else
+        //     {
+        //         isSpriteFlipped = true;
+        //         spriteRenderer.flipX = true;
+        //     }
+
+
+
+        //     // Debug.Log("Desired: " + desired);
+        //     float angle = Mathf.Atan2(desired.y, desired.x) * Mathf.Rad2Deg - rotationOffset;
+        // Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        // transform.rotation = Quaternion.Slerp(transform.rotation,
+        //     q, Time.deltaTime * rotationSpeed);
+
+
+        //     //move to point
+        //     body.AddForce(desired.normalized *
+        //           speed - body.linearVelocity);
+
+
     }
+
+
+    // This doesn't really work now that the game objects are kinematic
+
+    // void OnCollisionEnter2D(Collision2D collision)
+    // {
+    //     Debug.Log(name + " collided with " + collision.gameObject.name);
+    //     GameObject collisionObject = collision.gameObject;
+    //     if (isHunting)
+    //     {
+    //         GameManager.Instance.attemptFeed(gameObject, collisionObject, 5.0f);
+    //     }
+    // }
+
 
 
 }

@@ -24,7 +24,8 @@ public class HungerScript : MonoBehaviour
         {
             apex = true;
         }
-        else {
+        else
+        {
             apex = false;
         }
     }
@@ -35,7 +36,8 @@ public class HungerScript : MonoBehaviour
 
     }
 
-    public String getName() {
+    public String getName()
+    {
         return reference;
     }
 
