@@ -546,6 +546,7 @@ MonoBehaviour:
   dialogueAssets:
   - {fileID: 11400000, guid: 12dc1eff2f178b143b550e8ec009e648, type: 2}
   - {fileID: 11400000, guid: a3ea3fe1edd67c34f976ef8f20d1b961, type: 2}
+  - {fileID: 11400000, guid: fa5c96810dd6fb446aaef5c9018a604b, type: 2}
   dialogueAssetsCurrentPosition: 0
 --- !u!1 &518381174
 GameObject:

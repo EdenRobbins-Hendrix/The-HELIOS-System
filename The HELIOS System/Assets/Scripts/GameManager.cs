@@ -26,14 +26,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Level Management System")]
 
-    public List<OrganismNameGoalPair> organismsGoalsSerialized = new List<OrganismNameGoalPair>();
 
-    [Serializable]
-    public class OrganismNameGoalPair
-    {
-        public String name;
-        public int goal;
-    }
 
 
     [Header("Energy System")]
@@ -53,7 +46,8 @@ public class GameManager : MonoBehaviour
 
 
     public List<OrganismNameObjectPair> OrganismsSerialized = new List<OrganismNameObjectPair>();
-    Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();
+    public Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>(); // I made this public so the stageManager can see it
+
 
 
     [Header("Plant Management")]
@@ -80,10 +74,6 @@ public class GameManager : MonoBehaviour
         {
             organisms[kvp.Name] = kvp.Instance;
         }
-        foreach (var kvp in organismsGoalsSerialized)
-        {
-            goalPopulations[kvp.name] = kvp.goal;
-        }
         // Animal management
         InvokeRepeating("decrementHungerInAllOrganisms", 5.0f, 5.0f);
 
@@ -91,14 +81,15 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
 
         // Level Management --checks to see if win condition has been met for correct amount of time
-        StartCoroutine("checkPopulationsForWin");
     }
+
 
     // Update is called once per frame
     void Update()
     {
         // check for player interaction with dialog
     }
+
 
     #region Animal Management
 
@@ -509,84 +500,6 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
-
-    #region Level Management
-
-    Dictionary<String, int> goalPopulations = new Dictionary<string, int>();
-
-
-    // Compare population to goal population. Return true if acceptable difference. Return false otherwise. 
-    bool comparePopulationToGoalPopulation(int acceptableDifference, string speciesName)
-    {
-        int goal = goalPopulations[speciesName];
-        int currentPopulation = organisms[speciesName].Count;
-
-        int difference = Math.Abs(goal - currentPopulation);
-        if (difference < acceptableDifference)
-        {
-            return true;
-        }
-        else
-        {
-            Debug.Log("Comparison Failed. " + speciesName + " has a population of " + currentPopulation + " but the goal is " + goal);
-
-            return false;
-
-        }
-    }
-
-    // Compare all populations to goal populations. Return true if all species are in acceptable range. Return false otherwise. 
-    bool compareAllPopulations()
-    {
-        List<string> organismNames = new List<string>(organisms.Keys); // get all organism names in species list
-        foreach (String species in organismNames)
-        {
-            // Temporary solution. Acceptable difference is 10% of goal population
-            int acceptableDifference = (int)Math.Ceiling(goalPopulations[species] * .1);
-            bool a = comparePopulationToGoalPopulation(acceptableDifference, species);
-            if (!a)
-            {
-                return false; // This funciton will return false if just one goal population is off
-            }
-        }
-        return true; // We made it to the end, all populations are within acceptable bounds
-    }
-
-    // My plan: Use a coroutine to compare all populations, wait 2 seconds, repeat. Repeat this for 1 minute or something then if the condition is still true, I can end it and return true
-    IEnumerator checkPopulationsForWin()
-    {
-
-        int iterations = 0;
-        while (iterations < 20)
-        {
-            bool withinAllGoalPopulations = compareAllPopulations();
-
-            if (withinAllGoalPopulations)
-            {
-                iterations = iterations + 1;
-            }
-            else
-            {
-                iterations = 0;
-            }
-            yield return new WaitForSeconds(2.0f);
-            Debug.Log("Populations checked");
-
-        }
-
-        // Win Code
-        Debug.Log("Win achieved!!");
-
-
-
-        yield return null;
-    }
-
-
-    #endregion
-
-
-
 
 
 }

@@ -10,9 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5cb8e3199cf35b4b9e411fe37902f6e, type: 3}
-  m_Name: DialogueAsset2
+  m_Name: EndingDialogueAsset
   m_EditorClassIdentifier: 
   dialogue:
-  - This is the second List
-  - This is the second item in the second list
-  - This is the third item in the second list
+  - Congratulations, you beat the level!

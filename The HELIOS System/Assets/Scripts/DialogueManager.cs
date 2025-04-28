@@ -77,7 +77,7 @@ public class DialogueManager : MonoBehaviour
         OnDialogueEnded?.Invoke();
         dialoguePanel.SetActive(false);
         inDialog = false;
-        NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition();
+        NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition(); // this is temporary. more of a test really
     }
 
     public void SkipLine()
