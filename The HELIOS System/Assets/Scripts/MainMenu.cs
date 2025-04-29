@@ -7,10 +7,10 @@ public class MainMenu : MonoBehaviour
     // [SerializeField] private AudioClip buttonClickSound;
 
     // public SoundMixerManager soundMixerManager;
-    
-    public void PlayGame() 
+
+    public void PlayGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("LevelSelect");
     }
 
     // public void ButtonPressed()
