@@ -363,6 +363,7 @@ public class GameManager : MonoBehaviour
             if (organisms.TryGetValue(organism, out List<GameObject> objects))
             {
                 int goalPop = reference[organism];
+                Debug.Log("GoalPop for " + organism + ": " + goalPop);
                 if (objects.Count < goalPop)
                 {
                     for (int i = goalPop - objects.Count; i < goalPop; i++)
