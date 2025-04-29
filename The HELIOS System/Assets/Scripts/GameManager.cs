@@ -104,13 +104,15 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                spawnOrganism(tree);
+                Vector3 loc = new Vector3(0, -3.75f, 0);
+                spawnOrganism(tree, loc);
+
             }
         }
 
     }
 
-    public void spawnOrganism(GameObject organism)
+    public void spawnOrganism(GameObject organism, Vector3 location)
     {
         String name = organism.name.Split('(')[0];
         if (!organisms.ContainsKey(name))
@@ -122,7 +124,12 @@ public class GameManager : MonoBehaviour
         organisms[organism.name.Split('(')[0]].Add(organism);
 
         // spawn organism
-        Instantiate(organism, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject o = Instantiate(organism, location, Quaternion.identity);
+
+        if (organism.name.Contains("Tree"))
+        {
+            plants.Add(o);
+        }
 
     }
 
@@ -148,13 +155,17 @@ public class GameManager : MonoBehaviour
 
     void decrementHungerInAllOrganisms()
     {
+        Debug.Log("Called");
         foreach (List<GameObject> organismType in organisms.Values)
         {
             foreach (GameObject organism in organismType)
             {
+                Debug.Log("Organism name for hunger: " + organism.name);
                 if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
                 {
+                    Debug.Log("Reached Here");
                     float rate = s.hungerDeclineRate;
+                    Debug.Log(rate);
                     s.changeHunger(-rate);
                     setOrganismBehavior(organism);
                 }

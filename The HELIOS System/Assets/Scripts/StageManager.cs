@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 /*
@@ -43,13 +44,14 @@ public class StageManager : MonoBehaviour
     void Start()
     {
         currentStage = 0;
+        hasSpawnedSquirrel = false;
         foreach (var kvp in organismsGoalsSerialized)
         {
             goalPopulations[kvp.name] = kvp.goal;
         }
 
     }
-
+    public bool hasSpawnedSquirrel;
 
     // Update is called once per frame
     void Update()
@@ -68,17 +70,54 @@ public class StageManager : MonoBehaviour
         else if (currentStage == 1)
         {
             Debug.Log("We are in stage 2");
-            // wait until npc dialog has finished
+            // wait until npc dialog has finished and spawn an herbivore
+            if (!DialogueManager.Instance.inDialog && !hasSpawnedSquirrel)
+            {
+                // spawn a squirrel
 
-            // spawn an herbivore
+                // get the prefab
+                GameObject squirrelPrefab = null;
+                foreach (GameObject prefab in GameManager.Instance.speciesPrefabs)
+                {
+                    if (prefab.name == "Squirrel")
+                    {
+                        squirrelPrefab = prefab;
+                    }
+                }
+                if (squirrelPrefab == null)
+                {
+                    Debug.Log("No prefab found. Kinda important");
+                    return;
+                }
 
-            // advanceStage();
+                //spawn the squirrel
+                GameManager.Instance.spawnOrganism(squirrelPrefab, new Vector3(1, 1, 0));
+
+                // advance the stage
+                advanceStage();
+
+            }
+
+
+        }
+
+        else if (currentStage == 2)
+        {
+            if (!DialogueManager.Instance.inDialog)
+            {
+                // StartCoroutine(endGameInXSeconds(20));
+            }
         }
 
         // I will have to work out appropriate levels to check for when the previous stage is working
         // StartCoroutine("checkPopulationsForWin");
 
 
+    }
+
+    IEnumerator endGameInXSeconds(float duration)
+    {
+        yield return new WaitForSeconds(duration);
     }
 
     Dictionary<String, int> goalPopulations = new Dictionary<string, int>();
@@ -164,6 +203,14 @@ public class StageManager : MonoBehaviour
 
         // advance goals
 
+    }
+
+    private void endLevel()
+    {
+        //play some kind of win music / celebration. IDK, just some user feedback
+
+        // when it ends, return to the level select screen
+        SceneManager.LoadScene("LevelSelect");
     }
 
 }

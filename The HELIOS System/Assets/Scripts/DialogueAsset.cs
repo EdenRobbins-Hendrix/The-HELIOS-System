@@ -5,5 +5,6 @@ public class DialogueAsset : ScriptableObject
 {
     [TextArea]
     public string[] dialogue;
+    public int repeatStartPosition;
 
 }
