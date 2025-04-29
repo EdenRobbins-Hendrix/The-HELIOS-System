@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
@@ -21,6 +22,13 @@ public class GameManager : MonoBehaviour
 
     public static GameManager Instance { get; private set; }
 
+
+
+    [Header("Level Management System")]
+
+
+
+
     [Header("Energy System")]
     public TextMeshProUGUI energyUI;
     public int energy;
@@ -36,8 +44,10 @@ public class GameManager : MonoBehaviour
         public List<GameObject> Instance;
     }
 
+
     public List<OrganismNameObjectPair> OrganismsSerialized = new List<OrganismNameObjectPair>();
-    Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>();
+    public Dictionary<String, List<GameObject>> organisms = new Dictionary<String, List<GameObject>>(); // I made this public so the stageManager can see it
+
 
 
     [Header("Plant Management")]
@@ -49,6 +59,9 @@ public class GameManager : MonoBehaviour
     public float nutSpreadDistance = 1.5f; // Closer than tree spread
     public int maxPlantsInScene = 50;
     public int maxNutsInScene = 30; // Limit for nuts
+
+
+
 
     // List to track nuts
     private List<GameObject> nuts = new List<GameObject>();
@@ -66,13 +79,53 @@ public class GameManager : MonoBehaviour
 
         // Plant management - optional if you want passive growth
         InvokeRepeating("CheckPlantGrowth", 8.0f, 8.0f);
+
+        // Level Management --checks to see if win condition has been met for correct amount of time
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        // Empty update method
+        //Temporary thing: press t to spawn a tree
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GameObject tree = null;
+            foreach (GameObject prefab in speciesPrefabs)
+            {
+                if (prefab.name.Split('(')[0] == "OakTree")
+                {
+                    tree = prefab;
+                }
+            }
+            if (tree == null)
+            {
+                Debug.Log("no prefab found. really important");
+            }
+            else
+            {
+                spawnOrganism(tree);
+            }
+        }
+
     }
+
+    public void spawnOrganism(GameObject organism)
+    {
+        String name = organism.name.Split('(')[0];
+        if (!organisms.ContainsKey(name))
+        { //if organisms has no key for the organism
+            organisms[name] = new List<GameObject>();
+        }
+
+        // add organism 
+        organisms[organism.name.Split('(')[0]].Add(organism);
+
+        // spawn organism
+        Instantiate(organism, new Vector3(0, 0, 0), Quaternion.identity);
+
+    }
+
 
     #region Animal Management
 
@@ -483,4 +536,6 @@ public class GameManager : MonoBehaviour
     }
 
     #endregion
+
+
 }
