@@ -15,4 +15,5 @@ MonoBehaviour:
   dialogue:
   - With another food source, the squirrel population should start increasing rapidly!
   - This might be something handy to write down in your journal!
+  - PS, this level is incomplete so it will never end
   repeatStartPosition: 1
