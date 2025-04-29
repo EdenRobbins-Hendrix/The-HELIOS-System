@@ -112,21 +112,22 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void spawnOrganism(GameObject organism, Vector3 location)
+    public void spawnOrganism(GameObject prefab, Vector3 location)
     {
-        String name = organism.name.Split('(')[0];
+        String name = prefab.name.Split('(')[0];
         if (!organisms.ContainsKey(name))
         { //if organisms has no key for the organism
             organisms[name] = new List<GameObject>();
         }
 
-        // add organism 
-        organisms[organism.name.Split('(')[0]].Add(organism);
-
         // spawn organism
-        GameObject o = Instantiate(organism, location, Quaternion.identity);
+        GameObject o = Instantiate(prefab, location, Quaternion.identity);
 
-        if (organism.name.Contains("Tree"))
+        // add organism 
+        organisms[prefab.name.Split('(')[0]].Add(o);
+
+
+        if (prefab.name.Contains("Tree"))
         {
             plants.Add(o);
         }
@@ -165,8 +166,9 @@ public class GameManager : MonoBehaviour
                 {
                     Debug.Log("Reached Here");
                     float rate = s.hungerDeclineRate;
-                    Debug.Log(rate);
+                    Debug.Log(-rate);
                     s.changeHunger(-rate);
+                    Debug.Log("Hunger: " + s.getHunger());
                     setOrganismBehavior(organism);
                 }
             }
@@ -177,7 +179,7 @@ public class GameManager : MonoBehaviour
     {
         HungerScript h = organism.GetComponent<HungerScript>();
         MovementSteer m = organism.GetComponent<MovementSteer>();
-        if (h.hunger > h.feedThreshold)
+        if (h.getHunger() > h.feedThreshold)
         {
             m.isHunting = false;
             m.isWandering = true;

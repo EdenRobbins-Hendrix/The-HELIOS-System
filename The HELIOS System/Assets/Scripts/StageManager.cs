@@ -45,6 +45,7 @@ public class StageManager : MonoBehaviour
     {
         currentStage = 0;
         hasSpawnedSquirrel = false;
+        countdownStarted = false;
         foreach (var kvp in organismsGoalsSerialized)
         {
             goalPopulations[kvp.name] = kvp.goal;
@@ -52,6 +53,7 @@ public class StageManager : MonoBehaviour
 
     }
     public bool hasSpawnedSquirrel;
+    public bool countdownStarted;
 
     // Update is called once per frame
     void Update()
@@ -103,9 +105,11 @@ public class StageManager : MonoBehaviour
 
         else if (currentStage == 2)
         {
-            if (!DialogueManager.Instance.inDialog)
+            if (!DialogueManager.Instance.inDialog && !countdownStarted)
             {
-                // StartCoroutine(endGameInXSeconds(20));
+                countdownStarted = true;
+                Debug.Log("Countdown started");
+                StartCoroutine(endGameInXSeconds(30));
             }
         }
 
@@ -118,6 +122,8 @@ public class StageManager : MonoBehaviour
     IEnumerator endGameInXSeconds(float duration)
     {
         yield return new WaitForSeconds(duration);
+
+        endLevel();
     }
 
     Dictionary<String, int> goalPopulations = new Dictionary<string, int>();
