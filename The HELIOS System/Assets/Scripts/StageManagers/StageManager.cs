@@ -51,6 +51,8 @@ public class StageManager : MonoBehaviour
             goalPopulations[kvp.name] = kvp.goal;
         }
 
+        DialogueManager.Instance.Interact();
+
     }
     public bool hasSpawnedSquirrel;
     public bool countdownStarted;
