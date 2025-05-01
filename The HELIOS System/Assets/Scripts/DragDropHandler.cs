@@ -21,7 +21,20 @@ public class DragDropHandler : MonoBehaviour
     private GameObject placementIndicator = null;
     private Camera mainCamera;
     private bool canPlaceObject = false;
-    private OrganismPanel.OrganismData currentDraggedData = null;
+    
+    // Data class to store organism data during dragging
+    [System.Serializable]
+    public class DraggedOrganismData
+    {
+        public string name;
+        public Sprite icon;
+        public GameObject prefab;
+        public int energyCost;
+        public string description;
+        public bool isPlant;
+    }
+    
+    private DraggedOrganismData currentDraggedData = null;
     
     private void Start()
     {
@@ -50,8 +63,8 @@ public class DragDropHandler : MonoBehaviour
         }
     }
     
-    // Called by OrganismPanel when starting to drag an organism
-    public void StartDragging(GameObject dragObject, OrganismPanel.OrganismData data)
+    // Called by HologramOrganismPanel when starting to drag an organism
+    public void StartDragging(GameObject dragObject, DraggedOrganismData data)
     {
         // Store reference to the dragged object and its data
         currentDraggedObject = dragObject;
@@ -89,8 +102,6 @@ public class DragDropHandler : MonoBehaviour
             
             // Update indicator color based on placement validity
             UpdatePlacementIndicatorColor(canPlaceObject);
-            
-            // Only show the indicator, don't change the dragged object appearance
         }
     }
     
@@ -190,7 +201,7 @@ public class DragDropHandler : MonoBehaviour
     {
         if (placementIndicator == null) return;
         
-        // Only update the color of the placement indicator
+        // Update the color based on placement validity
         SpriteRenderer renderer = placementIndicator.GetComponent<SpriteRenderer>();
         if (renderer != null)
         {

@@ -5,12 +5,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class OrganismPanel : MonoBehaviour
+public class HologramOrganismPanel : MonoBehaviour
 {
     [Header("Panel Settings")]
     [SerializeField] private RectTransform panelRectTransform;
-    [SerializeField] private float collapsedPosX = 800f; // Set to match your window width
-    [SerializeField] private float expandedPosX = 600f;  // Set to window width minus panel width
+    [SerializeField] private float collapsedPosX = 800f; // Match your window width
+    [SerializeField] private float expandedPosX = 600f;  // Window width minus panel width
     [SerializeField] private float animationSpeed = 5f;
     
     [Header("Toggle Buttons")]
@@ -24,6 +24,11 @@ public class OrganismPanel : MonoBehaviour
     [SerializeField] private float itemSpacing = 10f;
     [SerializeField] private float itemSize = 80f;
     
+    [Header("Hologram Effects")]
+    [SerializeField] private AudioClip openSound;
+    [SerializeField] private AudioClip closeSound;
+    [SerializeField] private AudioClip buttonClickSound;
+    
     [Header("Organisms")]
     [SerializeField] private List<OrganismData> availableOrganisms = new List<OrganismData>();
     
@@ -32,6 +37,7 @@ public class OrganismPanel : MonoBehaviour
     private GameManager gameManager;
     private EnergyManager energyManager;
     private DragDropHandler dragDropHandler;
+    private AudioSource audioSource;
     
     [System.Serializable]
     public class OrganismData
@@ -49,6 +55,8 @@ public class OrganismPanel : MonoBehaviour
         if (panelRectTransform == null)
             panelRectTransform = GetComponent<RectTransform>();
             
+        audioSource = gameObject.AddComponent<AudioSource>();
+        
         gameManager = GameManager.Instance;
         energyManager = FindObjectOfType<EnergyManager>();
         dragDropHandler = FindObjectOfType<DragDropHandler>();
@@ -99,6 +107,14 @@ public class OrganismPanel : MonoBehaviour
         isExpanded = true;
         targetPosition = new Vector2(expandedPosX, panelRectTransform.anchoredPosition.y);
         UpdateButtonVisibility();
+        
+        // Play sound effect
+        if (openSound != null && audioSource != null)
+        {
+            audioSource.clip = openSound;
+            audioSource.Play();
+        }
+        
         Debug.Log("Panel expanded");
     }
     
@@ -107,6 +123,14 @@ public class OrganismPanel : MonoBehaviour
         isExpanded = false;
         targetPosition = new Vector2(collapsedPosX, panelRectTransform.anchoredPosition.y);
         UpdateButtonVisibility();
+        
+        // Play sound effect
+        if (closeSound != null && audioSource != null)
+        {
+            audioSource.clip = closeSound;
+            audioSource.Play();
+        }
+        
         Debug.Log("Panel collapsed");
     }
     
@@ -148,12 +172,18 @@ public class OrganismPanel : MonoBehaviour
             
             // Set up the button
             Button button = buttonObj.GetComponent<Button>();
-            Image buttonImage = buttonObj.GetComponent<Image>();
             
-            // Set icon
-            if (buttonImage != null && data.icon != null)
+            // Set the icon image (assuming the button has an IconImage child)
+            Transform iconTransform = buttonObj.transform.Find("IconImage");
+            if (iconTransform != null && data.icon != null)
             {
-                buttonImage.sprite = data.icon;
+                Image iconImage = iconTransform.GetComponent<Image>();
+                if (iconImage != null)
+                {
+                    iconImage.sprite = data.icon;
+                    iconImage.color = Color.white;
+                    iconImage.preserveAspect = true;
+                }
             }
             
             // Set name and cost in child TextMeshPro components
@@ -170,7 +200,7 @@ public class OrganismPanel : MonoBehaviour
             }
             
             // Store the organism data with the button
-            OrganismButtonData buttonData = buttonObj.AddComponent<OrganismButtonData>();
+            HologramButtonData buttonData = buttonObj.AddComponent<HologramButtonData>();
             buttonData.data = data;
             
             // Add drag functionality
@@ -180,7 +210,7 @@ public class OrganismPanel : MonoBehaviour
             EventTrigger.Entry pointerDown = new EventTrigger.Entry();
             pointerDown.eventID = EventTriggerType.PointerDown;
             
-            int index = i; // Capture for lambda
+            OrganismData capturedData = data; // Capture for lambda
             pointerDown.callback.AddListener((eventData) => { 
                 OnOrganismButtonDown(buttonData); 
             });
@@ -202,9 +232,15 @@ public class OrganismPanel : MonoBehaviour
         }
     }
     
-    private void OnOrganismButtonDown(OrganismButtonData buttonData)
+    private void OnOrganismButtonDown(HologramButtonData buttonData)
     {
         Debug.Log("Button clicked: " + buttonData.data.name);
+        
+        // Play button click sound
+        if (buttonClickSound != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(buttonClickSound);
+        }
         
         // Check if player has enough energy
         if (energyManager != null && gameManager != null)
@@ -232,20 +268,30 @@ public class OrganismPanel : MonoBehaviour
         RectTransform rectTransform = previewObj.AddComponent<RectTransform>();
         rectTransform.sizeDelta = new Vector2(itemSize, itemSize);
         
+        // Add Image for sprite
         Image image = previewObj.AddComponent<Image>();
         image.sprite = data.icon;
         image.raycastTarget = false;
-        
-        // Keep the original appearance without tinting
-        // No transparency or color changes applied
+        image.preserveAspect = true;
         
         // Position at mouse
         previewObj.transform.position = Input.mousePosition;
         
+        // Create dragged data for DragDropHandler
+        DragDropHandler.DraggedOrganismData dragData = new DragDropHandler.DraggedOrganismData
+        {
+            name = data.name,
+            icon = data.icon,
+            prefab = data.prefab,
+            energyCost = data.energyCost,
+            description = data.description,
+            isPlant = data.isPlant
+        };
+        
         // Tell the DragDropHandler about this dragged object
         if (dragDropHandler != null)
         {
-            dragDropHandler.StartDragging(previewObj, data);
+            dragDropHandler.StartDragging(previewObj, dragData);
         }
         else
         {
@@ -265,11 +311,20 @@ public class OrganismPanel : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             buttonImage.color = originalColor;
         }
+        
+        // Play error sound
+        if (audioSource != null)
+        {
+            // Play a simple beep sound
+            audioSource.pitch = 0.5f;
+            audioSource.PlayOneShot(buttonClickSound);
+            audioSource.pitch = 1f;
+        }
     }
 }
 
 // Helper component to store organism data with buttons
-public class OrganismButtonData : MonoBehaviour
+public class HologramButtonData : MonoBehaviour
 {
-    public OrganismPanel.OrganismData data;
+    public HologramOrganismPanel.OrganismData data;
 }
