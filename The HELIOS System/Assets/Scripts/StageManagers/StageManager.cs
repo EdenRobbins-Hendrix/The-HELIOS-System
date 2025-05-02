@@ -111,7 +111,15 @@ public class StageManager : MonoBehaviour
             {
                 countdownStarted = true;
                 Debug.Log("Countdown started");
-                StartCoroutine(endGameInXSeconds(30));
+                StartCoroutine(endLevelInXSeconds(20));
+            }
+        }
+
+        else if (currentStage == 3)
+        {
+            if (!DialogueManager.Instance.inDialog && GameManager.Instance.organisms.ContainsKey("OakTree") && GameManager.Instance.organisms["OakTree"].Count > 1)
+            {
+                advanceStage();
             }
         }
 
@@ -119,6 +127,13 @@ public class StageManager : MonoBehaviour
         // StartCoroutine("checkPopulationsForWin");
 
 
+    }
+
+    IEnumerator endLevelInXSeconds(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        advanceStage();
     }
 
     IEnumerator endGameInXSeconds(float duration)
