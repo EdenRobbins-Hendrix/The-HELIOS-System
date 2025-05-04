@@ -122,6 +122,22 @@ public class PopulationManager : MonoBehaviour
 						}
 						return pop;
 					}
+					else
+					{
+						int organismCount = GameManager.Instance.organisms[organism].Count;
+						Debug.Log("Available food for " + organism + ": " + food);
+						Debug.Log("Population manager organismCount: " + organismCount);
+						pop = (int)MathF.Ceiling(food / 10); //for now I just want to say that it takes 10 food to feed each organism
+						if (pop < 1)
+						{
+							pop = 1;
+						}
+						else if (pop > 50)
+						{
+							pop = 50;
+						}
+						return pop;
+					}
 				}
 			}
 		}
