@@ -17,6 +17,7 @@ public class HungerScript : MonoBehaviour
     public bool apex; //defines whether the organism has predators
     public List<String> predators;
     public int basePop;
+    public int foodAvailableUponConsumption;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

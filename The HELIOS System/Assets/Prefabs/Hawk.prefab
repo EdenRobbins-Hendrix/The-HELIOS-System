@@ -165,6 +165,7 @@ MonoBehaviour:
   apex: 1
   predators: []
   basePop: 1
+  foodAvailableUponConsumption: 1
 --- !u!61 &7691407232409627938
 BoxCollider2D:
   m_ObjectHideFlags: 0

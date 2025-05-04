@@ -63,7 +63,40 @@ public class PopulationManager : MonoBehaviour
 
 						//get number of prey
 						int preyCounts = GameManager.Instance.organisms[p].Count;
-						food = food + (preyCounts * 10);
+
+						// We need to know how much food a prey offers upon being eaten. 
+
+						foreach (GameObject prefab in GameManager.Instance.speciesPrefabs)
+						{
+							if (prefab.name == p)
+							{
+								if (prefab.TryGetComponent(out HungerScript preyHungerScript))
+								{
+									int foodPerIndividualPrey = preyHungerScript.foodAvailableUponConsumption;
+									food = food + (preyCounts * foodPerIndividualPrey);
+								}
+								else
+								{
+									// prey is a plant. Enter values manually? 
+									if (p.Contains("Tree"))
+									{
+										int foodPerIndividualPrey = 40;
+										food = food + (preyCounts * foodPerIndividualPrey);
+
+									}
+									else
+									{
+										//default value for plants
+										int foodPerIndividualPrey = 10;
+										food = food + (preyCounts * foodPerIndividualPrey);
+
+									}
+								}
+							}
+						}
+
+
+
 
 
 						// if (populations.TryGetValue(p, out int n))
@@ -127,6 +160,9 @@ public class PopulationManager : MonoBehaviour
 						int organismCount = GameManager.Instance.organisms[organism].Count;
 						Debug.Log("Available food for " + organism + ": " + food);
 						Debug.Log("Population manager organismCount: " + organismCount);
+						// Instead of 10: 
+						// I need to know how much food it takes to feed each organism. 
+						// I can actually leave it at 10 for now and just have each organism provide less and less food as prey
 						pop = (int)MathF.Ceiling(food / 10); //for now I just want to say that it takes 10 food to feed each organism
 						if (pop < 1)
 						{
