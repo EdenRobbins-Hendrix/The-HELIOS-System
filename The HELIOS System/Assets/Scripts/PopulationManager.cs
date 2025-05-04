@@ -144,7 +144,7 @@ public class PopulationManager : MonoBehaviour
 						int organismCount = GameManager.Instance.organisms[organism].Count;
 						Debug.Log("Available food for " + organism + ": " + food);
 						Debug.Log("Population manager organismCount: " + organismCount);
-						pop = (int)MathF.Ceiling(food / 10); //for now I just want to say that it takes 10 food to feed each organism
+						pop = (int)MathF.Ceiling((food / 10)); //for now I just want to say that it takes 10 food to feed each organism
 						if (pop < 1)
 						{
 							pop = 1;
@@ -163,7 +163,7 @@ public class PopulationManager : MonoBehaviour
 						// Instead of 10: 
 						// I need to know how much food it takes to feed each organism. 
 						// I can actually leave it at 10 for now and just have each organism provide less and less food as prey
-						pop = (int)MathF.Ceiling(food / 10); //for now I just want to say that it takes 10 food to feed each organism
+						pop = (int)MathF.Ceiling((food / 15)); //for now I just want to say that it takes 10 food to feed each organism
 						if (pop < 1)
 						{
 							pop = 1;

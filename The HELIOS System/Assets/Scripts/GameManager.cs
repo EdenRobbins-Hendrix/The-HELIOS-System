@@ -449,15 +449,15 @@ public class GameManager : MonoBehaviour
         {
             if (creatures.Count > 1 && creatures[1] != null)
             {
-                GameObject old = creatures[1];
-                GameObject replacement = Instantiate(old);
-                replacement.SetActive(false);
-                Camera cam = GameObject.FindAnyObjectByType<Camera>();
-                replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
+                // GameObject old = creatures[1];
+                // GameObject replacement = Instantiate(old);
+                // replacement.SetActive(false);
+                // Camera cam = GameObject.FindAnyObjectByType<Camera>();
+                // replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
                 creatures.Remove(creature);
                 Destroy(creature);
-                replacement.SetActive(true);
-                creatures.Add(replacement);
+                // replacement.SetActive(true);
+                // creatures.Add(replacement);
             }
         }
         //organisms.Remove(organim);
