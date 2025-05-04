@@ -10,7 +10,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayGame()
     {
-        SceneManager.LoadScene("LevelSelect");
+        SceneManager.LoadScene("Intro");
     }
 
     // public void ButtonPressed()
