@@ -46,7 +46,7 @@ public class HungerScript : MonoBehaviour
     public void changeHunger(float amount)
     {
         hunger = hunger + amount;
-        Debug.Log(name + "'s new hunger: " + hunger);
+        // Debug.Log(name + "'s new hunger: " + hunger);
         if (hunger <= 0)
         {
             GameManager.Instance.killOrganism(gameObject, gameObject.name.Split('(')[0]);

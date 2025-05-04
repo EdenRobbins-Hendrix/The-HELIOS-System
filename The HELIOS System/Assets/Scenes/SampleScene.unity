@@ -3067,6 +3067,7 @@ MonoBehaviour:
   speciesPrefabs:
   - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
+  - {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   OrganismsSerialized:
   - Name: Squirrel
     Instance:
@@ -3393,6 +3394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 1718301023}
+  dialoguePanel: {fileID: 0}
 --- !u!1 &423335046
 GameObject:
   m_ObjectHideFlags: 0
@@ -17799,15 +17801,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consumerPrefabs:
-  - {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
-  - {fileID: 1820819227}
+  - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
   - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   OrganismsSerialized:
   - Name: OakTree
-    InitialPopulation: 5
+    InitialPopulation: 1
     IsPlant: 1
   - Name: Squirrel
-    InitialPopulation: 22
+    InitialPopulation: 1
     IsPlant: 0
   - Name: Hawk
     InitialPopulation: 1
@@ -18506,7 +18507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1718301024
 MonoBehaviour:
   m_ObjectHideFlags: 0

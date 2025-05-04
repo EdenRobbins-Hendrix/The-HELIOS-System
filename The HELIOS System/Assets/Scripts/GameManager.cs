@@ -120,6 +120,7 @@ public class GameManager : MonoBehaviour
             organisms[name] = new List<GameObject>();
         }
 
+
         // spawn organism
         GameObject o = Instantiate(prefab, location, Quaternion.identity);
 
@@ -131,6 +132,9 @@ public class GameManager : MonoBehaviour
         {
             plants.Add(o);
         }
+
+        // I also want to add the new animal to OrganismsSerialized, but I have literally no idea how that is happening when populations update
+        // Organisms Serialized is never called outside of the start method, so I don't understand where its updating at. 
 
     }
 
@@ -156,19 +160,19 @@ public class GameManager : MonoBehaviour
 
     void decrementHungerInAllOrganisms()
     {
-        Debug.Log("Called");
+        // Debug.Log("Called");
         foreach (List<GameObject> organismType in organisms.Values)
         {
             foreach (GameObject organism in organismType)
             {
-                Debug.Log("Organism name for hunger: " + organism.name);
+                // Debug.Log("Organism name for hunger: " + organism.name);
                 if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
                 {
-                    Debug.Log("Reached Here");
+                    // Debug.Log("Reached Here");
                     float rate = s.hungerDeclineRate;
-                    Debug.Log(-rate);
+                    // Debug.Log(-rate);
                     s.changeHunger(-rate);
-                    Debug.Log("Hunger: " + s.getHunger());
+                    // Debug.Log("Hunger: " + s.getHunger());
                     setOrganismBehavior(organism);
                 }
             }
@@ -390,9 +394,12 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = objects.Count - goalPop; i > goalPop; i--)
                     {
-                        GameObject oldOrg = objects[-1];
-                        objects.Remove(oldOrg);
-                        Destroy(oldOrg);
+                        if (i > 0)
+                        {
+                            // GameObject oldOrg = objects[-1];
+                            // objects.Remove(oldOrg);
+                            // Destroy(oldOrg);
+                        }
                     }
                 }
                 objects.TrimExcess();
