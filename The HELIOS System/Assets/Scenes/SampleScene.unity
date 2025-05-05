@@ -391,6 +391,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 47275837}
   m_CullTransparentMesh: 1
+--- !u!1 &48544199 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1683734241241275048, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+  m_PrefabInstance: {fileID: 1137360826011446056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &73002662
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,6 +2404,7 @@ MonoBehaviour:
   speciesPrefabs:
   - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
+  - {fileID: 1683734241241275048, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
   OrganismsSerialized:
   - Name: Squirrel
     Instance:
@@ -2409,6 +2415,9 @@ MonoBehaviour:
   - Name: Hawk
     Instance:
     - {fileID: 1584037210}
+  - Name: Bumblebee
+    Instance:
+    - {fileID: 48544199}
   plants: []
   plantPrefab: {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   nutPrefab: {fileID: 459212317604697448, guid: 34de0e34078d72e4d84d3dca4b54a0b1, type: 3}
@@ -20306,7 +20315,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.73159873}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.66173863}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -20765,6 +20774,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2123622494}
   m_CullTransparentMesh: 1
+--- !u!1001 &1137360826011446056
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1683734241241275048, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_Name
+      value: Bumblebee
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7739142087757549782, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e61991b14fc975c4c9abdf7060c13ade, type: 3}
 --- !u!1001 &1220246620558010608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20859,3 +20925,4 @@ SceneRoots:
   - {fileID: 1398015500}
   - {fileID: 322029218}
   - {fileID: 1783393245}
+  - {fileID: 1137360826011446056}
