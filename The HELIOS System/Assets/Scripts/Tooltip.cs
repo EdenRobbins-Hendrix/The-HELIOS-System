@@ -27,6 +27,8 @@ public class Tooltip : MonoBehaviour
         // Initialize selection indicator if available
         if (selectionIndicator != null)
             selectionIndicator.SetActive(false);
+            
+        Debug.Log("Tooltip initialized on: " + gameObject.name);
     }
     
     private void Update()
@@ -51,6 +53,7 @@ public class Tooltip : MonoBehaviour
         if (!useMouseHover) return;
         
         isSelected = true;
+        Debug.Log("Mouse entered: " + gameObject.name);
         
         // Show selection indicator if available
         if (selectionIndicator != null)
@@ -72,6 +75,7 @@ public class Tooltip : MonoBehaviour
         if (!useMouseHover) return;
         
         isSelected = false;
+        Debug.Log("Mouse exited: " + gameObject.name);
         
         // Hide selection indicator
         if (selectionIndicator != null)
@@ -84,7 +88,11 @@ public class Tooltip : MonoBehaviour
     
     private void ShowAnimalTooltip()
     {
-        if (TooltipSystem.Instance == null) return;
+        if (TooltipSystem.Instance == null) 
+        {
+            Debug.LogWarning("TooltipSystem.Instance is null! Make sure it exists in the scene.");
+            return;
+        }
         
         string behaviorText = "Unknown";
         
@@ -105,11 +113,17 @@ public class Tooltip : MonoBehaviour
             hungerScript.feedThreshold,
             behaviorText
         );
+        
+        Debug.Log("Showing animal tooltip for: " + cleanName);
     }
     
     private void ShowPlantTooltip()
     {
-        if (TooltipSystem.Instance == null || plantScript == null) return;
+        if (TooltipSystem.Instance == null || plantScript == null)
+        {
+            Debug.LogWarning("TooltipSystem.Instance or plantScript is null!");
+            return;
+        }
         
         // Get the clean name without "(Clone)" or other suffixes
         string cleanName = gameObject.name.Split('(')[0].Trim();
@@ -120,5 +134,7 @@ public class Tooltip : MonoBehaviour
             plantScript.maxGrowthLevel,
             plantScript.isFullyGrown
         );
+        
+        Debug.Log("Showing plant tooltip for: " + cleanName);
     }
 }
