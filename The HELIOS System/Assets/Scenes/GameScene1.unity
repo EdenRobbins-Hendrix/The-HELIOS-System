@@ -1613,6 +1613,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 82efd6fc66f0bff4d81a448c530c66a0, type: 2}
   - {fileID: 11400000, guid: e924e1bdb440bb645aeb9681d7e93557, type: 2}
   - {fileID: 11400000, guid: fa5c96810dd6fb446aaef5c9018a604b, type: 2}
+  - {fileID: 11400000, guid: fa5c96810dd6fb446aaef5c9018a604b, type: 2}
   dialogueAssetsCurrentPosition: 0
 --- !u!1 &134910321
 GameObject:
@@ -6585,7 +6586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.6190012}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.7929359}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

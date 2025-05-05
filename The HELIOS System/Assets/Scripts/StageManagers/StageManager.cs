@@ -119,9 +119,39 @@ public class StageManager : MonoBehaviour
         {
             if (!DialogueManager.Instance.inDialog && GameManager.Instance.organisms.ContainsKey("OakTree") && GameManager.Instance.organisms["OakTree"].Count > 1)
             {
+                countdownStarted = false;
                 advanceStage();
             }
         }
+
+        else if (currentStage == 4) // watch squirrel population increase
+        {
+            if (!DialogueManager.Instance.inDialog && !countdownStarted)
+            {
+                countdownStarted = true;
+                Debug.Log("Countdown started");
+                StartCoroutine(endLevelInXSeconds(20));
+            }
+        }
+        else if (currentStage == 5) // spawn hawk to curb squirrel population
+        {
+            if (!DialogueManager.Instance.inDialog && GameManager.Instance.organisms.ContainsKey("Hawk") && GameManager.Instance.organisms["Hawk"].Count > 0)
+            {
+                countdownStarted = false;
+                advanceStage();
+            }
+        }
+        else if (currentStage == 6) //observe squirrel and how its population reacts
+        {
+            if (!DialogueManager.Instance.inDialog && !countdownStarted)
+            {
+                countdownStarted = true;
+                Debug.Log("Countdown started");
+                StartCoroutine(endLevelInXSeconds(20));
+            }
+        }
+
+
 
         // I will have to work out appropriate levels to check for when the previous stage is working
         // StartCoroutine("checkPopulationsForWin");
