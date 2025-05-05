@@ -17,8 +17,8 @@ public class MovementSteer : MonoBehaviour
     public bool isAvoidingPredator;
     public float minDistFromPredator;
     public bool shouldStop;
-    [SerializeField]
     private bool isSpriteFlipped;
+    public bool isArtFacingLeft;
     private SpriteRenderer spriteRenderer;
     public GameObject target;
     public Vector3 wanderSpot;
@@ -208,8 +208,18 @@ public class MovementSteer : MonoBehaviour
         Vector2 desired = target;
 
         // flip sprite accordingly
-        spriteRenderer.flipX = desired.x > 0;
-        isSpriteFlipped = spriteRenderer.flipX;
+        if (!isArtFacingLeft)
+        {
+            spriteRenderer.flipX = desired.x > 0;
+            isSpriteFlipped = spriteRenderer.flipX;
+        }
+
+        else if (isArtFacingLeft)
+        {
+            spriteRenderer.flipX = desired.x < 0;
+            isSpriteFlipped = spriteRenderer.flipX;
+
+        }
 
 
         // get angle for rotation correct
@@ -242,6 +252,11 @@ public class MovementSteer : MonoBehaviour
             }
 
         }
+        angle = angle - rotationOffset;
+        // if (isArtFacingLeft)
+        // {
+        //     angle = angle - 180;
+        // }
         // Debug.Log("Angle: " + angle);
 
         // Actually do the rotation
