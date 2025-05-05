@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -23,6 +24,9 @@ public class HologramOrganismPanel : MonoBehaviour
     [SerializeField] private int columnCount = 2;
     [SerializeField] private float itemSpacing = 10f;
     [SerializeField] private float itemSize = 80f;
+    
+    [Header("TextMeshPro Settings")]
+    [SerializeField] private TMP_FontAsset defaultFont;
     
     [Header("Hologram Effects")]
     [SerializeField] private AudioClip openSound;
@@ -57,6 +61,16 @@ public class HologramOrganismPanel : MonoBehaviour
             
         audioSource = gameObject.AddComponent<AudioSource>();
         
+        // If default font not assigned, try to load it
+        if (defaultFont == null)
+        {
+            defaultFont = Resources.Load<TMP_FontAsset>("Fonts & Materials/LiberationSans SDF");
+            if (defaultFont == null)
+            {
+                Debug.LogWarning("Could not find default TMP font asset. Please assign it manually.");
+            }
+        }
+        
         gameManager = GameManager.Instance;
         energyManager = FindObjectOfType<EnergyManager>();
         dragDropHandler = FindObjectOfType<DragDropHandler>();
@@ -83,6 +97,9 @@ public class HologramOrganismPanel : MonoBehaviour
     
     private void Start()
     {
+        // Clean up any leftover effects before populating
+        CleanupResources();
+        
         // Populate the panel with organisms
         PopulateOrganismPanel();
         
@@ -100,6 +117,58 @@ public class HologramOrganismPanel : MonoBehaviour
             targetPosition, 
             Time.unscaledDeltaTime * animationSpeed
         );
+    }
+    
+    private void OnDisable()
+    {
+        // Make sure everything is properly cleaned up
+        CleanupResources();
+    }
+
+    private void OnDestroy()
+    {
+        // Make doubly sure everything is cleaned up when the panel is destroyed
+        CleanupResources();
+    }
+
+    private void CleanupResources()
+    {
+        // Clean up any objects created at runtime that might not get automatically destroyed
+        
+        // Find all child objects with specific names that might cause issues
+        Transform[] scanLines = GetComponentsInChildren<Transform>().Where(t => t.name.Contains("ScanLine")).ToArray();
+        foreach (Transform line in scanLines)
+        {
+            if (line != null && line.gameObject != null)
+            {
+                Debug.Log("Cleaning up scan line: " + line.name);
+                Destroy(line.gameObject);
+            }
+        }
+        
+        // Find all particle systems
+        Transform[] particles = GetComponentsInChildren<Transform>().Where(t => t.name.Contains("GlowParticles")).ToArray();
+        foreach (Transform p in particles)
+        {
+            if (p != null && p.gameObject != null)
+            {
+                Debug.Log("Cleaning up particles: " + p.name);
+                Destroy(p.gameObject);
+            }
+        }
+        
+        // Also look for any orphaned elements in the scene with our name
+        GameObject[] allObjects = GameObject.FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in allObjects)
+        {
+            // Check for scan lines or particles that might be related to this panel
+            if ((obj.name.Contains("ScanLine") || obj.name.Contains("GlowParticles")) && 
+                obj.name.Contains(gameObject.name))
+            {
+                Debug.Log("Cleaning up orphaned effect: " + obj.name);
+                Destroy(obj);
+            }
+        }
     }
     
     public void ExpandPanel()
@@ -162,6 +231,7 @@ public class HologramOrganismPanel : MonoBehaviour
             int row = i / columnCount;
             int col = i % columnCount;
             
+            // Create button from prefab
             GameObject buttonObj = Instantiate(organismButtonPrefab, contentParent);
             RectTransform buttonRect = buttonObj.GetComponent<RectTransform>();
             
@@ -173,7 +243,9 @@ public class HologramOrganismPanel : MonoBehaviour
             // Set up the button
             Button button = buttonObj.GetComponent<Button>();
             
-            // Set the icon image (assuming the button has an IconImage child)
+            Debug.Log("Setting up button for: " + data.name);
+            
+            // Find and set up the icon image
             Transform iconTransform = buttonObj.transform.Find("IconImage");
             if (iconTransform != null && data.icon != null)
             {
@@ -183,41 +255,35 @@ public class HologramOrganismPanel : MonoBehaviour
                     iconImage.sprite = data.icon;
                     iconImage.color = Color.white;
                     iconImage.preserveAspect = true;
+                    Debug.Log("Icon image set up for: " + data.name);
                 }
             }
-            
-            // Set name and cost in child TextMeshPro components
-            TextMeshProUGUI[] texts = buttonObj.GetComponentsInChildren<TextMeshProUGUI>();
-            if (texts.Length > 0)
+            else
             {
-                foreach (TextMeshProUGUI text in texts)
-                {
-                    if (text.gameObject.name.Contains("Name"))
-                        text.text = data.name;
-                    else if (text.gameObject.name.Contains("Cost"))
-                        text.text = data.energyCost.ToString();
-                }
+                Debug.LogWarning("IconImage not found in button prefab");
             }
             
-            // Store the organism data with the button
+            // Start a coroutine to set up the TextMeshPro components safely
+            StartCoroutine(SafelySetupTextMeshPro(
+                buttonObj, 
+                data.name, 
+                data.energyCost.ToString()
+            ));
+            
+            // Add organism data to button
             HologramButtonData buttonData = buttonObj.AddComponent<HologramButtonData>();
             buttonData.data = data;
             
             // Add drag functionality
             EventTrigger trigger = buttonObj.AddComponent<EventTrigger>();
-            
-            // Add pointer down event
             EventTrigger.Entry pointerDown = new EventTrigger.Entry();
             pointerDown.eventID = EventTriggerType.PointerDown;
-            
-            OrganismData capturedData = data; // Capture for lambda
             pointerDown.callback.AddListener((eventData) => { 
                 OnOrganismButtonDown(buttonData); 
             });
-            
             trigger.triggers.Add(pointerDown);
             
-            Debug.Log("Created button for " + data.name);
+            Debug.Log("Button setup complete for: " + data.name);
         }
         
         // Update content parent size
@@ -229,6 +295,54 @@ public class HologramOrganismPanel : MonoBehaviour
         if (contentRect != null)
         {
             contentRect.sizeDelta = new Vector2(contentWidth, contentHeight);
+        }
+    }
+    
+    private IEnumerator SafelySetupTextMeshPro(GameObject buttonObj, string nameString, string costString)
+    {
+        // Wait for a frame to ensure TextMeshPro components are initialized
+        yield return null;
+        
+        // Set up the name text
+        Transform nameTextTransform = buttonObj.transform.Find("NameText");
+        if (nameTextTransform != null)
+        {
+            TextMeshProUGUI nameText = nameTextTransform.GetComponent<TextMeshProUGUI>();
+            if (nameText != null)
+            {
+                // Ensure font asset is assigned
+                if (nameText.font == null && defaultFont != null)
+                {
+                    nameText.font = defaultFont;
+                }
+                
+                // Set text (with fallback)
+                nameText.text = string.IsNullOrEmpty(nameString) ? "Name" : nameString;
+                Debug.Log("Name text set up: " + nameText.text);
+            }
+        }
+        
+        // Set up the cost text
+        Transform costContainer = buttonObj.transform.Find("CostContainer");
+        if (costContainer != null)
+        {
+            Transform costTextTransform = costContainer.Find("CostText");
+            if (costTextTransform != null)
+            {
+                TextMeshProUGUI costText = costTextTransform.GetComponent<TextMeshProUGUI>();
+                if (costText != null)
+                {
+                    // Ensure font asset is assigned
+                    if (costText.font == null && defaultFont != null)
+                    {
+                        costText.font = defaultFont;
+                    }
+                    
+                    // Set text
+                    costText.text = costString;
+                    Debug.Log("Cost text set up: " + costText.text);
+                }
+            }
         }
     }
     
@@ -313,7 +427,7 @@ public class HologramOrganismPanel : MonoBehaviour
         }
         
         // Play error sound
-        if (audioSource != null)
+        if (audioSource != null && buttonClickSound != null)
         {
             // Play a simple beep sound
             audioSource.pitch = 0.5f;

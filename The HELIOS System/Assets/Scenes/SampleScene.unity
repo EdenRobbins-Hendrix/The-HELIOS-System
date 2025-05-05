@@ -3581,7 +3581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.9965933}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.81630343}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4013,10 +4013,10 @@ MonoBehaviour:
   borderPulseSpeed: 0.35
   borderPulseMin: 0.6
   borderPulseMax: 1
-  useScanLine: 1
+  useScanLine: 0
   scanLinePrefab: {fileID: 3920485415476961030, guid: 479a16e85cbf47740b6b1342cf810cd5, type: 3}
   scanSpeed: 0.5
-  useParticleEffects: 1
+  useParticleEffects: 0
   particleSystemPrefab: {fileID: 1450206338213496202, guid: 256a96a7077a9f042ae7a3bf5c64d98c, type: 3}
   particleDensity: 1500
   backgroundImage: {fileID: 1284218159}
@@ -4044,6 +4044,7 @@ MonoBehaviour:
   columnCount: 1
   itemSpacing: 30
   itemSize: 80
+  defaultFont: {fileID: 0}
   openSound: {fileID: 0}
   closeSound: {fileID: 0}
   buttonClickSound: {fileID: 0}
