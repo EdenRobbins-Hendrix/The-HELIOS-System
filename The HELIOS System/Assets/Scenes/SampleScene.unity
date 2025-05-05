@@ -14077,7 +14077,7 @@ MonoBehaviour:
   availableOrganisms:
   - name: Oak Tree
     icon: {fileID: -4258907507027704593, guid: daaaf013b5b614e41bb0855265f0f8de, type: 3}
-    prefab: {fileID: 0}
+    prefab: {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
     energyCost: 20
     description: Produces Acorns
     isPlant: 1
@@ -20306,7 +20306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.9188849}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.73159873}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
