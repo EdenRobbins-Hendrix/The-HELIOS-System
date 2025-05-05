@@ -179,7 +179,7 @@ public class MovementSteer : MonoBehaviour
     void pickSpot()
     {
 
-        int radius = 10;
+        int radius = 6;
         Vector2 circle = UnityEngine.Random.insideUnitCircle * radius;
         wanderSpot = new Vector2(circle.x, circle.y);
         // Debug.Log("Target spot: " + target);
@@ -187,7 +187,7 @@ public class MovementSteer : MonoBehaviour
     void moveToSpot(Vector3 target)
     {
 
-        if (Vector3.Distance(target, transform.position) < 1)
+        if (Vector3.Distance(target, transform.position) < 0.1)
         {
             //Do nothing
             Debug.Log("Within acceptable distance!");

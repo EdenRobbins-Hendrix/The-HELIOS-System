@@ -84,6 +84,17 @@ public class PopulationManager : MonoBehaviour
 										food = food + (preyCounts * foodPerIndividualPrey);
 
 									}
+									else if (p.Contains("BeautyBerry"))
+									{
+										int foodPerIndividualPrey = 15;
+										food = food + (preyCounts * foodPerIndividualPrey);
+
+									}
+									else if (p.Contains("Dandelion"))
+									{
+										int foodPerIndividualPrey = 5;
+										food = food + (preyCounts * foodPerIndividualPrey);
+									}
 									else
 									{
 										//default value for plants
