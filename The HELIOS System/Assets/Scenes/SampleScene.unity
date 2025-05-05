@@ -17677,16 +17677,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placementIndicatorPrefab: {fileID: 6359978131800240399, guid: a379a7acc9a20604b9d35c0db0bbaceb, type: 3}
-  validPlacementColor:
-    r: 0.21568629
-    g: 0.21568629
-    b: 0.21568629
-    a: 0
-  invalidPlacementColor:
-    r: 1
-    g: 0
-    b: 0
-    a: 1
+  validPlacementColor: {r: 0.21568629, g: 0.21568629, b: 0.21568629, a: 0}
+  invalidPlacementColor: {r: 1, g: 0, b: 0, a: 1}
   minX: -8
   maxX: 8
   minY: -4

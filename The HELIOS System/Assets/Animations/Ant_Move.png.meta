@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 32c12bc499a52b242a7321297d2d6ad0
+guid: 1b60ebe9df2241147b7f33b986bcf30c
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1764511585338124576
-    second: Gray Wolf_0
+      213: 3187146194016340919
+    second: Ant_Move_0
+  - first:
+      213: 6907081113406188699
+    second: Ant_Move_1
+  - first:
+      213: 3081294841717150078
+    second: Ant_Move_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +106,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Gray Wolf_0
+      name: Ant_Move_0
       rect:
         serializedVersion: 2
-        x: 52
-        y: 58
-        width: 397
-        height: 383
+        x: 144
+        y: 139
+        width: 343
+        height: 209
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +121,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 0e61cd9df023387e0800000000000000
-      internalID: -1764511585338124576
+      spriteID: 7bb0595c3940b3c20800000000000000
+      internalID: 3187146194016340919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Move_1
+      rect:
+        serializedVersion: 2
+        x: 707
+        y: 141
+        width: 343
+        height: 207
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b9ca2676da1eadf50800000000000000
+      internalID: 6907081113406188699
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ant_Move_2
+      rect:
+        serializedVersion: 2
+        x: 1240
+        y: 142
+        width: 343
+        height: 206
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e715bc84555f2ca20800000000000000
+      internalID: 3081294841717150078
       vertices: []
       indices: 
       edges: []
@@ -135,7 +185,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Gray Wolf_0: -1764511585338124576
+      Ant_Move_0: 3187146194016340919
+      Ant_Move_1: 6907081113406188699
+      Ant_Move_2: 3081294841717150078
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
