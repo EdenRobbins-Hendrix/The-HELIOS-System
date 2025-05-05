@@ -152,6 +152,7 @@ MonoBehaviour:
   nameText: {fileID: 112297510}
   dialoguePanel: {fileID: 1761780117}
   NPC: {fileID: 122572381}
+  inDialog: 0
 --- !u!4 &17396881
 Transform:
   m_ObjectHideFlags: 0
@@ -200,8 +201,10 @@ MonoBehaviour:
   energy: 0
   speciesPrefabs:
   - {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
+  - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
   OrganismsSerialized: []
-  plants: []
+  plants:
+  - {fileID: 0}
   plantPrefab: {fileID: 0}
   nutPrefab: {fileID: 0}
   plantSpreadDistance: 2
@@ -546,6 +549,7 @@ MonoBehaviour:
   dialogueAssets:
   - {fileID: 11400000, guid: 12dc1eff2f178b143b550e8ec009e648, type: 2}
   - {fileID: 11400000, guid: a3ea3fe1edd67c34f976ef8f20d1b961, type: 2}
+  - {fileID: 11400000, guid: 82efd6fc66f0bff4d81a448c530c66a0, type: 2}
   - {fileID: 11400000, guid: fa5c96810dd6fb446aaef5c9018a604b, type: 2}
   dialogueAssetsCurrentPosition: 0
 --- !u!1 &518381174
@@ -958,6 +962,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentStage: 0
   organismsGoalsSerialized: []
+  hasSpawnedSquirrel: 0
+  countdownStarted: 0
 --- !u!4 &1897747804
 Transform:
   m_ObjectHideFlags: 0

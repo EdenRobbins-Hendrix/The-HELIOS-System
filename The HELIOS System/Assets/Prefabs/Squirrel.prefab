@@ -86,7 +86,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 2783927706045066836, guid: 20947a079588a0342a5387686473c94a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   rotationSpeed: 5
   rotationOffset: 180
   isWandering: 0
-  isHunting: 0
+  isHunting: 1
   isAvoidingPredator: 0
   minDistFromPredator: 0.001
   shouldStop: 0

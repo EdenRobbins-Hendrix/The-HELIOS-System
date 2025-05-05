@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -27,7 +27,7 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] GameObject NPC;
     public static event Action OnDialogueStarted;
     public static event Action OnDialogueEnded;
-    private bool inDialog;
+    public bool inDialog;
     bool skipLineTriggered;
 
     public void Interact()
@@ -127,6 +127,7 @@ public class DialogueManager : MonoBehaviour
 
     public void incrementDialogueStage()
     {
+        NPC.GetComponent<NPCDialogueScript>().firstInteraction = true;
         NPC.GetComponent<NPCDialogueScript>().incrementCurrentPosition();
 
     }

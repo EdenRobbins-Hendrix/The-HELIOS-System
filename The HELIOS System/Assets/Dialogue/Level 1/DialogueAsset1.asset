@@ -18,3 +18,5 @@ MonoBehaviour:
   - ...
   - 'It''s looking a little empty right now, isn''t it? '
   - 'How about you plant a tree or something. '
+  - Press T to plant a tree
+  repeatStartPosition: 4

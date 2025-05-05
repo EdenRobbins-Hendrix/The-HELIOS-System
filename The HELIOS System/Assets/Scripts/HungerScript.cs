@@ -7,7 +7,8 @@ using UnityEngine;
 public class HungerScript : MonoBehaviour
 {
     public String reference;
-    public float hunger;
+    [SerializeField]
+    private float hunger;
     public float hungerDeclineRate;
     public float feedThreshold;
     public float starvingThreshold; // This is when the parents will stop producing offspring
@@ -28,6 +29,7 @@ public class HungerScript : MonoBehaviour
         {
             apex = false;
         }
+        hunger = 10.0f;
     }
 
     // Update is called once per frame
@@ -44,10 +46,16 @@ public class HungerScript : MonoBehaviour
     public void changeHunger(float amount)
     {
         hunger = hunger + amount;
+        Debug.Log(name + "'s new hunger: " + hunger);
         if (hunger <= 0)
         {
             GameManager.Instance.killOrganism(gameObject, gameObject.name.Split('(')[0]);
         }
+    }
+
+    public float getHunger()
+    {
+        return this.hunger;
     }
 
 

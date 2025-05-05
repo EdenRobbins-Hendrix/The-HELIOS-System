@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -104,25 +104,33 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                spawnOrganism(tree);
+                Vector3 loc = new Vector3(0, -3.75f, 0);
+                spawnOrganism(tree, loc);
+
             }
         }
 
     }
 
-    public void spawnOrganism(GameObject organism)
+    public void spawnOrganism(GameObject prefab, Vector3 location)
     {
-        String name = organism.name.Split('(')[0];
+        String name = prefab.name.Split('(')[0];
         if (!organisms.ContainsKey(name))
         { //if organisms has no key for the organism
             organisms[name] = new List<GameObject>();
         }
 
-        // add organism 
-        organisms[organism.name.Split('(')[0]].Add(organism);
-
         // spawn organism
-        Instantiate(organism, new Vector3(0, 0, 0), Quaternion.identity);
+        GameObject o = Instantiate(prefab, location, Quaternion.identity);
+
+        // add organism 
+        organisms[prefab.name.Split('(')[0]].Add(o);
+
+
+        if (prefab.name.Contains("Tree"))
+        {
+            plants.Add(o);
+        }
 
     }
 
@@ -148,14 +156,19 @@ public class GameManager : MonoBehaviour
 
     void decrementHungerInAllOrganisms()
     {
+        Debug.Log("Called");
         foreach (List<GameObject> organismType in organisms.Values)
         {
             foreach (GameObject organism in organismType)
             {
+                Debug.Log("Organism name for hunger: " + organism.name);
                 if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
                 {
+                    Debug.Log("Reached Here");
                     float rate = s.hungerDeclineRate;
+                    Debug.Log(-rate);
                     s.changeHunger(-rate);
+                    Debug.Log("Hunger: " + s.getHunger());
                     setOrganismBehavior(organism);
                 }
             }
@@ -166,7 +179,7 @@ public class GameManager : MonoBehaviour
     {
         HungerScript h = organism.GetComponent<HungerScript>();
         MovementSteer m = organism.GetComponent<MovementSteer>();
-        if (h.hunger > h.feedThreshold)
+        if (h.getHunger() > h.feedThreshold)
         {
             m.isHunting = false;
             m.isWandering = true;
@@ -350,6 +363,7 @@ public class GameManager : MonoBehaviour
             if (organisms.TryGetValue(organism, out List<GameObject> objects))
             {
                 int goalPop = reference[organism];
+                Debug.Log("GoalPop for " + organism + ": " + goalPop);
                 if (objects.Count < goalPop)
                 {
                     for (int i = goalPop - objects.Count; i < goalPop; i++)
