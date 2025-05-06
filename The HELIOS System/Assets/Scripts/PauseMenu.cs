@@ -50,13 +50,6 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         // Debug.Log("P");
-
-        // turn off the dialogue panel
-        if (dialoguePanel.activeSelf)
-        {
-            dialogWasActive = true;
-            dialoguePanel.SetActive(false);
-        }
     }
 
     public void MenuBack()
