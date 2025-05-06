@@ -207,77 +207,65 @@ public class DragDropHandler : MonoBehaviour
                 
                 if (success)
                 {
-                    // Instantiate the actual organism
-                    GameObject newOrganism = Instantiate(currentDraggedData.prefab, placementPosition, Quaternion.identity);
-                    
-                    // Add Tooltip component for hover information if it doesn't already have one
-                    Tooltip tooltipComponent = newOrganism.GetComponent<Tooltip>();
-                    if (tooltipComponent == null)
-                    {
-                        tooltipComponent = newOrganism.AddComponent<Tooltip>();
-                        Debug.Log("Added Tooltip component to " + newOrganism.name);
-                    }
-                    
-                    // Make sure it has a collider for mouse interaction
-                    Collider2D collider = newOrganism.GetComponent<Collider2D>();
-                    if (collider == null)
-                    {
-                        // Add a CircleCollider2D by default
-                        CircleCollider2D circleCollider = newOrganism.AddComponent<CircleCollider2D>();
-                        
-                        // Set a reasonable radius based on the sprite size
-                        SpriteRenderer spriteRenderer = newOrganism.GetComponent<SpriteRenderer>();
-                        if (spriteRenderer != null && spriteRenderer.sprite != null)
-                        {
-                            // Get bounds of sprite and use half the average of width and height
-                            float width = spriteRenderer.bounds.size.x;
-                            float height = spriteRenderer.bounds.size.y;
-                            float radius = (width + height) / 4.0f; // Average / 2
-                            
-                            // Set the collider radius, with a minimum size
-                            circleCollider.radius = Mathf.Max(radius, 0.5f);
-                        }
-                        else
-                        {
-                            // Default radius if no sprite renderer
-                            circleCollider.radius = 0.5f;
-                        }
-                        
-                        // Make sure this collider is not a trigger
-                        circleCollider.isTrigger = false;
-                        
-                        Debug.Log("Added CircleCollider2D to " + newOrganism.name + " for tooltip interaction");
-                    }
-                    else if (collider.isTrigger)
-                    {
-                        // If there's already a collider but it's a trigger, add a non-trigger collider for mouse events
-                        // Note: OnMouseEnter/Exit only work with non-trigger colliders
-                        CircleCollider2D mouseCollider = newOrganism.AddComponent<CircleCollider2D>();
-                        mouseCollider.radius = 0.5f;
-                        mouseCollider.isTrigger = false;
-                        Debug.Log("Added additional non-trigger collider to " + newOrganism.name + " for tooltip interaction");
-                    }
-                    
-                    // Add to GameManager's tracking
+                    // Get GameManager reference
                     GameManager gameManager = GameManager.Instance;
                     if (gameManager != null)
                     {
-                        string organismName = currentDraggedData.name;
+                        // Instantiate the prefab at placement position
+                        GameObject newOrganism = Instantiate(currentDraggedData.prefab, placementPosition, Quaternion.identity);
                         
-                        if (!gameManager.organisms.ContainsKey(organismName))
+                        // Use GameManager's method to handle tracking
+                        gameManager.spawnOrganism(newOrganism);
+                        
+                        // Add Tooltip component for hover information if it doesn't already have one
+                        Tooltip tooltipComponent = newOrganism.GetComponent<Tooltip>();
+                        if (tooltipComponent == null)
                         {
-                            gameManager.organisms[organismName] = new List<GameObject>();
+                            tooltipComponent = newOrganism.AddComponent<Tooltip>();
+                            Debug.Log("Added Tooltip component to " + newOrganism.name);
                         }
                         
-                        gameManager.organisms[organismName].Add(newOrganism);
-                        
-                        // If it's a plant, add to the plants list
-                        if (currentDraggedData.isPlant)
+                        // Make sure it has a collider for mouse interaction
+                        Collider2D collider = newOrganism.GetComponent<Collider2D>();
+                        if (collider == null)
                         {
-                            gameManager.plants.Add(newOrganism);
+                            // Add a CircleCollider2D by default
+                            CircleCollider2D circleCollider = newOrganism.AddComponent<CircleCollider2D>();
+                            
+                            // Set a reasonable radius based on the sprite size
+                            SpriteRenderer spriteRenderer = newOrganism.GetComponent<SpriteRenderer>();
+                            if (spriteRenderer != null && spriteRenderer.sprite != null)
+                            {
+                                // Get bounds of sprite and use half the average of width and height
+                                float width = spriteRenderer.bounds.size.x;
+                                float height = spriteRenderer.bounds.size.y;
+                                float radius = (width + height) / 4.0f; // Average / 2
+                                
+                                // Set the collider radius, with a minimum size
+                                circleCollider.radius = Mathf.Max(radius, 0.5f);
+                            }
+                            else
+                            {
+                                // Default radius if no sprite renderer
+                                circleCollider.radius = 0.5f;
+                            }
+                            
+                            // Make sure this collider is not a trigger
+                            circleCollider.isTrigger = false;
+                            
+                            Debug.Log("Added CircleCollider2D to " + newOrganism.name + " for tooltip interaction");
+                        }
+                        else if (collider.isTrigger)
+                        {
+                            // If there's already a collider but it's a trigger, add a non-trigger collider for mouse events
+                            // Note: OnMouseEnter/Exit only work with non-trigger colliders
+                            CircleCollider2D mouseCollider = newOrganism.AddComponent<CircleCollider2D>();
+                            mouseCollider.radius = 0.5f;
+                            mouseCollider.isTrigger = false;
+                            Debug.Log("Added additional non-trigger collider to " + newOrganism.name + " for tooltip interaction");
                         }
                         
-                        Debug.Log("Successfully placed " + organismName);
+                        Debug.Log("Successfully placed " + currentDraggedData.name);
                         
                         // Play success sound
                         if (placementSuccessSound != null && audioSource != null)
