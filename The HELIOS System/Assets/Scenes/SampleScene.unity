@@ -9452,19 +9452,19 @@ MonoBehaviour:
   - name: Squirrel
     icon: {fileID: 2783927706045066836, guid: 20947a079588a0342a5387686473c94a, type: 3}
     prefab: {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
-    energyCost: 30
+    energyCost: 60
     description: Eats Acorns
     isPlant: 0
-  - name: Hawk
-    icon: {fileID: 2097716390295217549, guid: 1bf02d8a64b2f0a4c981b37d2ffecd16, type: 3}
-    prefab: {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
+  - name: Cottontail
+    icon: {fileID: 5475817206700282986, guid: ae29292758eac50428f66a62085ce8a1, type: 3}
+    prefab: {fileID: 8164963124404054651, guid: 304c9197d151ae9459fb24fca1712f42, type: 3}
     energyCost: 40
-    description: Hunts Squirrels
+    description: Jumps
     isPlant: 0
   - name: BeautyBerry
     icon: {fileID: 4005054520985406669, guid: e7c7931ce7aae87428515fb28f2cd628, type: 3}
     prefab: {fileID: 7113162342592773206, guid: 96f8a188510b5cb4bafc4aee32a20b6c, type: 3}
-    energyCost: 20
+    energyCost: 10
     description: Plant for bears
     isPlant: 1
 --- !u!114 &1113952158
@@ -25118,7 +25118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.9694005}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.99675673}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
