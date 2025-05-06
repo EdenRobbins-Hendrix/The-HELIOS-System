@@ -2500,7 +2500,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.6529612}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.8614702}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -20814,7 +20814,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1819923911}
         m_TargetAssemblyTypeName: SoundMixerManager, Assembly-CSharp
         m_MethodName: SetFXVolume
         m_Mode: 0
@@ -21230,9 +21230,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioMixer: {fileID: 24100000, guid: 03740528addf34ca4b4518e254e34093, type: 2}
-  masterSlider: {fileID: 0}
-  musicSlider: {fileID: 0}
-  soundFXSlider: {fileID: 0}
+  masterSlider: {fileID: 2076311548}
+  musicSlider: {fileID: 1968200414}
+  soundFXSlider: {fileID: 1766358260}
 --- !u!4 &1819923912
 Transform:
   m_ObjectHideFlags: 0
@@ -26844,7 +26844,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1819923911}
         m_TargetAssemblyTypeName: SoundMixerManager, Assembly-CSharp
         m_MethodName: SetMusicVolume
         m_Mode: 0
@@ -27340,7 +27340,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1819923911}
         m_TargetAssemblyTypeName: SoundMixerManager, Assembly-CSharp
         m_MethodName: SetMasterVolume
         m_Mode: 0
