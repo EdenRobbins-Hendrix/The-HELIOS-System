@@ -111,7 +111,7 @@ public class IntroCrawl : MonoBehaviour
         TextStage++;
         if (TextStage > 5) {
             Debug.Log("Begin gameplay");
-            Initiate.Fade("LevelSelect", Color.white, 0.5f);
+            Initiate.Fade("GameScene1", Color.white, 0.5f);
         }
         StopAllCoroutines();
     }
