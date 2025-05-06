@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1146147913660210003
+--- !u!1 &3660249139363050772
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,45 +8,43 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5316281251313198746}
-  - component: {fileID: 2754909344972500964}
-  - component: {fileID: 1118946162121875335}
-  - component: {fileID: 6445324561887273487}
-  - component: {fileID: 8685864417967028378}
-  - component: {fileID: 7691407232409627938}
-  - component: {fileID: -470930877662093095}
-  - component: {fileID: 7623720669447302224}
-  - component: {fileID: -7392922281850995864}
-  - component: {fileID: 6972952051792130210}
+  - component: {fileID: 810159589466458973}
+  - component: {fileID: 4695096718627932659}
+  - component: {fileID: -8177429614709458602}
+  - component: {fileID: 3165277730671952629}
+  - component: {fileID: 5917392981184122250}
+  - component: {fileID: 4246408659326399725}
+  - component: {fileID: 7957255768955288262}
+  - component: {fileID: 5551323198502682880}
   m_Layer: 0
-  m_Name: Hawk
+  m_Name: BlackBear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5316281251313198746
+--- !u!4 &810159589466458973
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
+  m_GameObject: {fileID: 3660249139363050772}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.2281, y: 3.0442, z: 0}
-  m_LocalScale: {x: 1.1639, y: 1.0492, z: 1}
+  m_LocalPosition: {x: -8.983753, y: -1.1726117, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &2754909344972500964
+--- !u!212 &4695096718627932659
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
+  m_GameObject: {fileID: 3660249139363050772}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -84,33 +82,33 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 2097716390295217549, guid: 1bf02d8a64b2f0a4c981b37d2ffecd16, type: 3}
+  m_Sprite: {fileID: -2485585747906328101, guid: d8cff5cf00bc2b4448ed4d6c2a2a44be, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.894, y: 0.636}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &1118946162121875335
+--- !u!50 &-8177429614709458602
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
-  m_BodyType: 0
+  m_GameObject: {fileID: 3660249139363050772}
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -122,108 +120,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6445324561887273487
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95b7e45b95cfb2f4193d0b1db8b59cc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  rotationSpeed: 6
-  rotationOffset: 0
-  isWandering: 0
-  isHunting: 0
-  isAvoidingPredator: 0
-  minDistFromPredator: 0
-  shouldStop: 0
-  isArtFacingLeft: 0
-  target: {fileID: 0}
-  wanderSpot: {x: 0, y: 0, z: 0}
-  potentialPredatorNames: []
---- !u!114 &8685864417967028378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a5800abd4d580409cc84356edc88e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reference: Hawk
-  hunger: 12
-  hungerDeclineRate: 2
-  feedThreshold: 5
-  starvingThreshold: 0
-  prey:
-  - Squirrel
-  - Robin
-  - Cottontail
-  apex: 1
-  predators: []
-  basePop: 1
-  foodAvailableUponConsumption: 1
---- !u!61 &7691407232409627938
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0.21133333}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.908, y: 0.832}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 0.75, y: 0.75}
-  m_EdgeRadius: 0
---- !u!58 &-470930877662093095
+--- !u!58 &3165277730671952629
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
+  m_GameObject: {fileID: 3660249139363050772}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -252,14 +155,62 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.45399997
---- !u!114 &7623720669447302224
+  m_Radius: 0.447
+--- !u!114 &5917392981184122250
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
+  m_GameObject: {fileID: 3660249139363050772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7a5800abd4d580409cc84356edc88e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reference: BlackBear
+  hunger: 10
+  hungerDeclineRate: 2
+  feedThreshold: 5
+  starvingThreshold: 3
+  prey:
+  - BeautyBerry
+  - Squirrel
+  apex: 0
+  predators: []
+  basePop: 0
+  foodAvailableUponConsumption: 30
+--- !u!114 &4246408659326399725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3660249139363050772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b7e45b95cfb2f4193d0b1db8b59cc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 1
+  rotationSpeed: 10
+  rotationOffset: 0
+  isWandering: 0
+  isHunting: 0
+  isAvoidingPredator: 0
+  minDistFromPredator: 0
+  shouldStop: 0
+  isArtFacingLeft: 0
+  target: {fileID: 0}
+  wanderSpot: {x: 0, y: 0, z: 0}
+  potentialPredatorNames: []
+--- !u!114 &7957255768955288262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3660249139363050772}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 87ee76a3326d1a6449ecbbd0ea00efed, type: 3}
@@ -268,32 +219,17 @@ MonoBehaviour:
   interactionRadius: 0.5
   useMouseHover: 1
   selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}
---- !u!114 &-7392922281850995864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87ee76a3326d1a6449ecbbd0ea00efed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionRadius: 0.5
-  useMouseHover: 1
-  selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}
---- !u!95 &6972952051792130210
+--- !u!95 &5551323198502682880
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146147913660210003}
+  m_GameObject: {fileID: 3660249139363050772}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 895ba6deefcb295448df7669c2e24e0f, type: 2}
+  m_Controller: {fileID: 9100000, guid: c53308ed1c217054aad35d119b5f9f46, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
