@@ -88,31 +88,31 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //Temporary thing: press t to spawn a tree
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            GameObject tree = null;
-            foreach (GameObject prefab in speciesPrefabs)
-            {
-                if (prefab.name.Split('(')[0] == "OakTree")
-                {
-                    tree = prefab;
-                }
-            }
-            if (tree == null)
-            {
-                Debug.Log("no prefab found. really important");
-            }
-            else
-            {
-                Vector3 loc = new Vector3(0, -3.75f, 0);
-                spawnOrganism(tree, loc);
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     GameObject tree = null;
+        //     foreach (GameObject prefab in speciesPrefabs)
+        //     {
+        //         if (prefab.name.Split('(')[0] == "OakTree")
+        //         {
+        //             tree = prefab;
+        //         }
+        //     }
+        //     if (tree == null)
+        //     {
+        //         Debug.Log("no prefab found. really important");
+        //     }
+        //     else
+        //     {
+        //         Vector3 loc = new Vector3(0, -3.75f, 0);
+        //         spawnOrganism(tree, loc);
 
-            }
-        }
+        //     }
+        // }
 
     }
 
-    public void spawnOrganism(GameObject prefab, Vector3 location)
+    public GameObject spawnOrganism(GameObject prefab, Vector3 location)
     {
         String name = prefab.name.Split('(')[0];
         if (!organisms.ContainsKey(name))
@@ -132,6 +132,8 @@ public class GameManager : MonoBehaviour
         {
             plants.Add(o);
         }
+
+        return o;
 
         // I also want to add the new animal to OrganismsSerialized, but I have literally no idea how that is happening when populations update
         // Organisms Serialized is never called outside of the start method, so I don't understand where its updating at. 
@@ -375,18 +377,19 @@ public class GameManager : MonoBehaviour
                         // Get precies prefab from the list
                         foreach (GameObject organismPrefab in speciesPrefabs)
                         {
-                            if (organismPrefab.name == organism)
+                            if (organismPrefab.name.Contains(organism))
                             {
                                 // TODO: decide on a location to spawn the organism. Right now they all spawn on top of each other and then spread out
                                 // TBH, I kind of like it
+                                Debug.Log(organismPrefab.name + "is spawned");
                                 GameObject newOrg = Instantiate(organismPrefab);
                                 objects.Add(newOrg);
 
                             }
-                            else
-                            {
-                                Debug.Log("SERIOUS CRITICAL ERROR: Cannot find a species prefab for " + organism + " when attempting to increase population!!!");
-                            }
+                            // else
+                            // {
+                            //     Debug.Log("SERIOUS CRITICAL ERROR: Cannot find a species prefab for " + organism + " when attempting to increase population!!!");
+                            // }
                         }
                     }
                 }
@@ -458,6 +461,11 @@ public class GameManager : MonoBehaviour
                 Destroy(creature);
                 // replacement.SetActive(true);
                 // creatures.Add(replacement);
+            }
+            else
+            {
+                creatures.Remove(creature);
+                Destroy(creature);
             }
         }
         //organisms.Remove(organim);

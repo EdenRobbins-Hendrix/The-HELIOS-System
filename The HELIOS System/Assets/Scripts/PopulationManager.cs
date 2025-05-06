@@ -31,7 +31,7 @@ public class PopulationManager : MonoBehaviour
 			}
 		}
 		GameManager.Instance.InitializeEnergyLevels(plants);
-		InvokeRepeating("updatePopulations", 5, 3);
+		InvokeRepeating("updatePopulations", 5, 15);
 	}
 
 	int calculatePopulation(String organism)

@@ -957,6 +957,7 @@ MonoBehaviour:
   speciesPrefabs:
   - {fileID: 6821079301759069867, guid: 58abed68e40b312418acf51844d3e6a2, type: 3}
   - {fileID: 4095200503854676089, guid: bbe88dc52a4bbec45ac38a09b50eb3a1, type: 3}
+  - {fileID: 1146147913660210003, guid: 332ee453b8ebccc45a818d36a42be88e, type: 3}
   OrganismsSerialized:
   - Name: Squirrel
     Instance: []
@@ -1612,7 +1613,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a3ea3fe1edd67c34f976ef8f20d1b961, type: 2}
   - {fileID: 11400000, guid: 82efd6fc66f0bff4d81a448c530c66a0, type: 2}
   - {fileID: 11400000, guid: e924e1bdb440bb645aeb9681d7e93557, type: 2}
-  - {fileID: 11400000, guid: fa5c96810dd6fb446aaef5c9018a604b, type: 2}
+  - {fileID: 11400000, guid: 8dd6ca84fbf665848a516b6319c32988, type: 2}
+  - {fileID: 11400000, guid: 970df9f8e36e01e4d9deba4a577e51f3, type: 2}
+  - {fileID: 11400000, guid: 8b0ea9586b0412542af65f37c887f8d7, type: 2}
   - {fileID: 11400000, guid: fa5c96810dd6fb446aaef5c9018a604b, type: 2}
   dialogueAssetsCurrentPosition: 0
 --- !u!1 &134910321
@@ -9975,8 +9978,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingEnergy: 100
-  energyGainRate: 5
-  energyGainInterval: 10
+  energyGainRate: 25
+  energyGainInterval: 5
   energyText: {fileID: 555038934}
 --- !u!4 &580365585
 Transform:
@@ -11499,7 +11502,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.6502057}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.9976784}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
