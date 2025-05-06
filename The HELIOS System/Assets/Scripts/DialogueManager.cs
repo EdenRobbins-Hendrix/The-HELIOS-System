@@ -139,10 +139,12 @@ public class DialogueManager : MonoBehaviour
 
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && PauseMenu.IsPaused == false)
         {
             Interact();
         }

@@ -139,13 +139,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 1
   rotationSpeed: 5
-  rotationOffset: 180
+  rotationOffset: 0
   isWandering: 0
   isHunting: 1
   isAvoidingPredator: 0
   minDistFromPredator: 0.001
   shouldStop: 0
-  isSpriteFlipped: 0
+  isArtFacingLeft: 0
   target: {fileID: 0}
   wanderSpot: {x: 0, y: 0, z: 0}
   potentialPredatorNames:
@@ -181,6 +181,7 @@ MonoBehaviour:
   predators:
   - Hawk
   basePop: 1
+  foodAvailableUponConsumption: 5
 --- !u!61 &5275570333162340150
 BoxCollider2D:
   m_ObjectHideFlags: 0

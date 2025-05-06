@@ -31,7 +31,7 @@ public class PopulationManager : MonoBehaviour
 			}
 		}
 		GameManager.Instance.InitializeEnergyLevels(plants);
-		InvokeRepeating("updatePopulations", 5, 3);
+		InvokeRepeating("updatePopulations", 5, 15);
 	}
 
 	int calculatePopulation(String organism)
@@ -60,23 +60,80 @@ public class PopulationManager : MonoBehaviour
 					int countE = 0; //How many unique predators
 					foreach (String p in prey)
 					{
-						if (populations.TryGetValue(p, out int n))
+
+						//get number of prey
+						int preyCounts = GameManager.Instance.organisms[p].Count;
+
+						// We need to know how much food a prey offers upon being eaten. 
+
+						foreach (GameObject prefab in GameManager.Instance.speciesPrefabs)
 						{
-							if (p.Contains("Plant") || p.Contains("Tree"))
+							if (prefab.name == p)
 							{
-								foreach (String plant in energyLevels.Keys)
+								if (prefab.TryGetComponent(out HungerScript preyHungerScript))
 								{
-									if (plant.Equals(p))
+									int foodPerIndividualPrey = preyHungerScript.foodAvailableUponConsumption;
+									food = food + (preyCounts * foodPerIndividualPrey);
+								}
+								else
+								{
+									// prey is a plant. Enter values manually? 
+									if (p.Contains("Tree"))
 									{
-										energyLevels.TryGetValue(plant, out int energy);
-										n *= energy;
+										int foodPerIndividualPrey = 40;
+										food = food + (preyCounts * foodPerIndividualPrey);
+
+									}
+									else if (p.Contains("BeautyBerry"))
+									{
+										int foodPerIndividualPrey = 15;
+										food = food + (preyCounts * foodPerIndividualPrey);
+
+									}
+									else if (p.Contains("Dandelion"))
+									{
+										int foodPerIndividualPrey = 5;
+										food = food + (preyCounts * foodPerIndividualPrey);
+									}
+									else
+									{
+										//default value for plants
+										int foodPerIndividualPrey = 10;
+										food = food + (preyCounts * foodPerIndividualPrey);
+
 									}
 								}
 							}
-							Debug.Log(p + " " + n);
-							food += n;
-							countF++;
 						}
+
+
+
+
+
+						// if (populations.TryGetValue(p, out int n))
+						// {
+						// 	if (p.Contains("Plant") || p.Contains("Tree"))
+						// 	{
+						// 		// foreach (String plant in energyLevels.Keys)
+						// 		// {
+						// 		// 	if (plant.Equals(p))
+						// 		// 	{
+						// 		// 		energyLevels.TryGetValue(plant, out int energy);
+						// 		// 		n *= energy;
+						// 		// 	}
+						// 		// }
+
+						// 		// I have no idea what that stuff above is. If someone wants to do some crazy stuff then I want to be informed on it. 
+
+						// 		// So populations just does not update unless it updates itself. This really sucks because the drag and drop system won't work well with this
+						// 		// 
+						// 		int foodPerTree = 10;
+						// 		food = food + (foodPerTree * n);
+						// 	}
+						// 	// Debug.Log(p + " " + n);
+						// 	food += n;
+						// 	countF++;
+						// }
 					}
 					if (!profile.apex)
 					{
@@ -94,7 +151,30 @@ public class PopulationManager : MonoBehaviour
 							countE = 1;
 						}
 						y = eater / countE;
-						pop = (int)MathF.Ceiling(((food / countF) - y) + x);
+						// pop = (int)MathF.Ceiling(((food / countF) - y) + x); This crazy equation is not working for me
+						int organismCount = GameManager.Instance.organisms[organism].Count;
+						Debug.Log("Available food for " + organism + ": " + food);
+						Debug.Log("Population manager organismCount: " + organismCount);
+						pop = (int)MathF.Ceiling((food / 10)); //for now I just want to say that it takes 10 food to feed each organism
+						if (pop < 1)
+						{
+							pop = 1;
+						}
+						else if (pop > 50)
+						{
+							pop = 50;
+						}
+						return pop;
+					}
+					else
+					{
+						int organismCount = GameManager.Instance.organisms[organism].Count;
+						Debug.Log("Available food for " + organism + ": " + food);
+						Debug.Log("Population manager organismCount: " + organismCount);
+						// Instead of 10: 
+						// I need to know how much food it takes to feed each organism. 
+						// I can actually leave it at 10 for now and just have each organism provide less and less food as prey
+						pop = (int)MathF.Ceiling((food / 15)); //for now I just want to say that it takes 10 food to feed each organism
 						if (pop < 1)
 						{
 							pop = 1;
@@ -123,7 +203,7 @@ public class PopulationManager : MonoBehaviour
 				if (pop > 0)
 				{
 					temp.Add(entry.Key, pop);
-					Debug.Log(entry.Key + " " + pop);
+					// Debug.Log(entry.Key + " " + pop);
 				}
 				else
 				{
@@ -134,6 +214,7 @@ public class PopulationManager : MonoBehaviour
 		populations = temp;
 		GameManager.Instance.updatePopulations(populations);
 	}
+
 }
 
 

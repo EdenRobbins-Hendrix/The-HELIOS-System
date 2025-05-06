@@ -88,37 +88,38 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         //Temporary thing: press t to spawn a tree
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            GameObject tree = null;
-            foreach (GameObject prefab in speciesPrefabs)
-            {
-                if (prefab.name.Split('(')[0] == "OakTree")
-                {
-                    tree = prefab;
-                }
-            }
-            if (tree == null)
-            {
-                Debug.Log("no prefab found. really important");
-            }
-            else
-            {
-                Vector3 loc = new Vector3(0, -3.75f, 0);
-                spawnOrganism(tree, loc);
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //     GameObject tree = null;
+        //     foreach (GameObject prefab in speciesPrefabs)
+        //     {
+        //         if (prefab.name.Split('(')[0] == "OakTree")
+        //         {
+        //             tree = prefab;
+        //         }
+        //     }
+        //     if (tree == null)
+        //     {
+        //         Debug.Log("no prefab found. really important");
+        //     }
+        //     else
+        //     {
+        //         Vector3 loc = new Vector3(0, -3.75f, 0);
+        //         spawnOrganism(tree, loc);
 
-            }
-        }
+        //     }
+        // }
 
     }
 
-    public void spawnOrganism(GameObject prefab, Vector3 location)
+    public GameObject spawnOrganism(GameObject prefab, Vector3 location)
     {
         String name = prefab.name.Split('(')[0];
         if (!organisms.ContainsKey(name))
         { //if organisms has no key for the organism
             organisms[name] = new List<GameObject>();
         }
+
 
         // spawn organism
         GameObject o = Instantiate(prefab, location, Quaternion.identity);
@@ -131,6 +132,11 @@ public class GameManager : MonoBehaviour
         {
             plants.Add(o);
         }
+
+        return o;
+
+        // I also want to add the new animal to OrganismsSerialized, but I have literally no idea how that is happening when populations update
+        // Organisms Serialized is never called outside of the start method, so I don't understand where its updating at. 
 
     }
 
@@ -156,19 +162,19 @@ public class GameManager : MonoBehaviour
 
     void decrementHungerInAllOrganisms()
     {
-        Debug.Log("Called");
+        // Debug.Log("Called");
         foreach (List<GameObject> organismType in organisms.Values)
         {
             foreach (GameObject organism in organismType)
             {
-                Debug.Log("Organism name for hunger: " + organism.name);
+                // Debug.Log("Organism name for hunger: " + organism.name);
                 if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
                 {
-                    Debug.Log("Reached Here");
+                    // Debug.Log("Reached Here");
                     float rate = s.hungerDeclineRate;
-                    Debug.Log(-rate);
+                    // Debug.Log(-rate);
                     s.changeHunger(-rate);
-                    Debug.Log("Hunger: " + s.getHunger());
+                    // Debug.Log("Hunger: " + s.getHunger());
                     setOrganismBehavior(organism);
                 }
             }
@@ -262,6 +268,7 @@ public class GameManager : MonoBehaviour
 
     public void feed(GameObject consumer, GameObject consumed, float energyAmount)
     {
+        GetComponent<AudioSource>().Play();
         //increase hunger in consumer
         HungerScript s = consumer.GetComponent<HungerScript>();
         s.changeHunger(energyAmount);
@@ -371,18 +378,19 @@ public class GameManager : MonoBehaviour
                         // Get precies prefab from the list
                         foreach (GameObject organismPrefab in speciesPrefabs)
                         {
-                            if (organismPrefab.name == organism)
+                            if (organismPrefab.name.Contains(organism))
                             {
                                 // TODO: decide on a location to spawn the organism. Right now they all spawn on top of each other and then spread out
                                 // TBH, I kind of like it
+                                Debug.Log(organismPrefab.name + "is spawned");
                                 GameObject newOrg = Instantiate(organismPrefab);
                                 objects.Add(newOrg);
 
                             }
-                            else
-                            {
-                                Debug.Log("SERIOUS CRITICAL ERROR: Cannot find a species prefab for " + organism + " when attempting to increase population!!!");
-                            }
+                            // else
+                            // {
+                            //     Debug.Log("SERIOUS CRITICAL ERROR: Cannot find a species prefab for " + organism + " when attempting to increase population!!!");
+                            // }
                         }
                     }
                 }
@@ -390,9 +398,12 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = objects.Count - goalPop; i > goalPop; i--)
                     {
-                        GameObject oldOrg = objects[-1];
-                        objects.Remove(oldOrg);
-                        Destroy(oldOrg);
+                        if (i > 0)
+                        {
+                            // GameObject oldOrg = objects[-1];
+                            // objects.Remove(oldOrg);
+                            // Destroy(oldOrg);
+                        }
                     }
                 }
                 objects.TrimExcess();
@@ -442,15 +453,20 @@ public class GameManager : MonoBehaviour
         {
             if (creatures.Count > 1 && creatures[1] != null)
             {
-                GameObject old = creatures[1];
-                GameObject replacement = Instantiate(old);
-                replacement.SetActive(false);
-                Camera cam = GameObject.FindAnyObjectByType<Camera>();
-                replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
+                // GameObject old = creatures[1];
+                // GameObject replacement = Instantiate(old);
+                // replacement.SetActive(false);
+                // Camera cam = GameObject.FindAnyObjectByType<Camera>();
+                // replacement.transform.position = new Vector2(UnityEngine.Random.Range(cam.aspect, -cam.aspect), UnityEngine.Random.Range(cam.orthographicSize, -cam.orthographicSize));
                 creatures.Remove(creature);
                 Destroy(creature);
-                replacement.SetActive(true);
-                creatures.Add(replacement);
+                // replacement.SetActive(true);
+                // creatures.Add(replacement);
+            }
+            else
+            {
+                creatures.Remove(creature);
+                Destroy(creature);
             }
         }
         //organisms.Remove(organim);

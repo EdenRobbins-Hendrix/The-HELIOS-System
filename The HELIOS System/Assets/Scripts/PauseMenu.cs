@@ -32,9 +32,17 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         // Debug.Log("NP");
-    }
 
-    void Pause() 
+        if (dialogWasActive)
+        {
+            dialogWasActive = false;
+            dialoguePanel.SetActive(true);
+        }
+    }
+    [SerializeField] GameObject dialoguePanel;
+    private bool dialogWasActive;
+
+    void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
@@ -42,6 +50,13 @@ public class PauseMenu : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         // Debug.Log("P");
+
+        // turn off the dialogue panel
+        if (dialoguePanel.activeSelf)
+        {
+            dialogWasActive = true;
+            dialoguePanel.SetActive(false);
+        }
     }
 
     public void MenuBack()
