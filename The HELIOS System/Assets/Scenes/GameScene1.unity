@@ -3798,7 +3798,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Options Menu (not implemented)
+  m_text: Options Menu
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 351c927a21e9a4ae5822c9239d76cb28, type: 2}
   m_sharedMaterial: {fileID: 5305877325859797293, guid: 351c927a21e9a4ae5822c9239d76cb28, type: 2}
@@ -4132,7 +4132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.622727}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.60071784}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
