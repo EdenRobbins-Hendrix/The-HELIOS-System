@@ -59,6 +59,23 @@ public class StageManager2 : MonoBehaviour
         {
             if (GameManager.Instance.organisms["Squirrel"].Count >= 10 && GameManager.Instance.organisms["BeautyBerry"].Count >= 5)
             {
+                GameObject bearPrefab = null;
+                foreach (GameObject prefab in GameManager.Instance.speciesPrefabs)
+                {
+                    if (prefab.name == "BlackBear")
+                    {
+                        bearPrefab = prefab;
+                    }
+                }
+                if (bearPrefab == null)
+                {
+                    Debug.Log("No prefab found. Kinda important");
+                    return;
+                }
+
+                //spawn the squirrel
+                GameManager.Instance.spawnOrganism(bearPrefab, new Vector3(1, 1, 0));
+
                 advanceStage();
             }
 
