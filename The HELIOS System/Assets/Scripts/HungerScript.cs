@@ -17,6 +17,7 @@ public class HungerScript : MonoBehaviour
     public bool apex; //defines whether the organism has predators
     public List<String> predators;
     public int basePop;
+    public int foodAvailableUponConsumption;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,7 +47,7 @@ public class HungerScript : MonoBehaviour
     public void changeHunger(float amount)
     {
         hunger = hunger + amount;
-        Debug.Log(name + "'s new hunger: " + hunger);
+        // Debug.Log(name + "'s new hunger: " + hunger);
         if (hunger <= 0)
         {
             GameManager.Instance.killOrganism(gameObject, gameObject.name.Split('(')[0]);

@@ -10,13 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5cb8e3199cf35b4b9e411fe37902f6e, type: 3}
-  m_Name: DialogueAsset1
+  m_Name: DialogueAsset7
   m_EditorClassIdentifier: 
   dialogue:
-  - 'Welcome to Earth, I am your helper. My job is to introduce you to Earth''s ecosystems. '
-  - 'Please, take a moment to look at the ecosystem. '
-  - ...
-  - 'It''s looking a little empty right now, isn''t it? '
-  - 'How about you plant a tree or something. '
-  - Drag and drop from the organism menu to plant a tree
-  repeatStartPosition: 4
+  - Take a minute to observe the effect the hawk population has on the squirrel population
+  repeatStartPosition: 0

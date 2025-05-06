@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cb8e3199cf35b4b9e411fe37902f6e, type: 3}
+  m_Name: DialogueAsset4
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Hopefully you understand how squirrels work now. You should have taken notes
+    on what they eat, how quickly they reproduce, etc. '
+  - If you continue to observe the squirrels, you may notice that they stop populating
+    at a certain point.
+  - 'This occurs because the amount of food available to the squirrels is not enough
+    to support a greater squirrel population. '
+  - Try planting another tree to increase the available food for the squirrel
+  repeatStartPosition: 0
