@@ -5122,7 +5122,7 @@ MonoBehaviour:
   energyCost: 10
   growthBoostAmount: 1
   spawnNutCost: 15
-  boostEffectPrefab: {fileID: 1230515257}
+  boostEffectPrefab: {fileID: 0}
   spawnEffectPrefab: {fileID: 0}
   clickRadius: 0.5
 --- !u!114 &466313923
@@ -25118,7 +25118,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.8320012}
+  m_Color: {r: 0.6, g: 0.9, b: 1, a: 0.9694005}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
