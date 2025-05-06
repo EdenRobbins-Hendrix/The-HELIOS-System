@@ -268,7 +268,7 @@ public class GameManager : MonoBehaviour
 
     public void feed(GameObject consumer, GameObject consumed, float energyAmount)
     {
-        GetComponent<AudioSource>().Play();
+        // GetComponent<AudioSource>().Play();
         //increase hunger in consumer
         HungerScript s = consumer.GetComponent<HungerScript>();
         s.changeHunger(energyAmount);

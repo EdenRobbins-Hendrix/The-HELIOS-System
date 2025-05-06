@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1031763108994470723}
   - component: {fileID: -758719094167981211}
   - component: {fileID: 2495134806412999570}
+  - component: {fileID: -7444261292568232242}
   m_Layer: 0
   m_Name: OakTree
   m_TagString: Untagged
@@ -143,3 +144,18 @@ MonoBehaviour:
   minScale: 0.7
   maxScale: 1.5
   isFullyGrown: 0
+--- !u!114 &-7444261292568232242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6821079301759069867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ee76a3326d1a6449ecbbd0ea00efed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 0.5
+  useMouseHover: 1
+  selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}

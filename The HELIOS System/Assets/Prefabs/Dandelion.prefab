@@ -158,4 +158,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRadius: 0.5
   useMouseHover: 1
-  selectionIndicator: {fileID: 0}
+  selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}
