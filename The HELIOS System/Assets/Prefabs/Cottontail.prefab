@@ -168,13 +168,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   rotationSpeed: 30
-  rotationOffset: 0
+  rotationOffset: -180
   isWandering: 0
   isHunting: 0
   isAvoidingPredator: 0
   minDistFromPredator: 0
   shouldStop: 0
-  isSpriteFlipped: 0
+  isArtFacingLeft: 1
   target: {fileID: 0}
   wanderSpot: {x: 0, y: 0, z: 0}
   potentialPredatorNames:
