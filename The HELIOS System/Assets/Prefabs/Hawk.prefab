@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: -470930877662093095}
   - component: {fileID: 7623720669447302224}
   - component: {fileID: -7392922281850995864}
+  - component: {fileID: 6972952051792130210}
   m_Layer: 0
   m_Name: Hawk
   m_TagString: Untagged
@@ -280,3 +281,25 @@ MonoBehaviour:
   interactionRadius: 0.5
   useMouseHover: 1
   selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}
+--- !u!95 &6972952051792130210
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146147913660210003}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 895ba6deefcb295448df7669c2e24e0f, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
