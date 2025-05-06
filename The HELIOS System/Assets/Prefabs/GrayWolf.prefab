@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8987763794338971199}
   - component: {fileID: 7486466135972253955}
   - component: {fileID: -1684918170940910942}
+  - component: {fileID: 4005255817851896094}
   m_Layer: 0
   m_Name: GrayWolf
   m_TagString: Untagged
@@ -218,3 +219,25 @@ MonoBehaviour:
   interactionRadius: 0.5
   useMouseHover: 1
   selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}
+--- !u!95 &4005255817851896094
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136491938874437729}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0f8c8b3dbcfd6ff4fb72c09cc2057a85, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
