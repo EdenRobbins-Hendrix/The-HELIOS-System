@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 608e872d823e82140ba36baedd7a5ab0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  charactersPerSecond: 12
+  charactersPerSecond: 20
   Stage1: {fileID: 266331573}
   Stage2: {fileID: 439520809}
   Stage3: {fileID: 261701883}
