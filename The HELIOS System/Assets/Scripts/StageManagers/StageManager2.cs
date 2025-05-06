@@ -179,7 +179,7 @@ public class StageManager2 : MonoBehaviour
         //play some kind of win music / celebration. IDK, just some user feedback
 
         // when it ends, return to the level select screen
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("Menu");
     }
 
 }
