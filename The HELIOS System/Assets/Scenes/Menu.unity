@@ -1904,7 +1904,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Controls
+  m_text: 'Tutorial
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 351c927a21e9a4ae5822c9239d76cb28, type: 2}
   m_sharedMaterial: {fileID: 5305877325859797293, guid: 351c927a21e9a4ae5822c9239d76cb28, type: 2}
@@ -3854,7 +3856,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1436024642
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3918,7 +3920,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1436024644}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 632511961}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: playTutorial
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1436024644
 MonoBehaviour:
   m_ObjectHideFlags: 0

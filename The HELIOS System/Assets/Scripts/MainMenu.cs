@@ -12,6 +12,10 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadScene("Intro");
     }
+    public void playTutorial()
+    {
+        SceneManager.LoadScene("GameScene1");
+    }
 
     // public void ButtonPressed()
     // {

@@ -62,7 +62,6 @@ public class PopulationManager : MonoBehaviour
 					{
 
 						//get number of prey
-						int preyCounts = GameManager.Instance.organisms[p].Count;
 
 						// We need to know how much food a prey offers upon being eaten. 
 
@@ -70,6 +69,7 @@ public class PopulationManager : MonoBehaviour
 						{
 							if (prefab.name == p)
 							{
+								int preyCounts = GameManager.Instance.organisms[p].Count;
 								if (prefab.TryGetComponent(out HungerScript preyHungerScript))
 								{
 									int foodPerIndividualPrey = preyHungerScript.foodAvailableUponConsumption;

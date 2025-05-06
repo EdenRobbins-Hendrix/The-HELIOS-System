@@ -5,7 +5,7 @@ using System;
 
 public class IntroCrawl : MonoBehaviour
 {
-    public float charactersPerSecond; 
+    public float charactersPerSecond;
     public TextMeshProUGUI Stage1;
     public TextMeshProUGUI Stage2;
     public TextMeshProUGUI Stage3;
@@ -19,8 +19,8 @@ public class IntroCrawl : MonoBehaviour
     string Part5;
     string TextMemory;
     int TextStage;
-    bool Talking; 
-    
+    bool Talking;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -42,43 +42,51 @@ public class IntroCrawl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && !Talking) {
-            
-            if (TextStage == 1) {
+        if (Input.GetKeyDown(KeyCode.E) && !Talking)
+        {
+
+            if (TextStage == 1)
+            {
                 Debug.Log("Stage1");
                 TextMemory = Part1;
             }
-            else if (TextStage == 2) {
+            else if (TextStage == 2)
+            {
                 Debug.Log("Stage2");
                 CurrentStage = Stage2;
                 TextMemory = Part2;
             }
-            else if (TextStage == 3) {
+            else if (TextStage == 3)
+            {
                 Debug.Log("Stage3");
                 CurrentStage = Stage3;
                 TextMemory = Part3;
             }
-            else if (TextStage == 4) {
+            else if (TextStage == 4)
+            {
                 Debug.Log("Stage4");
                 CurrentStage = Stage4;
                 TextMemory = Part4;
             }
-            else if (TextStage == 5) {
+            else if (TextStage == 5)
+            {
                 Debug.Log("Stage5");
                 CurrentStage = Stage5;
                 TextMemory = Part5;
             }
-            else {
+            else
+            {
                 Debug.Log("Begin gameplay");
                 Initiate.Fade("LevelSelect", Color.white, 0.5f);
             }
             Debug.Log("Initiate text " + TextMemory);
             StartCoroutine(TypeTextUncapped(TextMemory));
         }
-        else if (Input.GetKeyDown(KeyCode.E)) {
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
             Debug.Log("Text is crawling...");
         }
-        
+
     }
 
     IEnumerator TypeTextUncapped(string line)
@@ -109,9 +117,10 @@ public class IntroCrawl : MonoBehaviour
         }
         Talking = false;
         TextStage++;
-        if (TextStage > 5) {
+        if (TextStage > 5)
+        {
             Debug.Log("Begin gameplay");
-            Initiate.Fade("GameScene1", Color.white, 0.5f);
+            Initiate.Fade("SampleScene", Color.white, 0.5f);
         }
         StopAllCoroutines();
     }
