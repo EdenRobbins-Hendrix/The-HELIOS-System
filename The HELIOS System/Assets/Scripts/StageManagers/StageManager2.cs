@@ -44,38 +44,30 @@ public class StageManager2 : MonoBehaviour
     void Start()
     {
         currentStage = 0;
-        hasSpawnedSquirrel = false;
-        countdownStarted = false;
         foreach (var kvp in organismsGoalsSerialized)
         {
             goalPopulations[kvp.name] = kvp.goal;
         }
+        DialogueManager.Instance.Interact();
 
     }
-    public bool hasSpawnedSquirrel;
-    public bool countdownStarted;
 
     // Update is called once per frame
     void Update()
     {
         if (currentStage == 0)
         {
-            // wait until squirrels reach max population. I am estimating 5
-            if (GameManager.Instance.organisms["Squirrel"].Count >= 5)
+            if (GameManager.Instance.organisms["Squirrel"].Count >= 10 && GameManager.Instance.organisms["BeautyBerry"].Count >= 5)
             {
-                Debug.Log(GameManager.Instance.organisms["Squirrel"].Count);
                 advanceStage();
             }
 
         }
         else if (currentStage == 1)
         {
-            Debug.Log("We are in stage 2");
-            // wait until npc dialog has finished and spawn an herbivore
-            if (GameManager.Instance.organisms.ContainsKey("OakTree") && GameManager.Instance.organisms["OakTree"].Count > 1)
+            if (DialogueManager.Instance.inDialog!)
             {
-                Debug.Log("Advancing Stage");
-                advanceStage();
+                endLevel();
             }
 
 
@@ -83,15 +75,6 @@ public class StageManager2 : MonoBehaviour
 
         }
 
-        else if (currentStage == 2)
-        {
-            if (!DialogueManager.Instance.inDialog && !countdownStarted)
-            {
-                countdownStarted = true;
-                Debug.Log("Countdown started");
-                StartCoroutine(endGameInXSeconds(30));
-            }
-        }
 
         // I will have to work out appropriate levels to check for when the previous stage is working
         // StartCoroutine("checkPopulationsForWin");
@@ -196,7 +179,7 @@ public class StageManager2 : MonoBehaviour
         //play some kind of win music / celebration. IDK, just some user feedback
 
         // when it ends, return to the level select screen
-        SceneManager.LoadScene("LevelSelect");
+        SceneManager.LoadScene("MainMenu");
     }
 
 }

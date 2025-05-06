@@ -135,7 +135,6 @@ MonoBehaviour:
   feedThreshold: 5
   starvingThreshold: 3
   prey:
-  - OakTree
   - Dandelion
   apex: 0
   predators: []

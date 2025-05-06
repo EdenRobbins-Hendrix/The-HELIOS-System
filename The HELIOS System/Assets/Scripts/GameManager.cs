@@ -165,17 +165,20 @@ public class GameManager : MonoBehaviour
         // Debug.Log("Called");
         foreach (List<GameObject> organismType in organisms.Values)
         {
-            foreach (GameObject organism in organismType)
+            if (organismType != null)
             {
-                // Debug.Log("Organism name for hunger: " + organism.name);
-                if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
+                foreach (GameObject organism in organismType)
                 {
-                    // Debug.Log("Reached Here");
-                    float rate = s.hungerDeclineRate;
-                    // Debug.Log(-rate);
-                    s.changeHunger(-rate);
-                    // Debug.Log("Hunger: " + s.getHunger());
-                    setOrganismBehavior(organism);
+                    // Debug.Log("Organism name for hunger: " + organism.name);
+                    if (!(organism == null) && organism.TryGetComponent(out HungerScript s))
+                    {
+                        // Debug.Log("Reached Here");
+                        float rate = s.hungerDeclineRate;
+                        // Debug.Log(-rate);
+                        s.changeHunger(-rate);
+                        // Debug.Log("Hunger: " + s.getHunger());
+                        setOrganismBehavior(organism);
+                    }
                 }
             }
         }

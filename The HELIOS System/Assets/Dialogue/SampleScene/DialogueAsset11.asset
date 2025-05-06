@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5cb8e3199cf35b4b9e411fe37902f6e, type: 3}
+  m_Name: DialogueAsset11
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Welcome to your first test! '
+  - In this level, the goal is to create enough berries and squirrels to spawn the
+    black bear
+  - However, with the current number of predators it is almost impossible to build
+    up the squirrel populaiton to a high enough level
+  - Find a way to get the squirrel and berry population to a sufficient level!
+  repeatStartPosition: 0

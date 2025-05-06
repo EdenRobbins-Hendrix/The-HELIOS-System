@@ -175,10 +175,9 @@ MonoBehaviour:
   starvingThreshold: 3
   prey:
   - Bumblebee
-  - OakTree
+  - Ant
   - Dandelion
   - BeautyBerry
-  - Ant
   apex: 0
   predators:
   - Hawk

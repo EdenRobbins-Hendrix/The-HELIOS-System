@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -6373433693107356585}
   - component: {fileID: 8987763794338971199}
   - component: {fileID: 7486466135972253955}
+  - component: {fileID: -1684918170940910942}
   m_Layer: 0
   m_Name: GrayWolf
   m_TagString: Untagged
@@ -202,3 +203,18 @@ MonoBehaviour:
   predators: []
   basePop: 0
   foodAvailableUponConsumption: 2
+--- !u!114 &-1684918170940910942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2136491938874437729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ee76a3326d1a6449ecbbd0ea00efed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 0.5
+  useMouseHover: 1
+  selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}

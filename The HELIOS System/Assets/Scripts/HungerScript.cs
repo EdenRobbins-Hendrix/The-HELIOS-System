@@ -51,7 +51,13 @@ public class HungerScript : MonoBehaviour
         if (hunger <= 0)
         {
             GameManager.Instance.killOrganism(gameObject, gameObject.name.Split('(')[0]);
+            Destroy(gameObject);
         }
+
+        // if (hunger < -10)
+        // {
+        //     Destroy(gameObject);
+        // }
     }
 
     public float getHunger()

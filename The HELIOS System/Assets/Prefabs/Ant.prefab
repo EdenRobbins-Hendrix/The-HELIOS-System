@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -5601298668028893525}
   - component: {fileID: 4093232678202652358}
   - component: {fileID: -266598017356347057}
+  - component: {fileID: -8947690338715194177}
   m_Layer: 0
   m_Name: Ant
   m_TagString: Untagged
@@ -197,14 +198,28 @@ MonoBehaviour:
   feedThreshold: 5
   starvingThreshold: 5
   prey:
-  - OakTree
-  - Dandelion
   - BeautyBerry
+  - Dandelion
   apex: 0
   predators: []
   basePop: 0
   foodAvailableUponConsumption: 0
 --- !u!114 &-266598017356347057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4833118775346420413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87ee76a3326d1a6449ecbbd0ea00efed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionRadius: 0.5
+  useMouseHover: 1
+  selectionIndicator: {fileID: 7739288669435797038, guid: 2a6858f566cd2b94d82d998234dd1e09, type: 3}
+--- !u!114 &-8947690338715194177
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
